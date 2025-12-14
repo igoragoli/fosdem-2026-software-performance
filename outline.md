@@ -82,13 +82,13 @@
         - For macrobenchmarks, use load generators that avoid the coordinated omission problem
             - [This is a whole other can of worms, but I think we can explain it very briefly and mention its impact]
     - Segway: "But all of this is only useful if you can actually use your benchmark results. And it's not as easy as it sounds. So now we'll talk about how to interpret results from your benchmarks."
-- How to interpret benchmark results
+- Interpreting Benchmark Results
     - Slide: Two noisy signals side by side with not enough statistical difference between them, but with different means.
         - Purpose: Show that the naive approach of comparing statistics (e.g., means or percentiles) is not enough to detect small changes in performance, and that you should use statistical tests such as t-tests. The goal is to show the spirit of t-tests and the kinds of problems they can solve, but not to go too much into the details. [If there's time, we sure can go a bit more into the details!]
     - Slide: Two plots side by side with overlapping histograms. The first one should have highly overlapping histograms, but the second one should have histograms that are clearly different. The means of the distribution should lead to contradicting conclusions to that of the t-tests, to show even further the limitations of the naive approach.
         - Purpose: Explain the intuition behind t-tests in a bit more detail.
         - [Perhaps we should prevent Gell-Mann effects on the audience by saying "of course, there are many other statistical tests you can use, but this is the best starting point." It is really a vast field, and it's super easy to make imprecise statements.]
-- How to integrate benchmark results into your workflows: benchmarking platform architecture
+- Integrating Benchmark Results Into Your Workflows
     - Slide: Diagram of the benchmarking platform architecture with boxes the benchmarking platform architecture some boxes highlighted (the ones related to integrating benchmarking into workflows: CI/CD, quality gates, operational excellence reviews, competitor benchmarks).
     - Slide: Example
         - Purpose: Showcase a real-life example [TODO: decide] we'll use to thread a line through the ways in which we integrate benchmarking into our workflows.
