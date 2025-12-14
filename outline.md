@@ -12,10 +12,10 @@
         - "How to design your benchmarks"
         - "How to interpret benchmark results"
         - "Finally, we're going to show a real-life example to see how you can use all that to integrate those benchmarks in your workflows"
-- Controlling the Environment: 2011 Opera faster-than-light neutrinos story
-    - Slide: Picture of the CERN tunnel, after telling the story
+- Controlling the Environment: 2011 OPERA faster-than-light neutrinos story
+    - Slide: Picture of the OPERA detector, after telling the story
         - Purpose: Show an interesting real-life example where a non-controlled environment led to invalid results. Show that highly complex systems can be affected by seemingly minor issues.
-        - "In 2008, experiments at CERN showed neutrinos appearing to travel faster than light. After years of investigation, in 2011 it was discovered that the error was caused by a loose cable."
+        - "In 2008, experiments where a beam of neutrinos sent from CERN to a detector under the Gran Sasso in Italy showed neutrinos appearing to travel faster than light. After years of investigation, in 2011 it was discovered that the error was caused by a loose cable."
     - Slide: Picture of the loose cable.
         - [Reference: https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/]
         - "In the same way that any scientist has to control the environment on which they do their experiments, we also have to do that when benchmarking software."
