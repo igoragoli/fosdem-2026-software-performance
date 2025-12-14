@@ -31,7 +31,7 @@
             - Build quality of cores in the CPU
             - CPU power saving mechanisms
             - CPU overheating prevention mechanisms
-        - "Some of them can be controlled, but some of them can't. For example, you can't really influence the temperature of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
+        - "Some of them can be controlled, but some of them can't. For example, you can't really influence vibrations of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
 - Controlling the Environment: System tweaks for performance measurements
     - Slide: List [if concise enough, if not, we should use a series of slides] showing the tweaks, why they impact performance measurements, and code snippets showing how to control them.
         - Purpose: Show the audience how they can, in practice, make their systems better suited for performance measurements.
