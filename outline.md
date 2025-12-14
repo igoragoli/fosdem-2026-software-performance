@@ -94,7 +94,7 @@
         - Purpose: Showcase a real-life example [TODO: decide] we'll use to thread a line through the ways in which we integrate benchmarking into our workflows.
     - [After this, we'll have a slide for each highlighted box in the benchmarking platform architecture diagram, referring to the example and including real numbers and graphs to bring the point home.]
 - Conclusion
-    - Slide: Bullet points recapping the key takeaways.
+    - Slide: Bullet points recapping the key takeaways in a very concise way.
 - Thank you/questions
 - Contact information
 - References
