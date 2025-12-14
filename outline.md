@@ -1,0 +1,95 @@
+- Intro
+    - Slide: illustration of "death by a thousand cuts"
+        - Purpose: Show the core problem of software performance degrading over time through a series of accumulated regressions, point out that capturing a small change in performance is hard, and that we need to be able to detect even very small changes in performance.
+        - "Software performance dies by a thousand cuts."
+        - "To avoid such a fate, we need to be able to detect even very small changes in performance."
+        - "This talk will share some learnings we had over the years at Datadog to help you do that."
+- Agenda
+    - Slide: Simple agenda slide.
+        - Purpose: Signpost, help the audience follow along.
+        - "Over the next 30 minutes, we're going to talk about 4 things:"
+        - "How to control your benchmarking environment"
+        - "How to design your benchmarks"
+        - "How to interpret benchmark results"
+        - "Finally, we're going to show a real-life example to see how you can use all that to integrate those benchmarks in your workflows"
+- Controlling the Environment: 2011 Opera faster-than-light neutrinos story
+    - Slide: Picture of the CERN tunnel, after telling the story
+        - Purpose: Show an interesting real-life example where a non-controlled environment led to invalid results. Show that highly complex systems can be affected by seemingly minor issues.
+        - "In 2008, experiments at CERN showed neutrinos appearing to travel faster than light. After years of investigation, in 2011 it was discovered that the error was caused by a loose cable."
+    - Slide: Picture of the loose cable.
+        - [Reference: https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/]
+        - "In the same way that any scientist has to control the environment on which they do their experiments, we also have to do that when benchmarking software."
+    - Slide: List of sources of noise
+        - "While the physics from the OPERA experiment had to deal with loose cables, seismic activity, and some other sources of noise, we have to worry about these ones:"
+            - Memory layout of an application
+            - Non-determinism in compilation and linking of an application
+            - Non-determinism in available resources when running CPU-/Memory-intensive applications on colocated logical cores
+            - Network instability
+            - Scheduler latency
+            - Vibration
+            - Variable clock rate in CPU
+            - Build quality of cores in the CPU
+            - CPU power saving mechanisms
+            - CPU overheating prevention mechanisms
+        - "Some of them can be controlled, but some of them can't. For example, you can't really influence the temperature of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
+- Controlling the Environment: System tweaks for performance measurements
+    - Slide: List [if concise enough, if not, we should use a series of slides] showing the tweaks, why they impact performance measurements, and code snippets showing how to control them.
+        - Purpose: Show the audience how they can, in practice, make their systems better suited for performance measurements.
+        - [TODO: Evaluate if we should explain what each tweak does in depth. Maybe it'll take a lot of time.]
+        - [Reference: https://github.com/DataDog/dd-source/blob/9c95fc09f48f6a3563ab5d48395392841b3d6e58/domains/devex/ci/gitlab/config/k8s/gitlab-runner-infra/values/stable/gitlab-runner-apm.yaml#L23-L30]
+            - Pin CPU frequency to 2.5 GHz (prevents frequency scaling)
+            - Prevent Intel CPUs from sleeping when idle (max_cstate=1)
+            - Set CPU scaling governor to "performance" mode
+            - Dedicate 4 CPUs exclusively for system workloads
+            - Disable Intel P-state driver (revert to ACPI frequency scaling)
+            - Disable hyperthreading/SMT on physical cores
+            - Disable Intel Turbo Boost feature
+- Controlling the Environment: before and after.
+    - Slide: Before and after picture showing the effects of controlling noise.
+        - Purpose: Show the audience the impact of controlling noise.
+    - Segway: "Great, so now we have a controlled environment. All loose cables are gone, so to speak. But none of this matters if your benchmark design is out of whack. So now we'll talk about how to design your benchmarks."
+- Benchmark Design: Benchmarking terminology diagram
+    - Slide: Diagram with a benchmarking harness pointing to a system under test. The measurement tool box should have "benchmarking harness/load generator" between parenthesis (or something similar) to foreshadow that load generators can be used to control operations, iterations and repetitions in a similar vein to harnesses, but for larger systems.
+        - Purpose: Establish terminology we'll use throughout the discussions of benchmark design.
+        - "We're super sorry if this part starts becoming like a lecture. but it's important to have a shared language about what makes benchmarks and what makes a good benchmark."
+        - "First, we can imagine a benchmark being composed of two parts: what measures and what is measured. We call the part that measures the 'harness', and we call the part that is measured the 'system under test'."
+        - "The system under test is the part of the system, or the system as a whole, that is being measured. For example, it can be a single function."
+        - "The harness will give you some knobs to try your best to measure how the system under test performs. Tools may have slightly different names for those knobs, but they generally fall under the following categories: operations, iterations, and repetitions."
+        - "Operations are a single execution of the system under test."
+            - [TODO: Example of an operation]
+        - "Iterations are a batch of operations measured together in one time period."
+            - [TODO: Example of an iteration]
+        - "Repetitions are the number of times you run the benchmark. This is the number of times you run the harness."
+            - [TODO: Example of a repetition]
+        - [TODO: Fact check all of this, and check pyperf, JMH, BenchmarkDotNet, Go benchmarks to see terminologies and if this matches up. For instance, Go benchmarks don't make a distinction between operations and iterations, but repetitions can be controlled with `--count`, IIRC.]
+- Benchmark Design: What makes a benchmark?
+    - Slide: Diagram comparing micro benchmarks and macro benchmarks.
+        - Explain the difference between micro benchmarks and macro benchmarks in a very simple way.
+        - [Reference: good diagram in https://oceanrep.geomar.de/id/eprint/26979/1/thesis-waller-print.pdf, p. 37]
+- Benchmark Design: What makes a good benchmark?
+    - Slide: List of requirements for a good benchmark
+        - "Repeatability, because a benchmark that gives me a different result everytime is pointless"
+        - "Representetiveness, because our benchmarks have to attempt to mimick real-life conditions on which our systems under test will be run"
+        - "Consistency means that the longer we run a benchmark, the more precise are the results. If you see some kind phase behavior like this in your benchmarks, it's not consistent. Consistency is important because the lack of it leads to benchmarks not being repeatable."
+        - "Robustness means that the benchmark should not be affected by external factors, such as network latency, CPU frequency, or other environmental factors. Robustness is important because the lack of it leads to benchmarks not being consistent and not repeatable."
+- Benchmark Design: How to get your benchmarks to a good state?
+    - Slide: List of ways to get your benchmarks to a good state.
+        - Use realistic scenarios and data that match production usage
+        - Run sufficient sample sizes: 30+ iterations, 10+ repetitions (rules of thumb we empirically found to be sufficient)
+        - Include warm-up time for JIT-compiled languages
+        - Use dedicated, isolated hardware (avoid shared/cloud runners)
+        - Measure variability: aim for Coefficient of Variation < 2%
+        - Use load generators that avoid the coordinated omission problem
+            - [This is a whole other can of worms, but I think we can explain it very briefly and mention its impact]
+    - Segway: "But all of this is only useful if you can actually use your benchmark results. And it's not as easy as it sounds. So now we'll talk about how to interpret results from your benchmarks."
+- How to interpret benchmark results
+    - Slide: Two noisy signals side by side with not enough statistical difference between them, but with different means.
+        - Purpose: Show that the naive approach of comparing statistics (e.g., means or percentiles) is not enough to detect small changes in performance, and that you should use statistical tests such as t-tests. The goal is to show the spirit of t-tests and the kinds of problems they can solve, but not to go too much into the details. [If there's time, we sure can go a bit more into the details!]
+    - Slide: Two plots side by side with overlapping histograms. The first one should have highly overlapping histograms, but the second one should have histograms that are clearly different. The means of the distribution should lead to contradicting conclusions to that of the t-tests, to show even further the limitations of the naive approach.
+        - Purpose: Explain the intuition behind t-tests in a bit more detail.
+        - [Perhaps we should prevent Gell-Mann effects on the audience by saying "of course, there are many other statistical tests you can use, but this is the best starting point. It is really a vast field, and it's super easy to make imprecise statements.]
+- How to integrate benchmark results into your workflows: benchmarking platform architecture
+    - Slide: Diagram of the benchmarking platform architecture with boxes the benchmarking platform architecture some boxes highlighted (the ones related to integrating benchmarking into workflows: CI/CD, quality gates, operational excellence reviews, competitor benchmarks).
+    - Slide: Example
+        - Purpose: Showcase a real-life example [TODO: decide] we'll use to thread a line through the ways in which we integrate benchmarking into our workflows.
+    - [After this, we'll have a slide for each highlighted box in the benchmarking platform architecture diagram, referring to the example and including real numbers and graphs to bring the point home.]
