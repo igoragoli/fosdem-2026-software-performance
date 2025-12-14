@@ -1,4 +1,4 @@
-- Intro
+- Introduction
     - Slide: illustration of "death by a thousand cuts"
         - Purpose: Show the core problem of software performance degrading over time through a series of accumulated regressions, point out that capturing a small change in performance is hard, and that we need to be able to detect even very small changes in performance.
         - "Software performance dies by a thousand cuts."
