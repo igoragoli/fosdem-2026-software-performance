@@ -61,10 +61,10 @@
             - [TODO: Example of an iteration]
         - "Repetitions are the number of times you run the benchmark. This is the number of times you run the harness."
             - [TODO: Example of a repetition]
-        - [TODO: Fact check all of this, and check pyperf, JMH, BenchmarkDotNet, Go benchmarks to see terminologies and if this matches up. For instance, Go benchmarks don't make a distinction between operations and iterations, but repetitions can be controlled with `--count`, IIRC.]
+        - [TODO: Fact check all of this, and check pyperf, JMH, BenchmarkDotNet, Go benchmarks to see terminologies and if this summarizes them well. For instance, Go benchmarks don't make a distinction between operations and iterations, but repetitions can be controlled with `--count`, IIRC.]
 - Benchmark Design: What makes a benchmark?
     - Slide: Diagram comparing micro benchmarks and macro benchmarks.
-        - Explain the difference between micro benchmarks and macro benchmarks in a very simple way.
+        - Purpose: Explain what is a benchmark, what are micro benchmarks, what are macro benchmarks, and the difference between them in a very simple way.
         - [Reference: good diagram in https://oceanrep.geomar.de/id/eprint/26979/1/thesis-waller-print.pdf, p. 37]
 - Benchmark Design: What makes a good benchmark?
     - Slide: List of requirements for a good benchmark
@@ -79,7 +79,7 @@
         - Include warm-up time for JIT-compiled languages
         - Use dedicated, isolated hardware (avoid shared/cloud runners)
         - Measure variability: aim for Coefficient of Variation < 2%
-        - Use load generators that avoid the coordinated omission problem
+        - For macrobenchmarks, use load generators that avoid the coordinated omission problem
             - [This is a whole other can of worms, but I think we can explain it very briefly and mention its impact]
     - Segway: "But all of this is only useful if you can actually use your benchmark results. And it's not as easy as it sounds. So now we'll talk about how to interpret results from your benchmarks."
 - How to interpret benchmark results
