@@ -1,4 +1,4 @@
---- 
+---
 marp: true
 theme: default
 math: mathjax
@@ -13,6 +13,21 @@ style: |
     .comment {
         color: #888;
     }
+    .section-header {
+        position: absolute;
+        top: 40px;
+        left: 70px;
+        right: 70px;
+        font-size: 0.8em;
+        color: #666;
+        letter-spacing: 0.1em;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+---
+
+Slides roughly reflect the structure we're aiming to follow, but `outline.md` is a more complete document outlining the presentation.
+
 ---
 
 # How to Reliably Measure Software Performance
@@ -25,17 +40,222 @@ FOSDEM 2026
 
 <center>
 
-![width:400](./assets/death-by-a-thousand-cuts.jpg)
+![width:500](./assets/death-by-a-thousand-cuts.jpg)
 
-*[Lingchi, usually translated as "death by a thousand cuts"](https://en.wikipedia.org/wiki/Lingchi)*
+*Lingchi - "death by a thousand cuts"*
 
 </center>
+
+---
+
+## Agenda
+
+1. How to control your benchmarking environment
+2. How to design your benchmarks
+3. How to interpret benchmark results
+4. How to integrate benchmarks into your workflows
+
+---
 
 <center>
 
-<span class="comment">_TODO: Refine analogy to create a strong start. Here we want to describe how performance degradation accumulates gradually as code is added to a project. As a conclusion, we must be able to have systems in place to detect even very small changes in performance._</span>
+![width:600](./assets/opera-detector.jpeg)
+
+*The OPERA neutrino detector*
 
 </center>
+
+---
+
+<center>
+
+![width:600](./assets/opera-loose-cable.png)
+
+*The loose fiber optic cable that caused the measurement error*
+
+</center>
+
+---
+
+# Controlling the Environment
+
+---
+
+<div class="section-header">Controlling the Environment</div>
+
+## Sources of Noise
+
+- Memory layout
+- Non-determinism in compilation and linking
+- Non-determinism in available resources on colocated logical cores
+- Network instability
+- Scheduler latency
+- Vibration
+- Variable clock rate
+- Build quality of cores
+- CPU power saving mechanisms
+- CPU overheating prevention mechanisms
+
+---
+
+<div class="section-header">Controlling the Environment</div>
+
+## System Tweaks
+
+<span class="comment">
+
+**Purpose:** Show practical system tweaks for benchmarking and how to implement them.
+
+Content to add:
+- Pin CPU frequency to 2.5 GHz (prevents frequency scaling)
+- Prevent Intel CPUs from sleeping when idle (max_cstate=1)
+- Set CPU scaling governor to "performance" mode
+- Dedicate 4 CPUs exclusively for system workloads
+- Disable Intel P-state driver (revert to ACPI frequency scaling)
+- Disable hyperthreading/SMT on physical cores
+- Disable Intel Turbo Boost feature
+
+Include code snippets from the GitLab runner config.
+
+</span>
+
+---
+
+<div class="section-header">Controlling the Environment</div>
+
+## Before and After
+
+<center>
+
+![width:300](./assets/placeholder.jpg)
+
+*Effect of controlling environmental noise on benchmark stability*
+
+</center>
+
+<span class="comment">
+
+**Purpose:** Show visual comparison of benchmark results before and after controlling environmental noise.
+
+</span>
+
+---
+
+# Benchmark Design
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<center>
+
+<span class="comment">
+
+**TODO:** Segway to the benchmark design section with an analogy or story.
+
+</span>
+
+</center>
+
+---
+
+## Some Terminology
+
+<span class="section-header">Benchmark Design</span>
+
+<center>
+
+![width:300](./assets/placeholder.jpg)
+
+*Diagram: Benchmarking harness (load generator) → System under test*
+
+</center>
+
+---
+
+## Some Terminology
+
+**System under test:** What is being measured
+**Harness:** What measures it
+- **Operations:** Single execution
+- **Iterations:** Batch of operations measured together
+- **Repetitions:** Number of times you run the harness
+
+<span class="comment">
+
+**TODO:** Concrete examples for each of the above.
+
+</span>
+
+---
+
+## What Makes Up a Benchmark?
+
+<span class="section-header">Benchmark Design</span>
+
+<center>
+
+![width:300](./assets/placeholder.jpg)
+
+*micro benchmarks (single functions) vs macro benchmarks (full systems)*
+
+</center>
+
+<span class="comment">
+
+**Purpose:** Simple visual explanation of what benchmarks are, plus a difference between micro and macro benchmarks.
+
+</span>
+
+---
+
+## What Makes a Good Benchmark?
+
+- Repeatability 
+- Representativeness
+- Consistency
+- Robustness
+
+<span class="comment">
+
+**TODO:** Concrete examples for each of the above.
+
+</span>
+
+---
+
+## How to Get Your Benchmarks to a Good State
+
+- Use realistic scenarios and data that match production usage
+- Run sufficient sample sizes: **30+ iterations, 10+ repetitions**
+- Include warm-up time for JIT-compiled languages
+- Use dedicated, isolated hardware (avoid shared/cloud runners)
+- Measure variability: aim for **Coefficient of Variation < 2%**
+- Use load generators that avoid the coordinated omission problem
+
+**TODO:** Maybe split into different slides with more in-depth explanations and concrete examples for each.
+
+---
+
+# Interpreting Benchmark Results
+
+---
+
+## The Naive Approach Isn't Enough
+
+<center>
+
+![width:300](./assets/placeholder.jpg)
+
+*Two noisy signals with different means but insufficient statistical difference*
+
+</center>
+
+<span class="comment">
+
+- **TODO:** Maybe remove the title for this slide to make the image more impactful.
+
+</span>
 
 ---
 
@@ -45,9 +265,9 @@ FOSDEM 2026
 
 <center>
 
-![width:500](./assets/ideal-performance-regression.png)
+![width:300](./assets/placeholder.jpg)
 
-*What we usually expect when thinking of performance changes*
+*Highly overlapping histograms*
 
 </center>
 
@@ -57,9 +277,10 @@ FOSDEM 2026
 
 <center>
 
-![width:500](./assets/actual-performance-regression.png)
 
-*What we usually have*
+![width:300](./assets/placeholder.jpg)
+
+*Clearly different histograms*
 
 </center>
 
@@ -67,154 +288,52 @@ FOSDEM 2026
 
 </div>
 
+<span class="comment">
+
+**Purpose:** Show the intuition behind hypothesis testing.
+
+</span>
+
+---
+
+# Integrating Benchmarks Into Your Workflows
+
+---
+
 <center>
 
-<span class="comment">_TODO: This slide drives the "death by a thousand cuts" point home. Update the images with more recent examples, and include two examples of performance degradation (currently, the first one is actually a performance improvement)_</span>
+![width:300](./assets/placeholder.jpg)
+
+*Architecture diagram with highlighted integration points: CI/CD, quality gates, operational excellence reviews, competitor benchmarks*
 
 </center>
 
----
-
-<center>
-
-![width:800](./assets/factors-that-impact-performance.png)
-
-</center>
-
-<center>
-
-<span class="comment">TODO: Clean up diagram, make point evident. This slide presents the problem at hand, which is that measuring performance reliably is hard. There are many factors that impact performance, and it is difficult to control them all.</span>
-
-</center>
-
---- 
-
-1. **Making performance tests reliable**
-   1. Controlling environmental noise
-   2. Using load testers effectively
-   3. Interpreting results correctly
-
-2. **Integrating performance tests into your workflow**
-   - Practical strategies for development teams
-
----
-
-# Part 1
-## Making Performance Tests Reliable
-
----
-
-## Controlling Environmental Noise: Performance Tweaks
-
 <span class="comment">
 
-TODO: Here we show the performance tweaks we do for benchmarking and why. They include: pinning CPU frequencies, preventing CPUs from sleeping when idle, setting processor scaling governors to "performance", dedicating cores to system-specific processes, disabling hyperthreading, disabling turbo-boost, enforcing specific CPU models.
-
-Split into multiple slides, and add code snippets.
+**Purpose:** Show the overall benchmarking platform architecture and how it integrates with development workflows.
 
 </span>
 
 ---
 
-## Controlling Environmental Noise: Benchmarking Best Practices
+## Real-Life Example
 
 <span class="comment">
 
-TODO: General concepts around benchmarking:
+**Purpose:** Showcase a real-life example to thread through the integration workflows.
 
-- Differences around micro and macrobenchmark
-- How to write good benchmarks (What number of runs? What number of iterations? What should you benchmark?), 
-- How to check if they're good (Coefficient of variation? False positive rate?)
+**TODO:** decide on specific example, include real numbers and graphs, show concrete benefits.
 
-Look at our own documentation and enrich this section.
+We're going to have a slide for each highlighted box in the benchmarking platform architecture diagram, referring to the example and including real numbers and graphs to bring the point home.
 
 </span>
 
 ---
 
-## Using Load Testers Effectively: Coordinated Omission
+# Concluding slides
 
 <span class="comment">
 
-TODO: What the coordinated omission problem is and how to avoid it.
+**TODO:** Conclusion (summarizing the takeaways), thank you/questions, contact information, references.
 
 </span>
-
----
-
-## Using Load Testers Effectively: What Load Testers to Use
-
-<span class="comment">
-
-TODO: What load testers to use for different use cases (vegeta, k6, wrk2, etc.)
-
-</span>
-
----
-
-## Using Load Testers Effectively: Building Representative Workloads
-
-<span class="comment">
-
-TODO: How to use load test plans and how to build representative workloads (What payloads to send? At what rate?)
-
-</span>
-
----
-
-## Interpreting Results: General Concepts
-
-<span class="comment">
-
-TODO: Some general concepts about statistics we need:
-- What is a normal distribution?
-- What is a confidence interval?
-- What is a sample size?
-- What is a false positive rate? Why are false positive rates _always_ present in any kind of statistical test? What can you do about it?
-
-Maybe:
-- What is a normality test?
-- What is a p-value?
-- What is a t-test?
-
-</span>
-
----
-
-## Interpreting Results: Using Confidence Intervals
-
-<span class="comment">
-
-TODO: Here we drive the discussion forward about confidence intervals, since they are the most relevant concept the audience needs to understand.
-
-</span>
-
----
-
-# Part 2
-## Integrating Tests Into Your Workflow
-
----
-
-<span class="comment">
-
-TODO: Share our experience integrating performance tests into our development workflow:
-- CI/CD
-- Quality gates
-- Operational excellence reviews
-
-Maybe include discussions around cultural shifts required to make performance testing a natural part of the development process.
-
-</span>
-
----
-
-# Thank you!
-
-<span class="comment">
-
-TODO: Refine. Thank you, questions, references, contact information.
-
-</span>
-
---- 
