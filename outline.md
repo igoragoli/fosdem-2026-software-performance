@@ -51,7 +51,7 @@
 - Benchmark Design: Benchmarking terminology diagram
     - Slide: Diagram with a benchmarking harness pointing to a system under test. The measurement tool box should have "benchmarking harness/load generator" between parenthesis (or something similar) to foreshadow that load generators can be used to control operations, iterations and repetitions in a similar vein to harnesses, but for larger systems.
         - Purpose: Establish terminology we'll use throughout the discussions of benchmark design.
-        - "We're super sorry if this part starts becoming like a lecture. but it's important to have a shared language about what makes benchmarks and what makes a good benchmark."
+        - "We're super sorry if this part starts becoming like a lecture. but it's important to have a shared language about what makes up benchmarks and what makes a good benchmark."
         - "First, we can imagine a benchmark being composed of two parts: what measures and what is measured. We call the part that measures the 'harness', and we call the part that is measured the 'system under test'."
         - "The system under test is the part of the system, or the system as a whole, that is being measured. For example, it can be a single function."
         - "The harness will give you some knobs to try your best to measure how the system under test performs. Tools may have slightly different names for those knobs, but they generally fall under the following categories: operations, iterations, and repetitions."
@@ -62,7 +62,7 @@
         - "Repetitions are the number of times you run the benchmark. This is the number of times you run the harness."
             - [TODO: Example of a repetition]
         - [TODO: Fact check all of this, and check pyperf, JMH, BenchmarkDotNet, Go benchmarks to see terminologies and if this summarizes them well. For instance, Go benchmarks don't make a distinction between operations and iterations, but repetitions can be controlled with `--count`, IIRC.]
-- Benchmark Design: What makes a benchmark?
+- Benchmark Design: What makes up a benchmark?
     - Slide: Diagram comparing micro benchmarks and macro benchmarks.
         - Purpose: Explain what is a benchmark, what are micro benchmarks, what are macro benchmarks, and the difference between them in a very simple way.
         - [Reference: good diagram in https://oceanrep.geomar.de/id/eprint/26979/1/thesis-waller-print.pdf, p. 37]
