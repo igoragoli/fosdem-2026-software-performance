@@ -16,11 +16,10 @@ style: |
     .section-header {
         position: absolute;
         top: 40px;
-        left: 70px;
+        left: 80px;
         right: 70px;
-        font-size: 0.8em;
+        font-size: 0.75em;
         color: #666;
-        letter-spacing: 0.1em;
         border-bottom: 1px solid #ddd;
         padding-bottom: 5px;
     }
@@ -42,7 +41,7 @@ FOSDEM 2026
 
 ![width:500](./assets/death-by-a-thousand-cuts.jpg)
 
-*Lingchi - "death by a thousand cuts"*
+*[Lingchi](https://en.wikipedia.org/wiki/Lingchi), or "death by a thousand cuts"*
 
 </center>
 
@@ -50,18 +49,23 @@ FOSDEM 2026
 
 ## Agenda
 
-1. How to control your benchmarking environment
-2. How to design your benchmarks
-3. How to interpret benchmark results
-4. How to integrate benchmarks into your workflows
+How to:
+1. Control your benchmarking environment
+2. Design your benchmarks
+3. Interpret benchmark results
+4. Integrate benchmarks into your workflows
+
+---
+
+# How to control your benchmarking environment
 
 ---
 
 <center>
 
-![width:600](./assets/opera-detector.jpeg)
+![width:600](./assets/cern-to-gran-sasso-neutrino-beam.jpg)
 
-*The OPERA neutrino detector*
+*732 km neutrino beam path from CERN in Geneva to Gran Sasso \[1\]*
 
 </center>
 
@@ -69,36 +73,31 @@ FOSDEM 2026
 
 <center>
 
-![width:600](./assets/opera-loose-cable.png)
+![width:600](./assets/opera-loose-cable-upscaled.png)
 
-*The loose fiber optic cable that caused the measurement error*
+*Loose fiber optic cable that caused the measurement error \[2\]*
 
 </center>
 
 ---
 
-# Controlling the Environment
-
----
-
-<div class="section-header">Controlling the Environment</div>
+<div class="section-header">How to control your benchmarking environment</div>
 
 ## Sources of Noise
 
-- Memory layout
-- Non-determinism in compilation and linking
-- Non-determinism in available resources on colocated logical cores
-- Network instability
-- Scheduler latency
-- Vibration
-- Variable clock rate
-- Build quality of cores
-- CPU power saving mechanisms
-- CPU overheating prevention mechanisms
+- Memory layout \[3\]
+- Compilation and linking \[3\]
+- Available resources on colocated logical cores \[4\]
+- Network instability \[5\]
+- Scheduler latency \[5\]
+- Vibration \[5\]
+- CPU power saving mechanisms \[6\]
+- CPU overheating prevention mechanisms \[6\]
+- Build quality of cores \[7\]
 
 ---
 
-<div class="section-header">Controlling the Environment</div>
+<div class="section-header">How to control your benchmarking environment</div>
 
 ## System Tweaks
 
@@ -112,7 +111,7 @@ Include code snippets from the GitLab runner config.
 
 ---
 
-<div class="section-header">Controlling the Environment</div>
+<div class="section-header">How to control your benchmarking environment</div>
 
 ## Before and After
 
@@ -328,3 +327,23 @@ We're going to have a slide for each highlighted box in the benchmarking platfor
 **TODO:** Conclusion (summarizing the takeaways), thank you/questions, contact information, references.
 
 </span>
+
+---
+
+# References
+
+\[1\] "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html
+
+\[2\] Strassler, M. (2012). "OPERA: What Went Wrong." https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/
+
+\[3\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State."
+
+\[4\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/.
+
+---
+
+\[5\] Gregg, B. (2014). "Frequency Trails: Outliers." https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes
+
+\[6\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
+
+\[7\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."

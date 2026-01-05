@@ -13,9 +13,12 @@
         - "How to interpret benchmark results"
         - "Finally, we're going to show a real-life example to see how you can use all that to integrate those benchmarks in your workflows"
 - Controlling the Environment: 2011 OPERA faster-than-light neutrinos story
-    - Slide: Picture of the OPERA detector, after telling the story
+    - Slide: Picture of the CERN to Gran Sasso neutrino beam path
         - Purpose: Show an interesting real-life example where a non-controlled environment led to invalid results. Show that highly complex systems can be affected by seemingly minor issues.
-        - "In 2008, experiments where a beam of neutrinos sent from CERN to a detector under the Gran Sasso in Italy showed neutrinos appearing to travel faster than light. After years of investigation, in 2011 it was discovered that the error was caused by a loose cable."
+        - "In 2008, experiments where a beam of neutrinos sent from CERN to a detector under the Gran Sasso in Italy showed neutrinos appearing to travel faster than light."
+        - "The results were, of course, dismissed. But the trust in the entire experimentation instrument was shaken. And this was took 5 years to build and had cost around 100 million euros."
+            - Double check sources included on https://gemini.google.com/app/5c9b5e2adbdde278.
+        - "After 3 years of investigation, in 2011 it was concluded that the error was caused by a loose cable."
     - Slide: Picture of the loose cable.
         - [Reference: https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/]
         - "In the same way that any scientist has to control the environment on which they do their experiments, we also have to do that when benchmarking software."
@@ -23,14 +26,16 @@
         - "While the physics from the OPERA experiment had to deal with loose cables, seismic activity, and some other sources of noise, we have to worry about these ones:"
             - Memory layout of an application
             - Non-determinism in compilation and linking of an application
-            - Non-determinism in available resources when running CPU-/Memory-intensive applications on colocated logical cores
-            - Network instability
-            - Scheduler latency
-            - Vibration
+            - Non-determinism in available resources when running CPU-intensive or memory-intensive applications on colocated logical cores
             - Variable clock rate in CPU
             - Build quality of cores in the CPU
             - CPU power saving mechanisms
             - CPU overheating prevention mechanisms
+            - Network instability
+            - Scheduler latency
+            - Vibration
+                - "This last one is particularly funny. There's a very famous video from performance engineering legend Brendan Gregg where he screams at the top of his lungs at a server and clearly sees disk I/O latency spikes."
+                - Slide: Lay over two pictures, one of Brendan Gregg screaming at a server, and one of the disk I/O latency spikes, with a single legend "Brendan Gregg screaming at Sun Microsystems servers" with a link to the video: https://www.youtube.com/watch?v=tDacjrSCeq4
         - "Some of them can be controlled, but some of them can't. For example, you can't really influence vibrations of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
 - Controlling the Environment: System tweaks for performance measurements
     - Slide: List [if concise enough, if not, we should use a series of slides] showing the tweaks, why they impact performance measurements, and code snippets showing how to control them.
