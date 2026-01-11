@@ -101,11 +101,17 @@ How to:
 
 ## System Tweaks
 
+Here are the main tweaks you can do. We're going to investigate one at a time to see their effects.
+
+- **Hyper-threading (SMT)**
+- **Turbo Boost**
+- **C-states**
+
 <span class="comment">
 
-**Purpose:** Show practical system tweaks for benchmarking and how to implement them.
+Please note that results come from experiments, not production configurations.
 
-Include code snippets from the GitLab runner config.
+Experiments designed and run by Dmytro Yurchenko.
 
 </span>
 
@@ -113,21 +119,82 @@ Include code snippets from the GitLab runner config.
 
 <div class="section-header">How to control your benchmarking environment</div>
 
-## Before and After
+## Hyper-threading (SMT)
 
-<center>
+Two logical cores share one physical core's execution resources (ALUs, caches). When both are active, they compete for resources.
 
-![width:300](./assets/placeholder.jpg)
-
-*Effect of controlling environmental noise on benchmark stability*
-
-</center>
+```bash
+# Disable SMT
+echo off > /sys/devices/system/cpu/smt/control
+```
 
 <span class="comment">
 
-**Purpose:** Show visual comparison of benchmark results before and after controlling environmental noise.
+**TODO:** Add before/after CoV visualization from m5metal_hyperthreading experiment.
+
+Key result: BLAS benchmark — same core 1.95x slower, 56x higher variance.
 
 </span>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## Turbo Boost
+
+Dynamic frequency scaling that temporarily boosts CPU frequency above base clock. Frequency varies based on thermal headroom and number of active cores.
+
+```bash
+# Disable Turbo Boost
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+```
+
+<span class="comment">
+
+**TODO:** Add before/after CoV visualization from m5metal_turboboost experiment.
+
+Key result: With turbo on, performance varies with task count (533ms → 578ms). With turbo off, consistent regardless of task count.
+
+</span>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## C-states
+
+CPU power-saving sleep states. Deeper C-states save more power but have higher wake-up latency, introducing variance in latency-sensitive workloads.
+
+```bash
+# In GRUB_CMDLINE_LINUX_DEFAULT:
+intel_idle.max_cstate=1 processor.max_cstate=1
+```
+
+<span class="comment">
+
+**TODO:** Add visualization from m5metal_cstate experiment.
+
+Key finding: C0 forcing creates outliers; C1 vs C6 shows similar repeatability for most workloads.
+
+</span>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## Other Tweaks
+
+There are many other CPU tweaks you can explore:
+
+- Scaling governor (set to `performance`)
+- CPU affinity (pin processes to specific cores)
+- Process priority (reduce OS interruptions)
+- Filesystem cache (warm up or drop before measuring)
+
+**References:**
+
+- Gregg, B. *Systems Performance*, 2nd ed., Ch. 6 \[6\]
+- Bakhvalov, D. *Performance Analysis and Tuning on Modern CPUs*, App. A \[8\]
 
 ---
 
@@ -347,3 +414,7 @@ We're going to have a slide for each highlighted box in the benchmarking platfor
 \[6\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
 
 \[7\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
+
+---
+
+\[8\] Bakhvalov, D. (2024). *Performance Analysis and Tuning on Modern CPUs*. https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD

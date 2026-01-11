@@ -38,14 +38,47 @@
                 - Slide: Lay over two pictures, one of Brendan Gregg screaming at a server, and one of the disk I/O latency spikes, with a single legend "Brendan Gregg screaming at Sun Microsystems servers" with a link to the video: https://www.youtube.com/watch?v=tDacjrSCeq4
         - "Some of them can be controlled, but some of them can't. For example, you can't really influence vibrations of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
 - Controlling the Environment: System tweaks for performance measurements
-    - Slide: List [if concise enough, if not, we should use a series of slides] showing the tweaks, why they impact performance measurements, and code snippets showing how to control them.
-        - Purpose: Show the audience how they can, in practice, make their systems better suited for performance measurements.
-        - [TODO: Evaluate if we should explain what each tweak does in depth. Maybe it'll take a lot of time.]
-        - [Reference: https://github.com/DataDog/dd-source/blob/9c95fc09f48f6a3563ab5d48395392841b3d6e58/domains/devex/ci/gitlab/config/k8s/gitlab-runner-infra/values/stable/gitlab-runner-apm.yaml#L23-L30]
-- Controlling the Environment: before and after.
-    - Slide: Before and after picture showing the effects of controlling noise.
-        - Purpose: Show the audience the impact of controlling noise.
-    - Segway: "Great, so now we have a controlled environment. All loose cables are gone, so to speak. But none of this matters if your benchmark design is out of whack. So now we'll talk about how to design your benchmarks."
+    - Slide: Introduction to tweaks
+        - Purpose: Frame the section — we'll investigate three main tweaks one at a time to see their effects on measurement variance.
+        - "Here are the main tweaks you can do. We're going to investigate one at a time to see their effects."
+        - "These results come from experiments, not production configurations."
+        - Note: Experiments designed and run by Dmytro Yurchenko (credit in slides).
+    - Slide: Hyper-threading (SMT)
+        - Brief explanation: Two logical cores share one physical core's execution resources (ALUs, caches, etc.). When both are active, they compete for resources.
+        - How to disable:
+            ```bash
+            echo off > /sys/devices/system/cpu/smt/control
+            ```
+        - Impact on CoV: Show before/after
+            - BLAS benchmark: same core 1.95x slower, 56x higher variance
+    - Slide: Turbo Boost
+        - Brief explanation: Dynamic frequency scaling that temporarily boosts CPU frequency above base clock under load. Frequency varies based on thermal headroom and active cores.
+        - How to disable:
+            ```bash
+            echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+            ```
+        - Impact on CoV: Show before/after
+            - With turbo on: performance varies with task count (1 task = 533ms, 8 tasks = 578ms)
+            - With turbo off: consistent performance regardless of task count
+    - Slide: C-states
+        - Brief explanation: CPU power-saving sleep states. Deeper C-states save more power but have higher wake-up latency, which can introduce variance in latency-sensitive workloads.
+        - How to limit:
+            ```bash
+            # In GRUB_CMDLINE_LINUX_DEFAULT:
+            intel_idle.max_cstate=1 processor.max_cstate=1
+            ```
+        - Impact on CoV: Show before/after
+            - Key finding: C0 forcing creates outliers; C1 vs C6 shows similar repeatability for most workloads
+    - Slide: Other tweaks & references
+        - "There are many other CPU tweaks you can explore:"
+            - Scaling governor (set to "performance")
+            - CPU affinity (pin processes to specific cores)
+            - Process priority (reduce OS interruptions)
+            - Filesystem cache (warm up or drop before measuring)
+        - References:
+            - Gregg, B. *Systems Performance*, 2nd ed., Chapter 6
+            - Bakhvalov, D. *Performance Analysis and Tuning on Modern CPUs*, Appendix A — https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD
+    - Segue: "Great, so now we have a controlled environment. All loose cables are gone, so to speak. But none of this matters if your benchmark design is out of whack. So now we'll talk about how to design your benchmarks."
 - Benchmark Design: Benchmarking terminology diagram
     - Slide: Diagram with a benchmarking harness pointing to a system under test. The measurement tool box should have "benchmarking harness/load generator" between parenthesis (or something similar) to foreshadow that load generators can be used to control operations, iterations and repetitions in a similar vein to harnesses, but for larger systems.
         - Purpose: Establish terminology we'll use throughout the discussions of benchmark design.
