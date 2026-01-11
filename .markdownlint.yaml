@@ -1,0 +1,6 @@
+default: true
+MD007:
+  indent: 4
+MD010:
+  code_blocks: false
+  spaces_per_tab: 4
