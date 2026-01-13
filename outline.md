@@ -79,40 +79,44 @@
             - Gregg, B. *Systems Performance*, 2nd ed., Chapter 6
             - Bakhvalov, D. *Performance Analysis and Tuning on Modern CPUs*, Appendix A — https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD
     - Segue: "Great, so now we have a controlled environment. All loose cables are gone, so to speak. But none of this matters if your benchmark design is out of whack. So now we'll talk about how to design your benchmarks."
-- Benchmark Design: Benchmarking terminology diagram
-    - Slide: Diagram with a benchmarking harness pointing to a system under test. The measurement tool box should have "benchmarking harness/load generator" between parenthesis (or something similar) to foreshadow that load generators can be used to control operations, iterations and repetitions in a similar vein to harnesses, but for larger systems.
-        - Purpose: Establish terminology we'll use throughout the discussions of benchmark design.
-        - "We're super sorry if this part starts becoming like a lecture. but it's important to have a shared language about what makes up benchmarks and what makes a good benchmark."
-        - "First, we can imagine a benchmark being composed of two parts: what measures and what is measured. We call the part that measures the 'harness', and we call the part that is measured the 'system under test'."
-        - "The system under test is the part of the system, or the system as a whole, that is being measured. For example, it can be a single function."
-        - "The harness will give you some knobs to try your best to measure how the system under test performs. Tools may have slightly different names for those knobs, but they generally fall under the following categories: operations, iterations, and repetitions."
-        - "Operations are a single execution of the system under test."
-            - [TODO: Example of an operation]
-        - "Iterations are a batch of operations measured together in one time period."
-            - [TODO: Example of an iteration]
-        - "Repetitions are the number of times you run the benchmark. This is the number of times you run the harness."
-            - [TODO: Example of a repetition]
-        - [TODO: Fact check all of this, and check pyperf, JMH, BenchmarkDotNet, Go benchmarks to see terminologies and if this summarizes them well. For instance, Go benchmarks don't make a distinction between operations and iterations, but repetitions can be controlled with `--count`, IIRC.]
-- Benchmark Design: What makes up a benchmark?
-    - Slide: Diagram comparing micro benchmarks and macro benchmarks.
-        - Purpose: Explain what is a benchmark, what are micro benchmarks, what are macro benchmarks, and the difference between them in a very simple way.
-        - [Reference: good diagram in https://oceanrep.geomar.de/id/eprint/26979/1/thesis-waller-print.pdf, p. 37]
+- Benchmark Design: Tolstoy framing
+    - Slide: Tolstoy quote
+        - "All happy families are alike; each unhappy family is unhappy in its own way." — Leo Tolstoy, Anna Karenina
+        - Cross off "families" and replace with "benchmarks"
+        - "All happy benchmarks are alike; each unhappy benchmark is unhappy in its own way."
 - Benchmark Design: What makes a good benchmark?
-    - Slide: List of requirements for a good benchmark
-        - "Repeatability, because a benchmark that gives me a different result everytime is pointless"
-        - "Representetiveness, because our benchmarks have to attempt to mimick real-life conditions on which our systems under test will be run"
-        - "Consistency means that the longer we run a benchmark, the more precise are the results. If you see some kind phase behavior like this in your benchmarks, it's not consistent. Consistency is important because the lack of it leads to benchmarks not being repeatable."
-        - "Robustness means that the benchmark should not be affected by external factors, such as network latency, CPU frequency, or other environmental factors. Robustness is important because the lack of it leads to benchmarks not being consistent and not repeatable."
-- Benchmark Design: How to get your benchmarks to a good state?
-    - Slide: List of ways to get your benchmarks to a good state.
-        - Use realistic scenarios and data that match production usage
-        - Run sufficient sample sizes: 30+ iterations, 10+ repetitions (rules of thumb we empirically found to be sufficient)
-        - Include warm-up time for JIT-compiled languages
-        - Use dedicated, isolated hardware (avoid shared/cloud runners)
-        - Measure variability: aim for Coefficient of Variation < 2%
-        - For macrobenchmarks, use load generators that avoid the coordinated omission problem
-            - [This is a whole other can of worms, but I think we can explain it very briefly and mention its impact]
-    - Segway: "But all of this is only useful if you can actually use your benchmark results. And it's not as easy as it sounds. So now we'll talk about how to interpret results from your benchmarks."
+    - Slide: Two properties of good benchmarks
+        - Good benchmarks boil down to two things: **representativeness** and **repeatability**.
+        - A **representative** benchmark measures the right thing in a realistic setting.
+        - A **repeatable** benchmark produces similar results when repeated.
+        - To make a benchmark representative, you need to understand what is being tested. It's surprisingly easy to benchmark the wrong things.
+        - To make a benchmark repeatable, you need an organized lab (no loose cables — covered in the previous section) and an organized experiment.
+        - This section focuses on having an organized experiment.
+- Benchmark Design: Case study — "Why is this a bad benchmark?"
+    - Slide: Show time-series graph from dd-trace-java benchmark
+        - Purpose: Engage audience with a real example before explaining the criteria.
+        - Ask: "Why is this a bad benchmark?"
+        - [TODO: Create visualization from dd-trace-java benchmark data]
+- Benchmark Design: Criteria for an organized experiment
+    - Walk through 5 criteria, checking each against the case study:
+    - Slide: 1. Control randomness in workload
+        - Use deterministic seeds, avoid non-deterministic inputs.
+        - Case study check: "This one's fine — the workload is deterministic because X."
+    - Slide: 2. Warmup and cooldown phases
+        - JIT compilation, cache warming, steady-state behavior.
+        - Ignore results from warmup/cooldown phases.
+        - Case study check: "Here's the problem — no warmup phase, we're measuring JIT compilation noise."
+        - [TODO: Highlight the warmup issue in the dd-trace-java graph]
+    - Slide: 3. Avoid coordinated omission
+        - Brief explanation: In open-loop load testing, if you only measure requests that complete, you miss the worst latencies when the system is overloaded.
+        - Case study check: "Not applicable here — we use k6 in closed-loop model."
+    - Slide: 4. Long enough runs (reduce intra-run variation)
+        - Intra-run variation caused by: JIT compilation, GC, cache warming.
+        - Case study check: "Runs are too short — see the variance here."
+    - Slide: 5. Enough runs (reduce inter-run variation)
+        - Inter-run variation caused by: memory layout (ASLR), CPU state, background processes.
+        - Case study check: "Only N runs — not enough to account for inter-run variation."
+    - Segue: "But all of this is only useful if you can actually use your benchmark results. And it's not as easy as it sounds. So now we'll talk about how to interpret results from your benchmarks."
 - Interpreting Benchmark Results
     - Slide: Two noisy signals side by side with not enough statistical difference between them, but with different means.
         - Purpose: Show that the naive approach of comparing statistics (e.g., means or percentiles) is not enough to detect small changes in performance, and that you should use statistical tests such as t-tests. The goal is to show the spirit of t-tests and the kinds of problems they can solve, but not to go too much into the details. [If there's time, we sure can go a bit more into the details!]
