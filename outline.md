@@ -24,13 +24,16 @@
         - "In the same way that any scientist has to control the environment on which they do their experiments, we also have to do that when benchmarking software."
     - Slide: List of sources of noise
         - "While the physics from the OPERA experiment had to deal with loose cables, seismic activity, and some other sources of noise, we have to worry about these ones:"
-            - Memory layout of an application
-            - Non-determinism in compilation and linking of an application
-            - Non-determinism in available resources when running CPU-intensive or memory-intensive applications on colocated logical cores
-            - Variable clock rate in CPU
-            - Build quality of cores in the CPU
-            - CPU power saving mechanisms
-            - CPU overheating prevention mechanisms
+            - Application:
+                - Memory layout of an application
+                - Non-determinism in compilation and linking of an application
+            - CPU:
+                - Variable clock rate in CPU
+                - Non-determinism in available resources when running CPU-intensive or memory-intensive applications on colocated logical cores
+                - CPU overheating prevention mecanisms
+                - CPU power saving mechanisms
+                - Build quality of cores in the CPU
+            - 
             - Network instability
             - Scheduler latency
             - Vibration
@@ -40,7 +43,7 @@
 - Controlling the Environment: System tweaks for performance measurements
     - Slide: Introduction to tweaks
         - Purpose: Frame the section — we'll investigate three main tweaks one at a time to see their effects on measurement variance.
-        - "Here are the main tweaks you can do. We're going to investigate one at a time to see their effects."
+        -
         - "These results come from experiments, not production configurations."
         - Note: Experiments designed and run by Dmytro Yurchenko (credit in slides).
     - Slide: Hyper-threading (SMT)
