@@ -388,6 +388,8 @@ m5.metal, SMT disabled
 
 ---
 
+<div class="section-header">How to control your benchmarking environment</div>
+
 ## What's the impact of disabling Turbo Boost?
 
 <center>
