@@ -2,6 +2,7 @@
 marp: true
 theme: default
 math: mathjax
+html: true
 
 # columns usage: https://github.com/orgs/marp-team/discussions/192#discussioncomment-1516155
 style: |
@@ -58,6 +59,19 @@ style: |
     }
     .replace .new {
         font-weight: bold;
+    }
+    .bottom-citation {
+        position: absolute;
+        bottom: 40px;
+        left: 80px;
+        right: 70px;
+        text-align: center;
+    }
+    .vcenter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
     }
 ---
 
@@ -131,8 +145,6 @@ How to:
 
 <div class="section-header">How to control your benchmarking environment</div>
 
-## Sources of Noise
-
 <div class="centered-table">
 
 | Layer       | Noise Sources                      | Mitigations|
@@ -148,8 +160,6 @@ How to:
 
 <div class="section-header">How to control your benchmarking environment</div>
 
-## Sources of Noise
-
 <div class="centered-table">
 
 | Layer       | Noise Sources                      | Mitigations|
@@ -161,11 +171,11 @@ How to:
 
 </div>
 
-<center>
+<div class="bottom-citation">
 
 *Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A*
 
-</center>
+</div>
 
 ---
 
@@ -203,15 +213,140 @@ echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 
 ## What's the impact of disabling SMT?
 
-Two logical cores share one physical core's execution resources (ALUs, caches). When both are active, they compete for resources.
+<div class="columns">
 
-<span class="comment">
+<div>
+<center>
 
-**TODO:** Add before/after CoV visualization from m5metal_hyperthreading experiment.
+```mermaid
+%%{init: {'theme': 'forest'}}%%
 
-Key result: BLAS benchmark, same core 1.95x slower, 56x higher variance.
+graph TB
+    T0[Thread 0] --> AS0["Arch State 0"]
+    T1[Thread 1] --> AS1["Arch State 1"]
+    AS0 --> E["Exec Resources"]
+    AS1 --> E
+    E --> O0[Thread 0]
+    E --> O1[Thread 1]
+    style T0 fill:none,stroke:none
+    style T1 fill:none,stroke:none
+    style O0 fill:none,stroke:none
+    style O1 fill:none,stroke:none
+```
 
-</span>
+*SMT enabled: hardware threads compete for resources*
+
+</center>
+</div>
+
+<div>
+<center>
+
+```mermaid
+%%{init: {'theme': 'forest'}}%%
+
+graph TB
+    T0[Thread 0] --> AS0["Arch State"]
+    AS0 --> E0["Exec Resources"]
+    E0 --> O0[Thread 0]
+    style T0 fill:none,stroke:none
+    style O0 fill:none,stroke:none
+```
+
+*SMT disabled: hardware thread has exclusive access to resources*
+
+</center>
+</div>
+
+</div>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## What's the impact of disabling SMT?
+
+<center>
+
+m5.metal, clock rate pinned, scaling governor set to "performance"
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+
+</center>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:450](./assets/smt-vs-no-smt-experiment.svg)
+
+</center>
+
+</div>
+
+<!-- To align with the graph's borders -->
+<div style="padding-top: 43px;">
+
+| Thread | mean ± stddev | coeff. of variation |
+|--------|---------------|----------------------|
+| smt-1 | 1537.64 ± 367.29 ms | 23.887 % |
+| smt-2 | 1536.88 ± 366.84 ms | 23.869 % |
+| no-smt-1 | 737.37 ± 0.32 ms | 0.044 % |
+| no-smt-2 | 737.93 ± 1.74 ms | 0.235 % |
+
+</div>
+
+</div>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## What's the impact of disabling SMT?
+
+<center>
+
+m5.metal, clock rate pinned, scaling governor set to "performance"
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+
+</center>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:450](./assets/smt-vs-no-smt-experiment.svg)
+
+</center>
+
+</div>
+
+<!-- To align with the graph's borders -->
+<div style="padding-top: 43px;">
+
+| Thread | mean ± stddev | coeff. of variation |
+|--------|---------------|----------------------|
+| smt-1 | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
+| smt-2 | 1536.88 ± 366.84 ms | <span class="hl">23.869 %</span> |
+| no-smt-1 | 737.37 ± 0.32 ms | <span class="hl">0.044 %</span> |
+| no-smt-2 | 737.93 ± 1.74 ms | <span class="hl">0.235 %</span> |
+
+</div>
+
+</div>
+
+<div style="transform: translateY(-30px);">
+
+<center>
+
+**<span class="hl">100x less variation</span>**
+
+</center>
+
+</div>
 
 ---
 
@@ -219,15 +354,84 @@ Key result: BLAS benchmark, same core 1.95x slower, 56x higher variance.
 
 ## What's the impact of disabling Turbo Boost?
 
-Temporarily boosts CPU frequency above base clock, based on temperature and on the number of active cores.
+<center>
 
-<span class="comment">
+m5.metal, SMT disabled
+**Varying number of CPU-intensive tasks on the same core with Turbo Boost on vs. off**
 
-**TODO:** Add before/after CoV visualization from m5metal_turboboost experiment.
+</center>
 
-Key result: With turbo on, performance varies with task count (533ms → 578ms). With turbo off, consistent regardless of task count.
+<div class="columns">
 
-</span>
+<div>
+
+<center>
+
+![width:450](./assets/tb-vs-no-tb-experiment.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 35px;">
+
+| Thread | mean ± stddev | coeff. of variation |
+|--------|---------------|----------------------|
+| tb-1 | 533.97 ± 2.046 ms | 0.383 % |
+| tb-8 | 578.67 ± 0.287 ms | 0.050 % |
+| no-tb-1 | 738.18 ± 0.306 ms | 0.041 % |
+| no-tb-8 | 739.18 ± 0.351 ms | 0.047 % |
+
+</div>
+
+</div>
+
+---
+
+## What's the impact of disabling Turbo Boost?
+
+<center>
+
+m5.metal, SMT disabled
+**Varying number of CPU-intensive tasks on the same core with Turbo Boost on vs. off**
+
+</center>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:450](./assets/tb-vs-no-tb-experiment.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 35px;">
+
+| Thread | mean ± stddev | coeff. of variation |
+|--------|---------------|----------------------|
+| tb-1 | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
+| tb-8 | <span class="hl">578.67</span> ± 0.287 ms | 0.050 % |
+| no-tb-1 | 738.18 ± 0.306 ms | <span class="hl">0.041 %</span> |
+| no-tb-8 | 739.18 ± 0.351 ms | 0.047 % |
+
+</div>
+
+</div>
+
+<div style="transform: translateY(-30px);">
+
+<center>
+
+**<span class="hl">10x less variation</span>**
+**<span class="hl">performance stops depending on workload</span>**
+
+</center>
+
+</div>
 
 ---
 
