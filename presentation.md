@@ -152,7 +152,7 @@ How to:
 | External    | Network<br>Temperature<br>Vibration    | Use dedicated hardware |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
 | Kernel      | Filesystem cache<br>Scheduling | Set CPU affinity<br>Set process priority<br>Warm up or drop caches|
-| CPU         | Dynamic frequency scaling<br>Simultaneous multithreading (SMT) contention  | Pin clock rate to base frequency<br>Set scaling governor to "performance"<br>Disable SMT<br>Disable Turbo-boost |
+| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
 
 </div>
 
@@ -167,7 +167,7 @@ How to:
 | External    | Network<br>Temperature<br>Vibration    | Use dedicated hardware |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
 | Kernel      | Filesystem cache<br>Scheduling | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
-| CPU         | Dynamic frequency scaling<br>Simultaneous multithreading (SMT) contention  | <span class="hl">Pin clock rate to base frequency<br>Set scaling governor to "performance"<br>Disable SMT<br>Disable Turbo-boost</span> |
+| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT<br>Disable DFS</span> |
 
 </div>
 
@@ -184,27 +184,27 @@ How to:
 <br>
 
 ```bash
-# CPU affinity
+# Set CPU affinity
 taskset -c 0 ./benchmark
 
-# Process priority
+# Increase process priority
 nice -n -5 ./benchmark
 
-# Filesystem cache
+# Drop filesystem cache
 echo 3 > /proc/sys/vm/drop_caches && sync
 
-# Pin clock rate
+# Disable Simultaneous Multithreading (SMT)
+echo off > /sys/devices/system/cpu/smt/control
+
+# Disable Dynamic Frequency Scaling (DFS) (Turbo Boost on Intel CPUs)
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+
+# Pin clock rate to base frequency
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
-# Scaling governor
+# Set scaling governor to "performance"
 echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-
-# Disable SMT
-echo off > /sys/devices/system/cpu/smt/control
-
-# Disable Turbo Boost
-echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 ```
 
 ---
@@ -219,7 +219,7 @@ echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 <center>
 
 ```mermaid
-%%{init: {'theme': 'forest'}}%%
+%%{init: {'theme': 'neutral'}}%%
 
 graph TB
     T0[Thread 0] --> AS0["Arch State 0"]
@@ -243,7 +243,7 @@ graph TB
 <center>
 
 ```mermaid
-%%{init: {'theme': 'forest'}}%%
+%%{init: {'theme': 'neutral'}}%%
 
 graph TB
     T0[Thread 0] --> AS0["Arch State"]
@@ -352,12 +352,12 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <div class="section-header">How to control your benchmarking environment</div>
 
-## What's the impact of disabling Turbo Boost?
+## What's the impact of disabling DFS?
 
 <center>
 
 m5.metal, SMT disabled
-**Varying number of CPU-intensive tasks on the same core with Turbo Boost on vs. off**
+**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
 
@@ -367,7 +367,7 @@ m5.metal, SMT disabled
 
 <center>
 
-![width:450](./assets/tb-vs-no-tb-experiment.svg)
+![width:450](./assets/dfs-vs-no-dfs-experiment.svg)
 
 </center>
 
@@ -377,10 +377,10 @@ m5.metal, SMT disabled
 
 | Thread | mean ± stddev | coeff. of variation |
 |--------|---------------|----------------------|
-| tb-1 | 533.97 ± 2.046 ms | 0.383 % |
-| tb-8 | 578.67 ± 0.287 ms | 0.050 % |
-| no-tb-1 | 738.18 ± 0.306 ms | 0.041 % |
-| no-tb-8 | 739.18 ± 0.351 ms | 0.047 % |
+| dfs-1 | 533.97 ± 2.046 ms | 0.383 % |
+| dfs-8 | 578.67 ± 0.287 ms | 0.050 % |
+| no-dfs-1 | 738.18 ± 0.306 ms | 0.041 % |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 % |
 
 </div>
 
@@ -390,12 +390,12 @@ m5.metal, SMT disabled
 
 <div class="section-header">How to control your benchmarking environment</div>
 
-## What's the impact of disabling Turbo Boost?
+## What's the impact of disabling DFS?
 
 <center>
 
 m5.metal, SMT disabled
-**Varying number of CPU-intensive tasks on the same core with Turbo Boost on vs. off**
+**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
 
@@ -405,7 +405,7 @@ m5.metal, SMT disabled
 
 <center>
 
-![width:450](./assets/tb-vs-no-tb-experiment.svg)
+![width:450](./assets/dfs-vs-no-dfs-experiment.svg)
 
 </center>
 
@@ -415,10 +415,10 @@ m5.metal, SMT disabled
 
 | Thread | mean ± stddev | coeff. of variation |
 |--------|---------------|----------------------|
-| tb-1 | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
-| tb-8 | <span class="hl">578.67</span> ± 0.287 ms | 0.050 % |
-| no-tb-1 | 738.18 ± 0.306 ms | <span class="hl">0.041 %</span> |
-| no-tb-8 | 739.18 ± 0.351 ms | 0.047 % |
+| dfs-1 | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
+| dfs-8 | <span class="hl">578.67</span> ± 0.287 ms | 0.050 % |
+| no-dfs-1 | 738.18 ± 0.306 ms | <span class="hl">0.041 %</span> |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 % |
 
 </div>
 
@@ -429,7 +429,7 @@ m5.metal, SMT disabled
 <center>
 
 **<span class="hl">10x less variation</span>**
-**<span class="hl">performance stops depending on workload</span>**
+**<span class="hl">Removes dynamic frequency scaling as a source of noise</span>**
 
 </center>
 
