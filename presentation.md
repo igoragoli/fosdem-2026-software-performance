@@ -222,16 +222,16 @@ echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 %%{init: {'theme': 'neutral'}}%%
 
 graph TB
-    T0[Thread 0] --> AS0["Arch State 0"]
     T1[Thread 1] --> AS1["Arch State 1"]
-    AS0 --> E["Exec Resources"]
-    AS1 --> E
-    E --> O0[Thread 0]
+    T2[Thread 2] --> AS2["Arch State 2"]
+    AS1 --> E["Exec Resources"]
+    AS2 --> E
     E --> O1[Thread 1]
-    style T0 fill:none,stroke:none
+    E --> O2[Thread 2]
     style T1 fill:none,stroke:none
-    style O0 fill:none,stroke:none
+    style T2 fill:none,stroke:none
     style O1 fill:none,stroke:none
+    style O2 fill:none,stroke:none
 ```
 
 *SMT enabled: hardware threads compete for resources*
@@ -246,11 +246,11 @@ graph TB
 %%{init: {'theme': 'neutral'}}%%
 
 graph TB
-    T0[Thread 0] --> AS0["Arch State"]
-    AS0 --> E0["Exec Resources"]
-    E0 --> O0[Thread 0]
-    style T0 fill:none,stroke:none
-    style O0 fill:none,stroke:none
+    T1[Thread 1] --> AS1["Arch State 1"]
+    AS1 --> E1["Exec Resources"]
+    E1 --> O1[Thread 1]
+    style T1 fill:none,stroke:none
+    style O1 fill:none,stroke:none
 ```
 
 *SMT disabled: hardware thread has exclusive access to resources*
