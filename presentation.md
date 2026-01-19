@@ -73,6 +73,11 @@ style: |
     section.hcenter {
         text-align: center;
     }
+    section::after {
+        top: 30px;
+        bottom: auto;
+        right: 60px;
+    }
 ---
 
 <!-- _class: vcenter -->
