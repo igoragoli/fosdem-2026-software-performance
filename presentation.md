@@ -279,7 +279,7 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <center>
 
-![width:450](./assets/smt-vs-no-smt-experiment.svg)
+![width:450](./assets/environment-control-smt-experiment.svg)
 
 </center>
 
@@ -318,7 +318,7 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <center>
 
-![width:450](./assets/smt-vs-no-smt-experiment.svg)
+![width:450](./assets/environment-control-smt-experiment.svg)
 
 </center>
 
@@ -356,6 +356,30 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <center>
 
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph LR
+    Load["CPU Utilization"] --> Gov["Scaling Governor"]
+    Gov --> Driver["Scaling Driver"]
+    Load --> Driver
+    Physical[# Active Cores, Temperature,<br>Power, Current<br>Frequency Boosting] ---> Driver
+    Driver -- "Target Frequency" --> CPU
+
+    style Load fill:none,stroke:none
+    style Physical fill:none,stroke:none
+```
+
+</center>
+
+---
+
+<div class="section-header">How to control your benchmarking environment</div>
+
+## What's the impact of disabling DFS?
+
+<center>
+
 m5.metal, SMT disabled
 **Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
@@ -367,7 +391,7 @@ m5.metal, SMT disabled
 
 <center>
 
-![width:450](./assets/dfs-vs-no-dfs-experiment.svg)
+![width:450](./assets/environment-control-dfs-experiment.svg)
 
 </center>
 
@@ -405,7 +429,7 @@ m5.metal, SMT disabled
 
 <center>
 
-![width:450](./assets/dfs-vs-no-dfs-experiment.svg)
+![width:450](./assets/environment-control-dfs-experiment.svg)
 
 </center>
 
@@ -475,87 +499,49 @@ m5.metal, SMT disabled
 
 <div class="section-header">Benchmark Design</div>
 
-## Why is this a bad benchmark?
+## An unhappy benchmark
+
+- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+## An unhappy benchmark
+
+- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+## An unhappy benchmark
+
+- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
+- Workload: As many requests as possible by 5 concurrent users.
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+## An unhappy benchmark
+
+- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
+- Workload: As many requests as possible by 5 concurrent users.
+- 20 second warmup, 15 seconds of actual measurements.
+
+---
+
+<div class="section-header">Benchmark Design</div>
 
 <center>
 
-![width:300](./assets/placeholder.jpg)
+![width:600](./assets/benchmark-design-experiment-1.svg)
 
-*Initial benchmark — high coefficient of variation*
-
-</center>
-
-<span class="comment">
-
-**TODO:** Add initial dd-trace-java benchmark graph with high CoV.
-
-</span>
-
----
-
-<div class="section-header">Benchmark Design</div>
-
-## Problem #1: Not running long enough
-
-I ran it for longer and got this:
-
-<center>
-
-![width:300](./assets/placeholder.jpg)
-
-</center>
-
-<span class="comment">
-
-**TODO:** Add longer run graph showing more data.
-
-</span>
-
----
-
-<div class="section-header">Benchmark Design</div>
-
-Benchmarks must run long enough.
-
-You need data to uncover problems.
-
----
-
-<div class="section-header">Benchmark Design</div>
-
-## Problem #2: Warmup and cooldown effects
-
-We were only considering this small sliver of data.
-
-I was benchmarking dd-trace-java instrumenting a simple web server. I needed steady state to compare baseline vs instrumented and compute the overhead.
-
-So I set up a warmup stage on my load tester and dropped the warmup results.
-
----
-
-<div class="section-header">Benchmark Design</div>
-
-After that, we had something like this.
-
-<center>
-
-![width:300](./assets/placeholder.jpg)
-
-</center>
-
-But still not good enough...
-
----
-
-<div class="section-header">Benchmark Design</div>
-
-...things happen between runs.
-
-<center>
-
-![width:300](./assets/fft-initial-state-impact.png)
-
-*Impact of initial state on FFT benchmark results — Kalibera et al. \[3\]*
+Many **false positives**, unnacceptably **high CoV** (= standard deviation / mean) of 11.80%.
 
 </center>
 
@@ -563,43 +549,376 @@ But still not good enough...
 
 <div class="section-header">Benchmark Design</div>
 
-## Problem #3: Not enough runs
-
-So I ran more runs to see if variability went down.
-
 <center>
 
-![width:300](./assets/placeholder.jpg)
+![width:600](./assets/benchmark-design-experiment-1.svg)
+
+Many **false positives**, unnacceptably **high CoV** (= standard deviation / mean) of 11.80%.
+
+Are we running the benchmark long enough?
 
 </center>
 
-<span class="comment">
+---
 
-**TODO:** Add graph showing more runs with reduced variability.
+<div class="section-header">Benchmark Design</div>
 
-</span>
+<center>
+
+![width:600](./assets/benchmark-design-experiment-2.svg)
+
+</center>
 
 ---
 
 <div class="section-header">Benchmark Design</div>
 
-## A Good Benchmark
+<center>
 
-Finally, a benchmark that:
+![width:600](./assets/benchmark-design-experiment-2.svg)
 
-1. Measures the right thing
-2. Considers warmup effects
-3. Runs long enough
-4. Runs enough times
+**Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
+
+</center>
 
 ---
 
 <div class="section-header">Benchmark Design</div>
 
-## Two Other Problems
+<center>
 
-1. **Random effects**: use deterministic seeds, avoid non-deterministic inputs
-2. **Coordinated omission**: in open-loop load testing, if you only measure requests that complete, you miss the worst latencies
+![width:600](./assets/benchmark-design-experiment-2.svg)
+
+**Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
+
+For how long should we run the benchmark?
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | CoV |
+|----------------|-----|
+| 30 | 6.95% |
+| 60 | 5.23% |
+| 90 | 4.59% |
+
+</div>
+</div>
+
+</div>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | CoV |
+|----------------|-----|
+| 30 | 6.95% |
+| 60 | 5.23% |
+| 90 | 4.59% |
+
+</div>
+</div>
+
+</div>
+
+<center>
+
+**Tip #2: Collect enough samples to reduce intra-run variation.**
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | CoV |
+|----------------|-----|
+| 30 | 6.95% |
+| 60 | 5.23% |
+| 90 | 4.59% |
+
+</div>
+</div>
+
+</div>
+
+<center>
+
+**Tip #2: Collect enough samples to reduce intra-run variation.**
+But what about inter-run variation?
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<center>
+
+![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
+
+*Impact of initial state on FFT benchmark results \[X\]*
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<center>
+
+![width:900](./assets/benchmark-design-experiment-4.svg)
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 45px;">
+
+<div class="centered-table">
+
+| Run # | mean ± stddev | CoV |
+|------|---------------|-----|
+| 1 | 20.08 ± 0.63 ms | 3.16% |
+| 2 | 20.63 ± 0.56 ms | 2.72% |
+| 3 | 20.31 ± 0.45 ms | 2.23% |
+| 4 | 20.19 ± 0.54 ms | 2.66% |
+| 5 | 20.26 ± 0.63 ms | 3.11% |
+| all | 20.29 ± 0.60 ms | 2.94% |
+
+</div>
+
+</div>
+
+</div>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 45px;">
+
+<div class="centered-table">
+
+| Run # | mean ± stddev | CoV |
+|------|---------------|-----|
+| 1 | 20.08 ± 0.63 ms | 3.16% |
+| 2 | 20.63 ± 0.56 ms | 2.72% |
+| 3 | 20.31 ± 0.45 ms | 2.23% |
+| 4 | 20.19 ± 0.54 ms | 2.66% |
+| 5 | 20.26 ± 0.63 ms | 3.11% |
+| all | 20.29 ± 0.60 ms | 2.94% |
+
+</div>
+
+</div>
+
+</div>
+
+<center>
+
+**Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.**
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+
+<br>
+
+<center>
+
+CoV: 11.80% → **2.94%**
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+
+<br>
+
+<center>
+
+CoV: 11.80% → **2.94%**
+
+</center>
+
+<br>
+
+**Tip #4: Use deterministic seeds, avoid non-deterministic inputs.**
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+
+<br>
+
+<center>
+
+CoV: 11.80% → **2.94%**
+
+</center>
+
+<br>
+
+Tip #4: Use deterministic inputs.
+
+**Tip #5: Use load generators that avoid the coordinated omission problem.**
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+
+<br>
+
+<center>
+
+CoV: 11.80% → **2.94%**
+
+</center>
+
+<br>
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem.
+
+<center>
+
+**But what about inter-experiment variation?**
+
+</center>
+
+---
+
+<div class="section-header">Benchmark Design</div>
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+
+<br>
+
+<center>
+
+CoV: 11.80% → **2.94%**
+
+</center>
+
+<br>
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem.
+
+<center>
+
+But what about inter-experiment variation?
+
+</center>
+
+**Tip #0: Control your benchmarking environment.**
 
 ---
 
@@ -609,68 +928,11 @@ Finally, a benchmark that:
 
 <div class="section-header">Interpreting Benchmark Results</div>
 
-## The Naive Approach Isn't Enough
-
-<center>
-
-![width:300](./assets/placeholder.jpg)
-
-*Two noisy signals with different means but insufficient statistical difference*
-
-</center>
-
 <span class="comment">
-
-- **TODO:** Maybe remove the title for this slide to make the image more impactful.
-
-</span>
-
----
-
-<div class="section-header">Interpreting Benchmark Results</div>
-
-<div class="columns">
-
-<div>
-
-<center>
-
-![width:300](./assets/placeholder.jpg)
-
-*Highly overlapping histograms*
-
-</center>
-
-</div>
-
-<div>
-
-<center>
-
-
-![width:300](./assets/placeholder.jpg)
-
-*Clearly different histograms*
-
-</center>
-
-</div>
-
-</div>
-
-<span class="comment">
-
-**Purpose:** Show the intuition behind hypothesis testing.
-
-</span>
-
----
-
-<div class="section-header">Interpreting Benchmark Results</div>
-
-## Changepoint Detection
+Emphasize that simply comparing means or percentiles is not enough. Statistical methods such as t-tests are absolutely necessary to draw meaningful conclusions.
 
 Shout out to Henrik Ingo's talk on changepoint detection.
+</span>
 
 ---
 
@@ -680,32 +942,8 @@ Shout out to Henrik Ingo's talk on changepoint detection.
 
 <div class="section-header">Integrating Benchmarks Into Your Workflows</div>
 
-<center>
-
-![width:300](./assets/placeholder.jpg)
-
-*Architecture diagram with highlighted integration points: CI/CD, quality gates, operational excellence reviews, competitor benchmarks*
-
-</center>
-
 <span class="comment">
-
-**Purpose:** Show the overall benchmarking platform architecture and how it integrates with development workflows.
-
-</span>
-
----
-
-## Real-Life Example
-
-<span class="comment">
-
-**Purpose:** Showcase a real-life example to thread through the integration workflows.
-
-**TODO:** decide on specific example, include real numbers and graphs, show concrete benefits.
-
-We're going to have a slide for each highlighted box in the benchmarking platform architecture diagram, referring to the example and including real numbers and graphs to bring the point home.
-
+A series of screenshots showing the different ways in which we integrate benchmarks into our workflows at Datadog, including: a basic architecture slide, reporting capabilities, PR comments, performance quality gates, operational excellence reviews, etc.
 </span>
 
 ---
@@ -714,7 +952,7 @@ We're going to have a slide for each highlighted box in the benchmarking platfor
 
 <span class="comment">
 
-**TODO:** Conclusion (summarizing the takeaways), thank you/questions, contact information, references.
+Summarize the takeaways.
 
 </span>
 
@@ -726,7 +964,7 @@ We're going to have a slide for each highlighted box in the benchmarking platfor
 
 \[2\] Strassler, M. (2012). "OPERA: What Went Wrong." https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/
 
-\[3\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State."
+\[3\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
 
 \[4\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/.
 
@@ -741,5 +979,11 @@ We're going to have a slide for each highlighted box in the benchmarking platfor
 ---
 
 \[8\] Bakhvalov, D. (2024). *Performance Analysis and Tuning on Modern CPUs*. https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD
-k
+
+\[9\] Linux Kernel Documentation. "CPUFreq Governors." https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
+
+\[10\] ArchWiki. "CPU frequency scaling." https://wiki.archlinux.org/title/CPU_frequency_scaling
+
+\[11\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series."
+
 \[cern1999\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds
