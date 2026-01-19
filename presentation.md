@@ -14,16 +14,6 @@ style: |
     .comment {
         color: #888;
     }
-    .section-header {
-        position: absolute;
-        top: 40px;
-        left: 80px;
-        right: 70px;
-        font-size: 0.75em;
-        color: #666;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 5px;
-    }
     .medium {
         font-size: 4em;
     }
@@ -45,7 +35,7 @@ style: |
     }
     .hl {
         background-color: #ffde59;
-        padding: 0.1em 0.2em;
+        padding: 0.1em 0;
     }
     .replace {
         display: inline-flex;
@@ -73,6 +63,17 @@ style: |
         align-items: center;
         height: 100%;
     }
+    section {
+        align-content: start;
+        padding-top: 100px;
+    }
+    section.vcenter {
+        align-content: center;
+        padding-top: 0;
+    }
+    section.hcenter {
+        text-align: center;
+    }
 ---
 
 # How to Reliably Measure Software Performance
@@ -81,7 +82,7 @@ Augusto de Oliveira, Kemal Akkoyun
 
 FOSDEM 2026
 
----
+<!-- ---
 
 <center>
 
@@ -89,23 +90,11 @@ FOSDEM 2026
 
 *[Lingchi](https://en.wikipedia.org/wiki/Lingchi), or "death by a thousand cuts"*
 
-</center>
+</center> -->
 
 ---
 
-## Agenda
-
-How to:
-1. Control your benchmarking environment
-2. Design your benchmarks
-3. Interpret benchmark results
-4. Integrate benchmarks into your workflows
-
----
-
-# How to control your benchmarking environment
-
----
+<!-- paginate: true -->
 
 <center>
 
@@ -127,7 +116,7 @@ How to:
 
 <center>
 
-<span class="big">100 M€</span>[cern1999]
+<span class="big">100 M€</span> \[2\]
 
 </center>
 
@@ -137,13 +126,26 @@ How to:
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-*Loose fiber optic cable that caused the measurement error \[2\]*
+*Loose fiber optic cable that caused the measurement error \[3\]*
 
 </center>
 
 ---
 
-<div class="section-header">How to control your benchmarking environment</div>
+How to:
+
+1. Control your benchmarking environment
+2. Design your benchmarks
+3. Interpret benchmark results
+4. Integrate benchmarks into your workflows
+
+---
+
+# How to control your benchmarking environment
+
+---
+
+<!-- header: "How to control your benchmarking environment" -->
 
 <div class="centered-table">
 
@@ -157,8 +159,6 @@ How to:
 </div>
 
 ---
-
-<div class="section-header">How to control your benchmarking environment</div>
 
 <div class="centered-table">
 
@@ -178,10 +178,6 @@ How to:
 </div>
 
 ---
-
-<div class="section-header">How to control your benchmarking environment</div>
-
-<br>
 
 ```bash
 # Set CPU affinity
@@ -207,9 +203,13 @@ echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 ```
 
----
+<center>
 
-<div class="section-header">How to control your benchmarking environment</div>
+*Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A*
+
+</center>
+
+---
 
 ## What's the impact of disabling SMT?
 
@@ -262,8 +262,6 @@ graph TB
 
 ---
 
-<div class="section-header">How to control your benchmarking environment</div>
-
 ## What's the impact of disabling SMT?
 
 <center>
@@ -300,8 +298,6 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 </div>
 
 ---
-
-<div class="section-header">How to control your benchmarking environment</div>
 
 ## What's the impact of disabling SMT?
 
@@ -350,8 +346,6 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 ---
 
-<div class="section-header">How to control your benchmarking environment</div>
-
 ## What's the impact of disabling DFS?
 
 <center>
@@ -373,8 +367,6 @@ graph LR
 </center>
 
 ---
-
-<div class="section-header">How to control your benchmarking environment</div>
 
 ## What's the impact of disabling DFS?
 
@@ -411,8 +403,6 @@ m5.metal, SMT disabled
 </div>
 
 ---
-
-<div class="section-header">How to control your benchmarking environment</div>
 
 ## What's the impact of disabling DFS?
 
@@ -461,11 +451,13 @@ m5.metal, SMT disabled
 
 ---
 
-# Benchmark Design
+<!-- header: "" -->
+
+# How to design benchmarks
 
 ---
 
-<div class="section-header">Benchmark Design</div>
+<!-- header: "How to design benchmarks" -->
 
 <center>
 
@@ -477,8 +469,6 @@ m5.metal, SMT disabled
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <center>
 
 *"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."*
@@ -486,8 +476,6 @@ m5.metal, SMT disabled
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <center>
 
@@ -497,15 +485,13 @@ m5.metal, SMT disabled
 
 ---
 
-<div class="section-header">Benchmark Design</div>
+<div class="section-header">How to design benchmarks</div>
 
 ## An unhappy benchmark
 
 - Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 ## An unhappy benchmark
 
@@ -513,8 +499,6 @@ m5.metal, SMT disabled
 - System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 ## An unhappy benchmark
 
@@ -523,8 +507,6 @@ m5.metal, SMT disabled
 - Workload: As many requests as possible by 5 concurrent users.
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 ## An unhappy benchmark
 
@@ -535,8 +517,6 @@ m5.metal, SMT disabled
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <center>
 
 ![width:600](./assets/benchmark-design-experiment-1.svg)
@@ -546,8 +526,6 @@ Many **false positives**, unnacceptably **high CoV** (= standard deviation / mea
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <center>
 
@@ -561,8 +539,6 @@ Are we running the benchmark long enough?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <center>
 
 ![width:600](./assets/benchmark-design-experiment-2.svg)
@@ -570,8 +546,6 @@ Are we running the benchmark long enough?
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <center>
 
@@ -582,8 +556,6 @@ Are we running the benchmark long enough?
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <center>
 
@@ -597,13 +569,11 @@ For how long should we run the benchmark?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <div class="columns">
 
 <div>
 
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
 
 </div>
 
@@ -623,13 +593,11 @@ For how long should we run the benchmark?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <div class="columns">
 
 <div>
 
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
 
 </div>
 
@@ -655,13 +623,11 @@ For how long should we run the benchmark?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <div class="columns">
 
 <div>
 
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg) 
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
 
 </div>
 
@@ -688,19 +654,15 @@ But what about inter-run variation?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <center>
 
 ![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
 
-*Impact of initial state on FFT benchmark results \[X\]*
+*Impact of initial state on FFT benchmark results \[4\]*
 
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <center>
 
@@ -710,8 +672,6 @@ But what about inter-run variation?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 <center>
 
 ![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
@@ -719,8 +679,6 @@ But what about inter-run variation?
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <div class="columns">
 
@@ -754,8 +712,6 @@ But what about inter-run variation?
 </div>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 <div class="columns">
 
@@ -796,8 +752,6 @@ But what about inter-run variation?
 
 ---
 
-<div class="section-header">Benchmark Design</div>
-
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
 Tip #2: Collect enough samples to reduce intra-run variation.
@@ -813,8 +767,6 @@ CoV: 11.80% → **2.94%**
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
@@ -835,8 +787,6 @@ CoV: 11.80% → **2.94%**
 **Tip #4: Use deterministic seeds, avoid non-deterministic inputs.**
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
@@ -859,8 +809,6 @@ Tip #4: Use deterministic inputs.
 **Tip #5: Use load generators that avoid the coordinated omission problem.**
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
@@ -889,8 +837,6 @@ Tip #5: Use load generators that avoid the coordinated omission problem.
 </center>
 
 ---
-
-<div class="section-header">Benchmark Design</div>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
@@ -926,8 +872,6 @@ But what about inter-experiment variation?
 
 ---
 
-<div class="section-header">Interpreting Benchmark Results</div>
-
 <span class="comment">
 Emphasize that simply comparing means or percentiles is not enough. Statistical methods such as t-tests are absolutely necessary to draw meaningful conclusions.
 
@@ -939,8 +883,6 @@ Shout out to Henrik Ingo's talk on changepoint detection.
 # Integrating Benchmarks Into Your Workflows
 
 ---
-
-<div class="section-header">Integrating Benchmarks Into Your Workflows</div>
 
 <span class="comment">
 A series of screenshots showing the different ways in which we integrate benchmarks into our workflows at Datadog, including: a basic architecture slide, reporting capabilities, PR comments, performance quality gates, operational excellence reviews, etc.
@@ -958,32 +900,21 @@ Summarize the takeaways.
 
 ---
 
+<style scoped>
+p { font-size: 0.5em; line-height: 1.4; }
+</style>
+
 # References
 
-\[1\] "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html
-
-\[2\] Strassler, M. (2012). "OPERA: What Went Wrong." https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/
-
-\[3\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
-
-\[4\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/.
-
----
-
-\[5\] Gregg, B. (2014). "Frequency Trails: Outliers." https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes
-
-\[6\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
-
-\[7\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
-
----
-
-\[8\] Bakhvalov, D. (2024). *Performance Analysis and Tuning on Modern CPUs*. https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD
-
-\[9\] Linux Kernel Documentation. "CPUFreq Governors." https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
-
-\[10\] ArchWiki. "CPU frequency scaling." https://wiki.archlinux.org/title/CPU_frequency_scaling
-
-\[11\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series."
-
-\[cern1999\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds
+\[1\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
+\[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
+\[3\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
+\[4\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
+\[5\] Bakhvalov, D. (2024). *Performance Analysis and Tuning on Modern CPUs*. <https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD>. Accessed Jan 2026.
+\[6\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
+\[7\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
+\[8\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
+\[9\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
+\[10\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
+\[11\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
+\[12\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf. Accessed Jan 2026.
