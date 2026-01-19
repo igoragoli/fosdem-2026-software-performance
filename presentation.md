@@ -69,12 +69,13 @@ style: |
     }
     section.vcenter {
         align-content: center;
-        padding-top: 0;
     }
     section.hcenter {
         text-align: center;
     }
 ---
+
+<!-- _class: vcenter -->
 
 # How to Reliably Measure Software Performance
 
@@ -95,6 +96,19 @@ FOSDEM 2026
 ---
 
 <!-- paginate: true -->
+<!-- _class: vcenter -->
+
+<center>
+
+![width:600](./assets/particles-break-light-speed-headline.png)
+
+</center>
+
+<!-- In 2011, researchers found that neutrinos were traveling faster than light. Naturally, this was -->
+
+---
+
+<!-- _class: vcenter -->
 
 <center>
 
@@ -106,13 +120,7 @@ FOSDEM 2026
 
 ---
 
-<center>
-
-![width:600](./assets/particles-break-light-speed-headline.png)
-
-</center>
-
----
+<!-- _class: vcenter -->
 
 <center>
 
@@ -121,6 +129,8 @@ FOSDEM 2026
 </center>
 
 ---
+
+<!-- _class: vcenter -->
 
 <center>
 
@@ -141,10 +151,13 @@ How to:
 
 ---
 
+<!-- _class: vcenter -->
+
 # How to control your benchmarking environment
 
 ---
 
+<!-- _class: vcenter -->
 <!-- header: "How to control your benchmarking environment" -->
 
 <div class="centered-table">
@@ -160,6 +173,8 @@ How to:
 
 ---
 
+<!-- _class: vcenter -->
+
 <div class="centered-table">
 
 | Layer       | Noise Sources                      | Mitigations|
@@ -173,11 +188,13 @@ How to:
 
 <div class="bottom-citation">
 
-*Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A*
+*Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]*
 
 </div>
 
 ---
+
+<!-- _class: vcenter -->
 
 ```bash
 # Set CPU affinity
@@ -192,22 +209,14 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 # Disable Simultaneous Multithreading (SMT)
 echo off > /sys/devices/system/cpu/smt/control
 
-# Disable Dynamic Frequency Scaling (DFS) (Turbo Boost on Intel CPUs)
+# Disable Dynamic Frequency Scaling (DFS) 
 echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 
-# Pin clock rate to base frequency
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
-# Set scaling governor to "performance"
 echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 ```
-
-<center>
-
-*Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A*
-
-</center>
 
 ---
 
@@ -364,6 +373,8 @@ graph LR
     style Physical fill:none,stroke:none
 ```
 
+*DFS enabled: CPU frequency is automatically set by the Scaling Governor and the Scaling Driver*
+
 </center>
 
 ---
@@ -451,13 +462,15 @@ m5.metal, SMT disabled
 
 ---
 
+<!-- _class: vcenter -->
 <!-- header: "" -->
 
-# How to design benchmarks
+# How to Design Benchmarks
 
 ---
 
-<!-- header: "How to design benchmarks" -->
+<!-- _class: vcenter -->
+<!-- header: "How to Design Benchmarks" -->
 
 <center>
 
@@ -469,6 +482,8 @@ m5.metal, SMT disabled
 
 ---
 
+<!-- _class: vcenter -->
+
 <center>
 
 *"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."*
@@ -476,6 +491,8 @@ m5.metal, SMT disabled
 </center>
 
 ---
+
+<!-- _class: vcenter -->
 
 <center>
 
@@ -485,24 +502,22 @@ m5.metal, SMT disabled
 
 ---
 
-<div class="section-header">How to design benchmarks</div>
-
 ## An unhappy benchmark
 
-- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 
 ---
 
 ## An unhappy benchmark
 
-- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
 
 ---
 
 ## An unhappy benchmark
 
-- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
 - Workload: As many requests as possible by 5 concurrent users.
 
@@ -510,7 +525,7 @@ m5.metal, SMT disabled
 
 ## An unhappy benchmark
 
-- Goal: Measuring performance overhead caused by instrumenting a Spring app with dd-trace-java.
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
 - Workload: As many requests as possible by 5 concurrent users.
 - 20 second warmup, 15 seconds of actual measurements.
@@ -533,7 +548,7 @@ Many **false positives**, unnacceptably **high CoV** (= standard deviation / mea
 
 Many **false positives**, unnacceptably **high CoV** (= standard deviation / mean) of 11.80%.
 
-Are we running the benchmark long enough?
+**Are we running the benchmark long enough?**
 
 </center>
 
@@ -561,9 +576,9 @@ Are we running the benchmark long enough?
 
 ![width:600](./assets/benchmark-design-experiment-2.svg)
 
-**Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-For how long should we run the benchmark?
+**For how long should we run the benchmark?**
 
 </center>
 
@@ -647,12 +662,15 @@ For how long should we run the benchmark?
 
 <center>
 
-**Tip #2: Collect enough samples to reduce intra-run variation.**
-But what about inter-run variation?
+Tip #2: Collect enough samples to reduce intra-run variation.
+
+**But what about inter-run variation?**
 
 </center>
 
 ---
+
+<!-- _class: vcenter -->
 
 <center>
 
@@ -664,6 +682,8 @@ But what about inter-run variation?
 
 ---
 
+<!-- _class: vcenter -->
+
 <center>
 
 ![width:900](./assets/benchmark-design-experiment-4.svg)
@@ -671,6 +691,8 @@ But what about inter-run variation?
 </center>
 
 ---
+
+<!-- _class: vcenter -->
 
 <center>
 
@@ -754,9 +776,9 @@ But what about inter-run variation?
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -770,9 +792,9 @@ CoV: 11.80% → **2.94%**
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -784,15 +806,15 @@ CoV: 11.80% → **2.94%**
 
 <br>
 
-**Tip #4: Use deterministic seeds, avoid non-deterministic inputs.**
+**Tip #4: Use deterministic inputs.**
 
 ---
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -806,15 +828,15 @@ CoV: 11.80% → **2.94%**
 
 Tip #4: Use deterministic inputs.
 
-**Tip #5: Use load generators that avoid the coordinated omission problem.**
+**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
 
 ---
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -828,7 +850,7 @@ CoV: 11.80% → **2.94%**
 
 Tip #4: Use deterministic inputs.
 
-Tip #5: Use load generators that avoid the coordinated omission problem.
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
 
 <center>
 
@@ -840,9 +862,9 @@ Tip #5: Use load generators that avoid the coordinated omission problem.
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -856,7 +878,7 @@ CoV: 11.80% → **2.94%**
 
 Tip #4: Use deterministic inputs.
 
-Tip #5: Use load generators that avoid the coordinated omission problem.
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
 
 <center>
 
@@ -868,9 +890,15 @@ But what about inter-experiment variation?
 
 ---
 
+<!-- _class: vcenter -->
+<!-- header: "" -->
+
 # Interpreting Benchmark Results
 
 ---
+
+<!-- _class: vcenter -->
+<!-- header: "Interpreting Benchmark Results" -->
 
 <span class="comment">
 Emphasize that simply comparing means or percentiles is not enough. Statistical methods such as t-tests are absolutely necessary to draw meaningful conclusions.
@@ -880,15 +908,23 @@ Shout out to Henrik Ingo's talk on changepoint detection.
 
 ---
 
+<!-- _class: vcenter -->
+<!-- header: "" -->
+
 # Integrating Benchmarks Into Your Workflows
 
 ---
+
+<!-- _class: vcenter -->
+<!-- header: "Integrating Benchmarks Into Your Workflows" -->
 
 <span class="comment">
 A series of screenshots showing the different ways in which we integrate benchmarks into our workflows at Datadog, including: a basic architecture slide, reporting capabilities, PR comments, performance quality gates, operational excellence reviews, etc.
 </span>
 
 ---
+
+<!-- _class: vcenter -->
 
 # Concluding slides
 
@@ -910,7 +946,7 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
 \[3\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
 \[4\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
-\[5\] Bakhvalov, D. (2024). *Performance Analysis and Tuning on Modern CPUs*. <https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD>. Accessed Jan 2026.
+\[5\] Bakhvalov, D. (2020). *Performance Analysis and Tuning on Modern CPUs*.
 \[6\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
 \[7\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
 \[8\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
