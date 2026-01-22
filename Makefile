@@ -1,23 +1,27 @@
-.PHONY: all build pdf html watch lint format clean install help
+.PHONY: all build pdf html watch lint fix format clean install help
 
 all: build
 
 MARP_CONFIG := marp/marp.config.js
 SRC := presentation.md
+COMMON_FLAGS := --allow-local-files
 
 build: pdf
 
 pdf:
-	npx marp --config $(MARP_CONFIG) $(SRC) -o presentation.pdf
+	npx marp --config $(MARP_CONFIG) $(SRC) $(COMMON_FLAGS) -o presentation.pdf
 
 html:
-	npx marp --config $(MARP_CONFIG) $(SRC) -o presentation.html
+	npx marp --config $(MARP_CONFIG) $(SRC) $(COMMON_FLAGS) -o presentation.html
 
 watch:
-	npx marp --config $(MARP_CONFIG) $(SRC) --watch --preview
+	npx marp --config $(MARP_CONFIG) $(SRC) $(COMMON_FLAGS) --watch --preview
 
 lint:
-	-npx markdownlint-cli2 "**/*.md" "#node_modules" "#experiments"
+	npx markdownlint-cli2 "**/*.md" "#node_modules" "#experiments"
+
+fix:
+	npx markdownlint-cli2 --fix "**/*.md" "#node_modules" "#experiments"
 
 format:
 	npx prettier --write "*.md"
@@ -32,7 +36,8 @@ help:
 	@echo "make build   - Generate PDF (default)"
 	@echo "make html    - Generate HTML"
 	@echo "make watch   - Live preview"
-	@echo "make lint    - Markdown linting (warnings only)"
+	@echo "make lint    - Markdown linting"
+	@echo "make fix     - Auto-fix markdown linting issues"
 	@echo "make format  - Format markdown"
 	@echo "make clean   - Remove generated files"
 	@echo "make install - Install dependencies"

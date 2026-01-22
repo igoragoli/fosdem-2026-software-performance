@@ -122,10 +122,9 @@ FOSDEM 2026
 
 ![width:1000](./assets/researchers-cern-to-gran-sasso-neutrino-beam.png)
 
-*\[1\]*
+_\[1\]_
 
 </center>
-
 
 ---
 
@@ -137,6 +136,7 @@ FOSDEM 2026
 5 years
 
 ~ €100M 🤑
+
 </div>
 
 \[2, 3\]
@@ -161,7 +161,7 @@ FOSDEM 2026
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-*Loose fiber optic cable that caused the measurement error \[4\]*
+_Loose fiber optic cable that caused the measurement error \[4\]_
 
 </center>
 
@@ -193,12 +193,12 @@ How to:
 
 <div class="centered-table">
 
-| Layer       | Sources of Noise                      | Mitigations|
-|-------------|------------------------------------|------------|
-| External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors    | Use dedicated on-prem hardware<br>Use dedicated/bare metal cloud instances |
-| Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
-| Kernel      | Scheduling<br>Filesystem cache | Set CPU affinity<br>Set process priority<br>Warm up or drop caches|
-| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
+| Layer       | Sources of Noise                                                                | Mitigations                                                                |
+| ----------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors                          | Use dedicated on-prem hardware<br>Use dedicated/bare metal cloud instances |
+| Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                                   |
+| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches         |
+| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                                 |
 
 </div>
 
@@ -208,18 +208,18 @@ How to:
 
 <div class="centered-table">
 
-| Layer       | Sources of Noise                      | Mitigations|
-|-------------|------------------------------------|------------|
-| <span class="hl">External</span>    | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>    | Use dedicated on-prem hardware<br><span class="hl">Use dedicated/bare metal cloud instances</span> |
-| Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
-| <span class="hl">Kernel</span>      | <span class="hl">Scheduling<br>Filesystem cache</span> | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
-| <span class="hl">CPU</span>         | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span> |
+| Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>                          | Use dedicated on-prem hardware<br><span class="hl">Use dedicated/bare metal cloud instances</span> |
+| Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                           |
+| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>         |
+| <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                                 |
 
 </div>
 
 <div class="bottom-citation">
 
-*Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]*
+_Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 </div>
 
@@ -229,8 +229,8 @@ How to:
 
 <div class="centered-table">
 
-| Layer  | Sources of Noise | Mitigations |
-|--------|------------------|-------------|
+| Layer  | Sources of Noise               | Mitigations                                                        |
+| ------ | ------------------------------ | ------------------------------------------------------------------ |
 | Kernel | Scheduling<br>Filesystem cache | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
 
 </div>
@@ -252,8 +252,8 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 <div class="centered-table">
 
-| Layer | Sources of Noise | Mitigations |
-|-------|------------------|-------------|
+| Layer | Sources of Noise                             | Mitigations |
+| ----- | -------------------------------------------- | ----------- |
 | CPU   | Simultaneous multithreading (SMT) contention | Disable SMT |
 
 </div>
@@ -283,7 +283,7 @@ graph TB
     style O2 fill:none,stroke:none
 ```
 
-*SMT enabled*
+_SMT enabled_
 
 </center>
 </div>
@@ -302,7 +302,7 @@ graph TB
     style O1 fill:none,stroke:none
 ```
 
-*SMT disabled*
+_SMT disabled_
 
 </center>
 </div>
@@ -344,12 +344,12 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread | mean ± stddev | coeff. of variation |
-|--------|---------------|----------------------|
-| smt-1 | 1537.64 ± 367.29 ms | 23.887 % |
-| smt-2 | 1536.88 ± 366.84 ms | 23.869 % |
-| no-smt-1 | 737.37 ± 0.32 ms | 0.044 % |
-| no-smt-2 | 737.93 ± 1.74 ms | 0.235 % |
+| Thread   | mean ± stddev       | coeff. of variation |
+| -------- | ------------------- | ------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
+| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
+| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
+| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
 
 </div>
 
@@ -381,12 +381,12 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread | mean ± stddev | coeff. of variation |
-|--------|---------------|----------------------|
-| smt-1 | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
-| smt-2 | 1536.88 ± 366.84 ms | <span class="hl">23.869 %</span> |
-| no-smt-1 | 737.37 ± 0.32 ms | <span class="hl">0.044 %</span> |
-| no-smt-2 | 737.93 ± 1.74 ms | <span class="hl">0.235 %</span> |
+| Thread   | mean ± stddev       | coeff. of variation              |
+| -------- | ------------------- | -------------------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
+| smt-2    | 1536.88 ± 366.84 ms | <span class="hl">23.869 %</span> |
+| no-smt-1 | 737.37 ± 0.32 ms    | <span class="hl">0.044 %</span>  |
+| no-smt-2 | 737.93 ± 1.74 ms    | <span class="hl">0.235 %</span>  |
 
 </div>
 
@@ -408,8 +408,8 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="centered-table">
 
-| Layer | Sources of Noise | Mitigations |
-|-------|------------------|-------------|
+| Layer | Sources of Noise                | Mitigations |
+| ----- | ------------------------------- | ----------- |
 | CPU   | Dynamic frequency scaling (DFS) | Disable DFS |
 
 </div>
@@ -434,7 +434,7 @@ graph LR
     style Physical fill:none,stroke:none
 ```
 
-*DFS enabled*
+_DFS enabled_
 
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
@@ -447,7 +447,7 @@ graph LR
     style Freq fill:none,stroke:none
 ```
 
-*DFS disabled*
+_DFS disabled_
 
 </center>
 
@@ -492,12 +492,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread | mean ± stddev | coeff. of variation |
-|--------|---------------|----------------------|
-| dfs-1 | 533.97 ± 2.046 ms | 0.383 % |
-| dfs-8 | 578.67 ± 0.287 ms | 0.050 % |
-| no-dfs-1 | 738.18 ± 0.306 ms | 0.041 % |
-| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 % |
+| Thread   | mean ± stddev     | coeff. of variation |
+| -------- | ----------------- | ------------------- |
+| dfs-1    | 533.97 ± 2.046 ms | 0.383 %             |
+| dfs-8    | 578.67 ± 0.287 ms | 0.050 %             |
+| no-dfs-1 | 738.18 ± 0.306 ms | 0.041 %             |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 %             |
 
 </div>
 
@@ -528,12 +528,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread | mean ± stddev | coeff. of variation |
-|--------|---------------|----------------------|
-| dfs-1 | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
-| dfs-8 | <span class="hl">578.67</span> ± 0.287 ms | 0.050 % |
-| no-dfs-1 | 738.18 ± 0.306 ms | <span class="hl">0.041 %</span> |
-| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 % |
+| Thread   | mean ± stddev                             | coeff. of variation             |
+| -------- | ----------------------------------------- | ------------------------------- |
+| dfs-1    | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
+| dfs-8    | <span class="hl">578.67</span> ± 0.287 ms | 0.050 %                         |
+| no-dfs-1 | 738.18 ± 0.306 ms                         | <span class="hl">0.041 %</span> |
+| no-dfs-8 | 739.18 ± 0.351 ms                         | 0.047 %                         |
 
 </div>
 
@@ -556,9 +556,9 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-| Layer    | Sources of Noise | Mitigations                      |
-|----------|------------------|----------------------------------|
-| External | Vibration        | Don't shout in the datacenter   |
+| Layer    | Sources of Noise | Mitigations                   |
+| -------- | ---------------- | ----------------------------- |
+| External | Vibration        | Don't shout in the datacenter |
 
 </center>
 
@@ -570,7 +570,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 ![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
 
-*[Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)*
+_[Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 
 </center>
 
@@ -588,9 +588,9 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-*"All happy families are alike; each unhappy family is unhappy in its own way."*
+_"All happy families are alike; each unhappy family is unhappy in its own way."_
 
-— Leo Tolstoy, *Anna Karenina*
+— Leo Tolstoy, _Anna Karenina_
 
 </center>
 
@@ -600,7 +600,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-*"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."*
+_"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."_
 
 </center>
 
@@ -710,10 +710,10 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div class="centered-table">
 
 | # measurements | coeff. of variation |
-|----------------|-----|
-| 30 | 6.95% |
-| 60 | 5.23% |
-| 90 | 4.59% |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
 
 </div>
 </div>
@@ -734,10 +734,10 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div class="centered-table">
 
 | # measurements | coeff. of variation |
-|----------------|-----|
-| 30 | 6.95% |
-| 60 | 5.23% |
-| 90 | 4.59% |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
 
 </div>
 </div>
@@ -764,10 +764,10 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div class="centered-table">
 
 | # measurements | coeff. of variation |
-|----------------|-----|
-| 30 | 6.95% |
-| 60 | 5.23% |
-| 90 | 4.59% |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
 
 </div>
 </div>
@@ -790,7 +790,7 @@ Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 ![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
 
-*Impact of initial state on FFT benchmark results \[6\]*
+_Impact of initial state on FFT benchmark results \[6\]_
 
 </center>
 
@@ -832,14 +832,14 @@ Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 <div class="centered-table">
 
-| Run # | mean ± stddev | coeff. of variation |
-|------|---------------|-----|
-| 1 | 20.08 ± 0.63 ms | 3.16% |
-| 2 | 20.63 ± 0.56 ms | 2.72% |
-| 3 | 20.31 ± 0.45 ms | 2.23% |
-| 4 | 20.19 ± 0.54 ms | 2.66% |
-| 5 | 20.26 ± 0.63 ms | 3.11% |
-| all | 20.29 ± 0.60 ms | 2.94% |
+| Run # | mean ± stddev   | coeff. of variation |
+| ----- | --------------- | ------------------- |
+| 1     | 20.08 ± 0.63 ms | 3.16%               |
+| 2     | 20.63 ± 0.56 ms | 2.72%               |
+| 3     | 20.31 ± 0.45 ms | 2.23%               |
+| 4     | 20.19 ± 0.54 ms | 2.66%               |
+| 5     | 20.26 ± 0.63 ms | 3.11%               |
+| all   | 20.29 ± 0.60 ms | 2.94%               |
 
 </div>
 
@@ -865,14 +865,14 @@ Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 <div class="centered-table">
 
-| Run # | mean ± stddev | coeff. of variation |
-|------|---------------|-----|
-| 1 | 20.08 ± 0.63 ms | 3.16% |
-| 2 | 20.63 ± 0.56 ms | 2.72% |
-| 3 | 20.31 ± 0.45 ms | 2.23% |
-| 4 | 20.19 ± 0.54 ms | 2.66% |
-| 5 | 20.26 ± 0.63 ms | 3.11% |
-| all | 20.29 ± 0.60 ms | 2.94% |
+| Run # | mean ± stddev   | coeff. of variation |
+| ----- | --------------- | ------------------- |
+| 1     | 20.08 ± 0.63 ms | 3.16%               |
+| 2     | 20.63 ± 0.56 ms | 2.72%               |
+| 3     | 20.31 ± 0.45 ms | 2.23%               |
+| 4     | 20.19 ± 0.54 ms | 2.66%               |
+| 5     | 20.26 ± 0.63 ms | 3.11%               |
+| all   | 20.29 ± 0.60 ms | 2.94%               |
 
 </div>
 
@@ -1201,6 +1201,7 @@ Confidence level = 1 - α = 95%
 Confidence level = 1 - α = 95%
 
 **Trade-off**
+
 - **Lower α (1%):** Fewer false positives, fewer detections.
 - **Higher α (10%):** More false positives, more detections.
 
@@ -1255,12 +1256,12 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
 \[3\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
 \[4\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
-\[5\] Bakhvalov, D. (2020). *Performance Analysis and Tuning on Modern CPUs*.
-\[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
+\[5\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
+\[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
 \[7\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
 \[8\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
 \[9\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
 \[10\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
 \[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
 \[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
-\[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf. Accessed Jan 2026.
+\[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.

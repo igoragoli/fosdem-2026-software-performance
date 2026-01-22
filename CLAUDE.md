@@ -24,12 +24,12 @@ Requires marp-cli: `npm install -g @marp-team/marp-cli`
 - `outline.md` - Detailed presentation outline with speaker notes
 - `assets/` - Images and reference materials
 - `experiments/` - Jupyter notebooks for generating slide visualizations
-  - `benchmark-design.ipynb` - Benchmark design experiment visualizations
-  - `interpreting-results.ipynb` - Results interpretation visualizations
-  - `data/` - Raw benchmark data (JSON format)
+    - `benchmark-design.ipynb` - Benchmark design experiment visualizations
+    - `interpreting-results.ipynb` - Results interpretation visualizations
+    - `data/` - Raw benchmark data (JSON format)
 - `marp/` - Marp configuration and plugins
-  - `marp.config.js` - Enables Kroki plugin
-  - `kroki-plugin.js` - Renders diagrams (mermaid, plantuml, etc.) via kroki.io
+    - `marp.config.js` - Enables Kroki plugin
+    - `kroki-plugin.js` - Renders diagrams (mermaid, plantuml, etc.) via kroki.io
 
 ## Conventions
 
@@ -38,8 +38,8 @@ Requires marp-cli: `npm install -g @marp-team/marp-cli`
 - References: Numbered citation format `\[N\]` with full citations on References slide
 - Diagrams: Use mermaid/plantuml fenced code blocks (rendered via Kroki plugin)
 - Custom CSS classes in presentation:
-  - `.columns` - Two-column grid layout
-  - `.vcenter` / `.hcenter` - Section centering
-  - `.hl` - Yellow highlight for emphasis
-  - `.big` / `.medium` - Large text sizes
-  - `.bottom-citation` - Positioned citations at slide bottom
+    - `.columns` - Two-column grid layout
+    - `.vcenter` / `.hcenter` - Section centering
+    - `.hl` - Yellow highlight for emphasis
+    - `.big` / `.medium` - Large text sizes
+    - `.bottom-citation` - Positioned citations at slide bottom

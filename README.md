@@ -14,15 +14,15 @@ make watch     # Live preview with hot reload
 
 ## Available Targets
 
-| Target   | Description                      |
-|----------|----------------------------------|
-| `build`  | Generate PDF (default)           |
-| `html`   | Generate HTML version            |
-| `watch`  | Live preview with hot reload     |
-| `lint`   | Run markdown linting             |
-| `format` | Format markdown files            |
-| `clean`  | Remove generated files           |
-| `install`| Install npm dependencies         |
+| Target    | Description                  |
+| --------- | ---------------------------- |
+| `build`   | Generate PDF (default)       |
+| `html`    | Generate HTML version        |
+| `watch`   | Live preview with hot reload |
+| `lint`    | Run markdown linting         |
+| `format`  | Format markdown files        |
+| `clean`   | Remove generated files       |
+| `install` | Install npm dependencies     |
 
 ## Download
 
