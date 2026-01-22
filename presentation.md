@@ -191,7 +191,7 @@ How to:
 |-------------|------------------------------------|------------|
 | External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors    | Use dedicated on-prem hardware<br>Use dedicated/bare metal cloud instances |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
-| Kernel      | Filesystem cache<br>Scheduling | Set CPU affinity<br>Set process priority<br>Warm up or drop caches|
+| Kernel      | Scheduling<br>Filesystem cache | Set CPU affinity<br>Set process priority<br>Warm up or drop caches|
 | CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
 
 </div>
@@ -206,7 +206,7 @@ How to:
 |-------------|------------------------------------|------------|
 | <span class="hl">External</span>    | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>    | Use dedicated on-prem hardware<br><span class="hl">Use dedicated/bare metal cloud instances</span> |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
-| <span class="hl">Kernel</span>      | <span class="hl">Filesystem cache<br>Scheduling</span> | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
+| <span class="hl">Kernel</span>      | <span class="hl">Scheduling<br>Filesystem cache</span> | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
 | <span class="hl">CPU</span>         | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span> |
 
 </div>
@@ -225,7 +225,7 @@ How to:
 
 | Layer  | Sources of Noise | Mitigations |
 |--------|------------------|-------------|
-| Kernel | Filesystem cache<br>Scheduling | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+| Kernel | Scheduling<br>Filesystem cache | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
 
 </div>
 
@@ -248,21 +248,13 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 | Layer | Sources of Noise | Mitigations |
 |-------|------------------|-------------|
-| CPU   | SMT contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
+| CPU   | Simultaneous multithreading (SMT) contention | Disable SMT |
 
 </div>
 
 ```bash
 # Disable SMT
 echo off > /sys/devices/system/cpu/smt/control
-
-# Disable DFS
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
-echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-
-# Disable Turbo-Boost, Intel CPUs only
-echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 ```
 
 ---
@@ -399,6 +391,28 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 </center>
 
 </div>
+
+---
+
+<!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise | Mitigations |
+|-------|------------------|-------------|
+| CPU   | Dynamic frequency scaling (DFS) | Disable DFS |
+
+</div>
+
+```bash
+# Disable DFS
+echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
+echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
+echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+# Disable Turbo-Boost, Intel CPUs only
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+```
 
 ---
 
