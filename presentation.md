@@ -538,7 +538,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 <center>
 
 **<span class="hl">10x less variation</span>**
-**<span class="hl">Removes dynamic frequency scaling as a source of noise</span>**
+**<span class="hl">Removes unpredictable bias</span>**
 
 </center>
 
