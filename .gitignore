@@ -1,4 +1,11 @@
+# Dependencies
+node_modules/
+
+# Artifacts
 presentation.html
 presentation.pdf
+
+# Planing, speaker notes, etc.
 TODO.md
-node_modules/
+SCRIPT.md
+NOTES.md

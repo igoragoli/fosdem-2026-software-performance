@@ -399,6 +399,12 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 </div>
 
+<div class="bottom-citation">
+
+_Experiments by Dmytro_
+
+</div>
+
 ---
 
 <!-- _class: vcenter -->
@@ -547,6 +553,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 </div>
 
+<div class="bottom-citation">
+
+_Experiments by Dmytro_
+
+</div>
+
 ---
 
 <!-- _class: vcenter -->
@@ -610,6 +622,39 @@ _"All happy <span class="replace"><span class="old">families</span><span class="
 <span class="medium">**`representative`** and **`repeatable`**</span>
 
 </center>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+- **Mixed**: Most real-world applications
+
+<br>
+
+_Your benchmark workload should match your production workload._
+
+---
+
+## Workload archetypes
+
+<div class="centered-table">
+
+| Archetype       | Pattern                          | Characteristics                        |
+| --------------- | -------------------------------- | -------------------------------------- |
+| **Idle**        | Background workers, minimal load | Low RPS, minimal CPU, few workers      |
+| **Latency**     | Microservices, APIs              | High RPS, low CPU per request          |
+| **Throughput**  | Queue workers, batch processing  | Moderate RPS, high CPU, many clients   |
+| **Enterprise**  | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O            |
+
+</div>
+
+<br>
+
+_Choose the archetype that matches your application's behavior._
 
 ---
 
@@ -1212,7 +1257,10 @@ Confidence level = 1 - α = 95%
 
 <center>
 
-![width:1000](./assets/fosdem-schedule.png)
+![width:800](./assets/fosdem-schedule.png)
+
+_Want to learn more about detecting performance regressions?_
+_Stay for the next talk._
 
 </center>
 
@@ -1224,24 +1272,127 @@ Confidence level = 1 - α = 95%
 
 ---
 
-<!-- _class: vcenter -->
 <!-- footer: "Integrating Benchmarks Into Your Workflows" -->
 
-<span class="comment">
-A series of screenshots showing the different ways in which we integrate benchmarks into our workflows at Datadog, including: a basic architecture slide, reporting capabilities, PR comments, performance quality gates, operational excellence reviews, etc.
-</span>
+## Architecture Overview
+
+<!-- TODO: Add architecture diagram showing benchmark pipeline -->
+
+<center>
+
+_Placeholder for Datadog benchmark pipeline diagram_
+
+</center>
+
+---
+
+## Feedback Loop
+
+<center>
+
+<!-- TODO: Add screenshot of PR comment showing regression -->
+
+_Placeholder for PR comment screenshot_
+
+_Catch regressions before they merge_
+
+</center>
+
+<div class="bottom-citation">
+
+_Benchmarks should be locally reproducible for developers to take action._
+
+</div>
+
+---
+
+## Performance Quality Gates
+
+<center>
+
+<!-- TODO: Add screenshot of quality gate with SLO breach -->
+
+_Placeholder for quality gate screenshot_
+
+_Block releases that don't meet SLOs_
+
+</center>
+
+---
+
+## Alerts & Dashboards
+
+<center>
+
+<!-- TODO: Add screenshot of Slack alerts and dashboards -->
+
+_Placeholder for alerts and dashboards screenshot_
+
+</center>
+
+---
+
+## Operational Excellence Reviews
+
+<center>
+
+<!-- TODO: Add screenshot of operational excellence review -->
+
+_Placeholder for operational excellence review screenshot_
+
+_Track performance trends over time_
+
+</center>
+
+---
+
+## Open Source Tools
+
+**Start running benchmarks continuously today:**
+
+- [bencher.dev](https://bencher.dev/) - Continuous benchmarking platform
+- [hyperfine](https://github.com/sharkdp/hyperfine) - CLI benchmark tool
+- [github-action-benchmark](https://github.com/benchmark-action/github-action-benchmark) - GitHub Action
+- [chronologer](https://github.com/dandavison/chronologer) - Benchmark tracking
+
+<br>
+
+_We're working on open-sourcing our tooling._
 
 ---
 
 <!-- _class: vcenter invert -->
+<!-- footer: "" -->
 
-# Concluding slides
+# Conclusion
 
-<span class="comment">
+---
 
-Summarize the takeaways.
+<!-- footer: "Conclusion" -->
 
-</span>
+## Key Takeaways
+
+1. **Control your benchmarking environment**
+   Bare metal, disable SMT, disable DFS
+
+2. **Design your benchmarks**
+   Representative and repeatable
+
+3. **Interpret benchmark results**
+   Statistics matter (hypothesis testing)
+
+4. **Integrate benchmarks into your workflows**
+   Run continuously, catch regressions early
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput. Better user experience.
+
+Write benchmarks. Run them continuously.
 
 ---
 
@@ -1264,7 +1415,7 @@ Summarize the takeaways.
 
 <div>
 
-# Thanks!
+# Thanks
 
 </div>
 <div>
@@ -1296,18 +1447,3 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
 \[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
 \[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
-
----
-
-<!-- _class: vcenter -->
-
-# There will be dragons! 🐉
-
----
-
-How to:
-
-1. Control your benchmarking environment.
-2. Design your benchmarks.
-3. Interpret benchmark results.
-4. Integrate benchmarks into your workflows.
