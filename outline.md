@@ -32,7 +32,7 @@
             - CPU:
                 - Variable clock rate in CPU
                 - Non-determinism in available resources when running CPU-intensive or memory-intensive applications on colocated logical cores
-                - CPU overheating prevention mecanisms
+                - CPU overheating prevention mechanisms
                 - CPU power saving mechanisms
                 - Build quality of cores in the CPU
             -

@@ -14,15 +14,29 @@ make watch     # Live preview with hot reload
 
 ## Available Targets
 
-| Target    | Description                  |
-| --------- | ---------------------------- |
-| `build`   | Generate PDF (default)       |
-| `html`    | Generate HTML version        |
-| `watch`   | Live preview with hot reload |
-| `lint`    | Run markdown linting         |
-| `format`  | Format markdown files        |
-| `clean`   | Remove generated files       |
-| `install` | Install npm dependencies     |
+| Target        | Description                  |
+| ------------- | ---------------------------- |
+| `build`       | Generate PDF (default)       |
+| `html`        | Generate HTML version        |
+| `watch`       | Live preview with hot reload |
+| `lint`        | Run markdown linting         |
+| `format`      | Format markdown files        |
+| `check-typos` | Check for typos              |
+| `fix-typos`   | Fix typos automatically      |
+| `clean`       | Remove generated files       |
+| `install`     | Install npm dependencies     |
+
+## Code Quality
+
+This project uses automated tools to maintain quality:
+
+| Tool                                                       | Purpose          | Config File          |
+| ---------------------------------------------------------- | ---------------- | -------------------- |
+| [markdownlint](https://github.com/DavidAnson/markdownlint) | Markdown linting | `.markdownlint.yaml` |
+| [Prettier](https://prettier.io/)                           | Code formatting  | `.prettierrc`        |
+| [typos](https://github.com/crate-ci/typos)                 | Spell checking   | `.typos.toml`        |
+
+All checks run automatically in CI on pull requests.
 
 ## Download
 

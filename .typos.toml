@@ -1,0 +1,14 @@
+[files]
+extend-exclude = ["package-lock.json", "node_modules/", "*.svg", "assets/"]
+
+[default.extend-words]
+# numpy function
+arange = "arange"
+# scipy statistics function
+ttest = "ttest"
+# Symposium on Performance Evaluation of Computer and Telecommunication Systems
+SPECTS = "SPECTS"
+
+[default.extend-identifiers]
+# Jupyter notebook auto-generated cell IDs
+fith3qidw94 = "fith3qidw94"

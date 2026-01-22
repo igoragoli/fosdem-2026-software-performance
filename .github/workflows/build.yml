@@ -25,6 +25,9 @@ jobs:
           make format
           git diff --exit-code
 
+      - name: Check typos
+        uses: crate-ci/typos@v1.30.3
+
       - name: Lint markdown
         run: make lint
 

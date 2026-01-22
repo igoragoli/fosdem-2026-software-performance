@@ -43,3 +43,24 @@ Requires marp-cli: `npm install -g @marp-team/marp-cli`
     - `.hl` - Yellow highlight for emphasis
     - `.big` / `.medium` - Large text sizes
     - `.bottom-citation` - Positioned citations at slide bottom
+
+## Code Quality Tools
+
+This project uses automated quality checks. Run before committing:
+
+```bash
+make lint       # Markdown linting
+make format     # Format markdown files
+make typos      # Check for typos
+make typos-fix  # Fix typos automatically
+```
+
+Configuration files:
+
+| Tool         | Config File          | Purpose                       |
+| ------------ | -------------------- | ----------------------------- |
+| markdownlint | `.markdownlint.yaml` | Markdown style (4-space tabs) |
+| Prettier     | `.prettierrc`        | Code formatting               |
+| typos        | `.typos.toml`        | Spell checking                |
+
+All checks run in CI on pull requests via `.github/workflows/build.yml`.
