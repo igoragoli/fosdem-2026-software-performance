@@ -1,4 +1,4 @@
-.PHONY: all build pdf html watch lint fix format clean install help install-typos typos typos-fix
+.PHONY: all build pdf html watch lint fix format clean install help install-typos typos typos-fix install-ratchet ratchet/pin ratchet/upgrade ratchet/lint
 
 all: build
 
@@ -6,9 +6,10 @@ MARP_CONFIG := marp/marp.config.js
 SRC := presentation.md
 COMMON_FLAGS := --allow-local-files
 
-# OS detection for typos installation
+# OS detection for tool installation
 UNAME_S := $(shell uname -s)
 TYPOS := $(shell command -v typos 2> /dev/null)
+RATCHET := $(shell command -v ratchet 2> /dev/null)
 
 build: pdf
 
@@ -47,6 +48,24 @@ check-typos: install-typos
 
 fix-typos: install-typos
 	typos --write-changes
+
+install-ratchet:
+ifndef RATCHET
+ifeq ($(UNAME_S),Darwin)
+	brew install ratchet
+else
+	go install github.com/sethvargo/ratchet@latest
+endif
+endif
+
+ratchet/pin: install-ratchet
+	ratchet pin .github/workflows/*.yml
+
+ratchet/upgrade: install-ratchet
+	ratchet upgrade .github/workflows/*.yml
+
+ratchet/lint: install-ratchet
+	ratchet lint .github/workflows/*.yml
 
 clean:
 	rm -f presentation.pdf presentation.html

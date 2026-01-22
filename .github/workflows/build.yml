@@ -11,9 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # ratchet:actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # ratchet:actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -26,7 +26,7 @@ jobs:
           git diff --exit-code
 
       - name: Check typos
-        uses: crate-ci/typos@v1.30.3
+        uses: crate-ci/typos@65120634e79d8374d1aa2f27e54baa0c364fff5a # ratchet:crate-ci/typos@v1.42.1
 
       - name: Lint markdown
         run: make lint
@@ -34,7 +34,7 @@ jobs:
       - name: Build presentation
         run: make build
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # ratchet:actions/upload-artifact@v6
         with:
           name: presentation-pdf
           path: presentation.pdf
