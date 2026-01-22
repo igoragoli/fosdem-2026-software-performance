@@ -1,0 +1,33 @@
+name: Build Presentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: make install
+
+      - name: Lint markdown
+        run: make lint
+        continue-on-error: true
+
+      - run: make build
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: presentation-pdf
+          path: presentation.pdf
+          retention-days: 30
