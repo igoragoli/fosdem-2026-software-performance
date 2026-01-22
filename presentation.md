@@ -314,7 +314,7 @@ graph TB
 
 <center>
 
-m5.metal, clock rate pinned, scaling governor set to "performance"
+m5.metal, dynamic frequency scaling (DFS) disabled
 **2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
 
 </center>
@@ -351,7 +351,7 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <center>
 
-m5.metal, clock rate pinned, scaling governor set to "performance"
+m5.metal, dynamic frequency scaling (DFS) disabled
 **2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
 
 </center>
@@ -444,7 +444,7 @@ graph LR
 
 <center>
 
-m5.metal, SMT disabled
+m5.metal, simultaneous multithreading (SMT) disabled
 **Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
@@ -480,7 +480,7 @@ m5.metal, SMT disabled
 
 <center>
 
-m5.metal, SMT disabled
+m5.metal, simultaneous multithreading (SMT) disabled
 **Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
