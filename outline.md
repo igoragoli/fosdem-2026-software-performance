@@ -1,3 +1,5 @@
+# Outline
+
 - Introduction
     - Slide: illustration of "death by a thousand cuts"
         - Purpose: Show the core problem of software performance degrading over time through a series of accumulated regressions, point out that capturing a small change in performance is hard, and that we need to be able to detect even very small changes in performance.
@@ -17,10 +19,10 @@
         - Purpose: Show an interesting real-life example where a non-controlled environment led to invalid results. Show that highly complex systems can be affected by seemingly minor issues.
         - "In 2008, experiments where a beam of neutrinos sent from CERN to a detector under the Gran Sasso in Italy showed neutrinos appearing to travel faster than light."
         - "The results were, of course, dismissed. But the trust in the entire experimentation instrument was shaken. And this was took 5 years to build and had cost around 100 million euros."
-            - Double check sources included on https://gemini.google.com/app/5c9b5e2adbdde278.
+            - Double check sources included on <https://gemini.google.com/app/5c9b5e2adbdde278>.
         - "After 3 years of investigation, in 2011 it was concluded that the error was caused by a loose cable."
     - Slide: Picture of the loose cable.
-        - [Reference: https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/]
+        - [Reference: <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>]
         - "In the same way that any scientist has to control the environment on which they do their experiments, we also have to do that when benchmarking software."
     - Slide: List of sources of noise
         - "While the physics from the OPERA experiment had to deal with loose cables, seismic activity, and some other sources of noise, we have to worry about these ones:"
@@ -33,12 +35,12 @@
                 - CPU overheating prevention mecanisms
                 - CPU power saving mechanisms
                 - Build quality of cores in the CPU
-            - 
+            -
             - Network instability
             - Scheduler latency
             - Vibration
                 - "This last one is particularly funny. There's a very famous video from performance engineering legend Brendan Gregg where he screams at the top of his lungs at a server and clearly sees disk I/O latency spikes."
-                - Slide: Lay over two pictures, one of Brendan Gregg screaming at a server, and one of the disk I/O latency spikes, with a single legend "Brendan Gregg screaming at Sun Microsystems servers" with a link to the video: https://www.youtube.com/watch?v=tDacjrSCeq4
+                - Slide: Lay over two pictures, one of Brendan Gregg screaming at a server, and one of the disk I/O latency spikes, with a single legend "Brendan Gregg screaming at Sun Microsystems servers" with a link to the video: <https://www.youtube.com/watch?v=tDacjrSCeq4>
         - "Some of them can be controlled, but some of them can't. For example, you can't really influence vibrations of your server if you're using a cloud provider. But we can tweak the machines on which we run benchmarks to control some of them."
 - Controlling the Environment: System tweaks for performance measurements
     - Slide: Introduction to tweaks
@@ -49,29 +51,38 @@
     - Slide: Hyper-threading (SMT)
         - Brief explanation: Two logical cores share one physical core's execution resources (ALUs, caches, etc.). When both are active, they compete for resources.
         - How to disable:
+
             ```bash
             echo off > /sys/devices/system/cpu/smt/control
             ```
+
         - Impact on CoV: Show before/after
             - BLAS benchmark: same core 1.95x slower, 56x higher variance
+
     - Slide: Turbo Boost
         - Brief explanation: Dynamic frequency scaling that temporarily boosts CPU frequency above base clock under load. Frequency varies based on thermal headroom and active cores.
         - How to disable:
+
             ```bash
             echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
             ```
+
         - Impact on CoV: Show before/after
             - With turbo on: performance varies with task count (1 task = 533ms, 8 tasks = 578ms)
             - With turbo off: consistent performance regardless of task count
+
     - Slide: C-states
         - Brief explanation: CPU power-saving sleep states. Deeper C-states save more power but have higher wake-up latency, which can introduce variance in latency-sensitive workloads.
         - How to limit:
+
             ```bash
             # In GRUB_CMDLINE_LINUX_DEFAULT:
             intel_idle.max_cstate=1 processor.max_cstate=1
             ```
+
         - Impact on CoV: Show before/after
             - Key finding: C0 forcing creates outliers; C1 vs C6 shows similar repeatability for most workloads
+
     - Slide: Other tweaks & references
         - "There are many other CPU tweaks you can explore:"
             - Scaling governor (set to "performance")
@@ -79,9 +90,10 @@
             - Process priority (reduce OS interruptions)
             - Filesystem cache (warm up or drop before measuring)
         - References:
-            - Gregg, B. *Systems Performance*, 2nd ed., Chapter 6
-            - Bakhvalov, D. *Performance Analysis and Tuning on Modern CPUs*, Appendix A — https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD
+            - Gregg, B. _Systems Performance_, 2nd ed., Chapter 6
+            - Bakhvalov, D. _Performance Analysis and Tuning on Modern CPUs_, Appendix A — <https://www.amazon.com/Performance-Analysis-Tuning-Modern-CPUs/dp/B0DMVQ1QDD>
     - Segue: "Great, so now we have a controlled environment. All loose cables are gone, so to speak. But none of this matters if your benchmark design is out of whack. So now we'll talk about how to design your benchmarks."
+
 - Benchmark Design: Tolstoy framing
     - Slide: Tolstoy quote
         - "All happy families are alike; each unhappy family is unhappy in its own way." — Leo Tolstoy, Anna Karenina

@@ -20,11 +20,16 @@ jobs:
 
       - run: make install
 
+      - name: Format all
+        run: |
+          make format
+          git diff --exit-code
+
       - name: Lint markdown
         run: make lint
-        continue-on-error: true
 
-      - run: make build
+      - name: Build presentation
+        run: make build
 
       - uses: actions/upload-artifact@v6
         with:
