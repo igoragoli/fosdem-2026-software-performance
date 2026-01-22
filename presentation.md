@@ -95,7 +95,7 @@ style: |
     }
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 
 # How to Reliably Measure Software Performance
 
@@ -136,7 +136,7 @@ FOSDEM 2026
 <div class="big">
 5 years
 
-100 M€
+~ €100M 🤑
 </div>
 
 \[2, 3\]
@@ -164,6 +164,12 @@ FOSDEM 2026
 *Loose fiber optic cable that caused the measurement error \[4\]*
 
 </center>
+
+---
+
+<!-- _class: vcenter invert -->
+
+# How to Control Your Benchmarking Environment
 
 ---
 
@@ -547,7 +553,7 @@ m5.metal, SMT disabled
 
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 <!-- header: "" -->
 
 # How to Design Benchmarks
@@ -975,7 +981,7 @@ But what about inter-experiment variation?
 
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 <!-- header: "" -->
 
 # Interpreting Benchmark Results
@@ -1189,7 +1195,7 @@ Confidence level = 1 - α = 95%
 
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 
 # Integrating Benchmarks Into Your Workflows
 
@@ -1204,7 +1210,7 @@ A series of screenshots showing the different ways in which we integrate benchma
 
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 
 # Concluding slides
 
