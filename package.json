@@ -1,0 +1,14 @@
+{
+  "name": "fosdem-2026-software-performance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FOSDEM 2026: How to Reliably Measure Software Performance",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.2.3",
+    "markdownlint-cli2": "^0.17.0",
+    "prettier": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
