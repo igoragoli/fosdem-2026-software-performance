@@ -76,7 +76,22 @@ style: |
     section::after {
         top: 30px;
         bottom: auto;
-        right: 60px;
+        left: auto;
+        right: 70px;
+        font-size: 0.8em;
+        color: #666;
+    }
+    header {
+        top: 30px;
+        bottom: auto;
+        left: 70px;
+        right: auto;
+        font-size: 0.8em;
+        color: #666;
+    }
+    .center {
+        text-align: center;
+        margin-top: 175px;
     }
 ---
 
@@ -88,16 +103,6 @@ Augusto de Oliveira, Kemal Akkoyun
 
 FOSDEM 2026
 
-<!-- ---
-
-<center>
-
-![width:500](./assets/death-by-a-thousand-cuts.jpg)
-
-*[Lingchi](https://en.wikipedia.org/wiki/Lingchi), or "death by a thousand cuts"*
-
-</center> -->
-
 ---
 
 <!-- paginate: true -->
@@ -105,31 +110,46 @@ FOSDEM 2026
 
 <center>
 
+![width:600](./assets/researchers.png)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:1000](./assets/researchers-cern-to-gran-sasso-neutrino-beam.png)
+
+*\[1\]*
+
+</center>
+
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+<div class="big">
+5 years
+
+100 M€
+</div>
+
+\[2, 3\]
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
 ![width:600](./assets/particles-break-light-speed-headline.png)
-
-</center>
-
-<!-- In 2011, researchers found that neutrinos were traveling faster than light. Naturally, this was -->
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:600](./assets/cern-to-gran-sasso-neutrino-beam.jpg)
-
-*732 km neutrino beam path from CERN in Geneva to Gran Sasso \[1\]*
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-<span class="big">100 M€</span> \[2\]
 
 </center>
 
@@ -141,35 +161,35 @@ FOSDEM 2026
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-*Loose fiber optic cable that caused the measurement error \[3\]*
+*Loose fiber optic cable that caused the measurement error \[4\]*
 
 </center>
 
 ---
 
+<!-- _class: vcenter -->
+
+# How to Control Your Benchmarking Environment
+
+---
+
 How to:
 
-1. Control your benchmarking environment
-2. Design your benchmarks
-3. Interpret benchmark results
-4. Integrate benchmarks into your workflows
+1. Control your benchmarking environment.
+2. Design your benchmarks.
+3. Interpret benchmark results.
+4. Integrate benchmarks into your workflows.
 
 ---
 
 <!-- _class: vcenter -->
-
-# How to control your benchmarking environment
-
----
-
-<!-- _class: vcenter -->
-<!-- header: "How to control your benchmarking environment" -->
+<!-- header: "How to Control Your Benchmarking Environment" -->
 
 <div class="centered-table">
 
-| Layer       | Noise Sources                      | Mitigations|
+| Layer       | Sources of Noise                      | Mitigations|
 |-------------|------------------------------------|------------|
-| External    | Network<br>Temperature<br>Vibration    | Use dedicated hardware |
+| External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors    | Use dedicated on-prem hardware<br>Use dedicated/bare metal cloud instances |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
 | Kernel      | Filesystem cache<br>Scheduling | Set CPU affinity<br>Set process priority<br>Warm up or drop caches|
 | CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
@@ -182,12 +202,12 @@ How to:
 
 <div class="centered-table">
 
-| Layer       | Noise Sources                      | Mitigations|
+| Layer       | Sources of Noise                      | Mitigations|
 |-------------|------------------------------------|------------|
-| External    | Network<br>Temperature<br>Vibration    | Use dedicated hardware |
+| <span class="hl">External</span>    | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>    | Use dedicated on-prem hardware<br><span class="hl">Use dedicated/bare metal cloud instances</span> |
 | Application | Memory layout<br>Compilation/linking | Set up fixed builds (e.g., disable ASLR)|
-| Kernel      | Filesystem cache<br>Scheduling | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
-| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT<br>Disable DFS</span> |
+| <span class="hl">Kernel</span>      | <span class="hl">Filesystem cache<br>Scheduling</span> | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>|
+| <span class="hl">CPU</span>         | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span> |
 
 </div>
 
@@ -201,26 +221,48 @@ How to:
 
 <!-- _class: vcenter -->
 
+<div class="centered-table">
+
+| Layer  | Sources of Noise | Mitigations |
+|--------|------------------|-------------|
+| Kernel | Filesystem cache<br>Scheduling | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+
+</div>
+
 ```bash
 # Set CPU affinity
 taskset -c 0 ./benchmark
 
-# Increase process priority
+# Set process priority
 nice -n -5 ./benchmark
 
 # Drop filesystem cache
 echo 3 > /proc/sys/vm/drop_caches && sync
+```
 
-# Disable Simultaneous Multithreading (SMT)
+---
+
+<!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise | Mitigations |
+|-------|------------------|-------------|
+| CPU   | SMT contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
+
+</div>
+
+```bash
+# Disable SMT
 echo off > /sys/devices/system/cpu/smt/control
 
-# Disable Dynamic Frequency Scaling (DFS) 
-echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
-
+# Disable DFS
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
-
 echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+# Disable Turbo-Boost, Intel CPUs only
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 ```
 
 ---
@@ -468,6 +510,30 @@ m5.metal, SMT disabled
 ---
 
 <!-- _class: vcenter -->
+
+<center>
+
+| Layer    | Sources of Noise | Mitigations                      |
+|----------|------------------|----------------------------------|
+| External | Vibration        | Don't shout in the datacenter   |
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
+
+*[Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)*
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
 <!-- header: "" -->
 
 # How to Design Benchmarks
@@ -516,24 +582,24 @@ m5.metal, SMT disabled
 ## An unhappy benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
+- **System under test: Spring app instrumented (or not) with dd-trace-java.**
 
 ---
 
 ## An unhappy benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
-- Workload: As many requests as possible by 5 concurrent users.
+- System under test: Spring app instrumented (or not) with dd-trace-java.
+- **Workload: As many requests as possible by 5 concurrent users.**
 
 ---
 
 ## An unhappy benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- System under test: Spring Petclinic instrumented (or not) with dd-trace-java.
+- System under test: Spring app instrumented (or not) with dd-trace-java.
 - Workload: As many requests as possible by 5 concurrent users.
-- 20 second warmup, 15 seconds of actual measurements.
+- **20 second warmup, 15 seconds of actual measurements.**
 
 ---
 
@@ -541,7 +607,7 @@ m5.metal, SMT disabled
 
 ![width:600](./assets/benchmark-design-experiment-1.svg)
 
-Many **false positives**, unnacceptably **high CoV** (= standard deviation / mean) of 11.80%.
+Many **false positives** and **high coeff. of variation** (= standard deviation / mean) of 11.80%.
 
 </center>
 
@@ -551,7 +617,7 @@ Many **false positives**, unnacceptably **high CoV** (= standard deviation / mea
 
 ![width:600](./assets/benchmark-design-experiment-1.svg)
 
-Many **false positives**, unnacceptably **high CoV** (= standard deviation / mean) of 11.80%.
+Many **false positives** and **high coeff. of variation** (= standard deviation / mean) of 11.80%.
 
 **Are we running the benchmark long enough?**
 
@@ -600,7 +666,7 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div style="padding-top: 100px;">
 <div class="centered-table">
 
-| # measurements | CoV |
+| # measurements | coeff. of variation |
 |----------------|-----|
 | 30 | 6.95% |
 | 60 | 5.23% |
@@ -624,7 +690,7 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div style="padding-top: 100px;">
 <div class="centered-table">
 
-| # measurements | CoV |
+| # measurements | coeff. of variation |
 |----------------|-----|
 | 30 | 6.95% |
 | 60 | 5.23% |
@@ -637,7 +703,7 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 
 <center>
 
-**Tip #2: Collect enough samples to reduce intra-run variation.**
+**Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).**
 
 </center>
 
@@ -654,7 +720,7 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 <div style="padding-top: 100px;">
 <div class="centered-table">
 
-| # measurements | CoV |
+| # measurements | coeff. of variation |
 |----------------|-----|
 | 30 | 6.95% |
 | 60 | 5.23% |
@@ -667,7 +733,7 @@ Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects
 
 <center>
 
-Tip #2: Collect enough samples to reduce intra-run variation.
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 **But what about inter-run variation?**
 
@@ -681,7 +747,7 @@ Tip #2: Collect enough samples to reduce intra-run variation.
 
 ![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
 
-*Impact of initial state on FFT benchmark results \[4\]*
+*Impact of initial state on FFT benchmark results \[6\]*
 
 </center>
 
@@ -723,7 +789,7 @@ Tip #2: Collect enough samples to reduce intra-run variation.
 
 <div class="centered-table">
 
-| Run # | mean ± stddev | CoV |
+| Run # | mean ± stddev | coeff. of variation |
 |------|---------------|-----|
 | 1 | 20.08 ± 0.63 ms | 3.16% |
 | 2 | 20.63 ± 0.56 ms | 2.72% |
@@ -756,7 +822,7 @@ Tip #2: Collect enough samples to reduce intra-run variation.
 
 <div class="centered-table">
 
-| Run # | mean ± stddev | CoV |
+| Run # | mean ± stddev | coeff. of variation |
 |------|---------------|-----|
 | 1 | 20.08 ± 0.63 ms | 3.16% |
 | 2 | 20.63 ± 0.56 ms | 2.72% |
@@ -773,7 +839,7 @@ Tip #2: Collect enough samples to reduce intra-run variation.
 
 <center>
 
-**Tip #3: Rerun benchmarks multiple times to reduce inter-run variation.**
+**Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).**
 
 </center>
 
@@ -789,7 +855,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-CoV: 11.80% → **2.94%**
+Coefficient of variation: 11.80% → **2.94%**
 
 </center>
 
@@ -805,7 +871,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-CoV: 11.80% → **2.94%**
+Coefficient of variation: 11.80% → **2.94%**
 
 </center>
 
@@ -825,7 +891,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-CoV: 11.80% → **2.94%**
+Coefficient of variation: 11.80% → **2.94%**
 
 </center>
 
@@ -847,7 +913,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-CoV: 11.80% → **2.94%**
+Coefficient of variation: 11.80% → **2.94%**
 
 </center>
 
@@ -875,7 +941,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-CoV: 11.80% → **2.94%**
+Coefficient of variation: 11.80% → **2.94%**
 
 </center>
 
@@ -902,19 +968,214 @@ But what about inter-experiment variation?
 
 ---
 
-<!-- _class: vcenter -->
 <!-- header: "Interpreting Benchmark Results" -->
+<!-- _class: vcenter -->
 
-<span class="comment">
-Emphasize that simply comparing means or percentiles is not enough. Statistical methods such as t-tests are absolutely necessary to draw meaningful conclusions.
+<center>
 
-Shout out to Henrik Ingo's talk on changepoint detection.
-</span>
+![width:600](./assets/interpreting-results-timeseries-zoom.svg)
+
+</center>
 
 ---
 
 <!-- _class: vcenter -->
+
+<center>
+
+![width:850](./assets/interpreting-results-with-distributions.svg)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:850](./assets/interpreting-results-with-distributions.svg)
+
+**How can we tell if the difference is big enough?**
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+$$\frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+
+$$t > \text{critical value}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+$$t > \text{critical value}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+$$t > \text{critical value}$$
+
+**Hypothesis test.**
+
+</center>
+
+---
+
+## Hypothesis test
+
+**If t > critical value, reject the null hypothesis.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+**Null hypothesis: no difference.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+**Alternative hypothesis: enough difference.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+**t, or t-statistic: difference/noise.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+t, or t-statistic: difference/noise.
+
+**Critical value: threshold based on your tolerance for false positives.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+t, or t-statistic: difference/noise.
+
+Critical value: threshold based on your tolerance for false positives.
+
+**In practice, we use the p-value: p < α**
+
+**p-value: probability of seeing this result if there's no real difference.**
+
+**α: false positive rate you're willing to tolerate.**
+
+---
+
+<!-- _class: vcenter -->
+
+```python
+from scipy import stats
+
+alpha = 0.05
+t_stat, p_value = stats.ttest_ind(before, after)
+
+if p_value < alpha:
+    print("Statistically significant difference")
+```
+
+---
+
+## Choosing α
+
+**α = 0.05** (5%) is a common threshold for false positives.
+
+Confidence level = 1 - α = 95%
+
+---
+
+## Choosing α
+
+α = 0.05 (5%) is a common threshold for false positives.
+
+Confidence level = 1 - α = 95%
+
+**Trade-off**
+- **Lower α (1%):** Fewer false positives, fewer detections.
+- **Higher α (10%):** More false positives, more detections.
+
+---
+
+## Another approach: changepoint detection
+
 <!-- header: "" -->
+
+<center>
+
+![width:1000](./assets/fosdem-schedule.png)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
 
 # Integrating Benchmarks Into Your Workflows
 
@@ -949,13 +1210,14 @@ p { font-size: 0.5em; line-height: 1.4; }
 
 \[1\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
 \[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
-\[3\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
-\[4\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
+\[3\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
+\[4\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
 \[5\] Bakhvalov, D. (2020). *Performance Analysis and Tuning on Modern CPUs*.
-\[6\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
-\[7\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
-\[8\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
-\[9\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
-\[10\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
-\[11\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
-\[12\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf. Accessed Jan 2026.
+\[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In *Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)*, pages 182-196. SCS.
+\[7\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
+\[8\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
+\[9\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
+\[10\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
+\[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
+\[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
+\[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf. Accessed Jan 2026.
