@@ -9,21 +9,37 @@ Presentation slides for FOSDEM 2026 talk "How to Reliably Measure Software Perfo
 ## Build Commands
 
 ```bash
-# Generate presentation PDF from markdown (requires marp-cli)
-marp presentation.md -o presentation.pdf
+# Generate presentation PDF (with Kroki diagram support)
+marp --config marp/marp.config.js presentation.md -o presentation.pdf
 
 # Watch mode for live preview
-marp presentation.md --watch
+marp --config marp/marp.config.js presentation.md --watch
 ```
+
+Requires marp-cli: `npm install -g @marp-team/marp-cli`
 
 ## File Structure
 
-- `presentation.md` - Main Marp slides (uses custom CSS for columns, comments, section headers)
-- `outline.md` - Detailed presentation outline with speaker notes and TODOs
+- `presentation.md` - Main Marp slides
+- `outline.md` - Detailed presentation outline with speaker notes
 - `assets/` - Images and reference materials
+- `experiments/` - Jupyter notebooks for generating slide visualizations
+  - `benchmark-design.ipynb` - Benchmark design experiment visualizations
+  - `interpreting-results.ipynb` - Results interpretation visualizations
+  - `data/` - Raw benchmark data (JSON format)
+- `marp/` - Marp configuration and plugins
+  - `marp.config.js` - Enables Kroki plugin
+  - `kroki-plugin.js` - Renders diagrams (mermaid, plantuml, etc.) via kroki.io
 
 ## Conventions
 
-- Markdown linting configured via `.markdownlint.yaml` (4-space indentation)
-- Slide comments use `<span class="comment">` for internal notes not shown in final presentation
-- References use numbered citation format `\[N\]` with full citations at end
+- Markdown linting: `.markdownlint.yaml` (4-space indentation)
+- Slide comments: `<span class="comment">` for internal notes not shown in final presentation
+- References: Numbered citation format `\[N\]` with full citations on References slide
+- Diagrams: Use mermaid/plantuml fenced code blocks (rendered via Kroki plugin)
+- Custom CSS classes in presentation:
+  - `.columns` - Two-column grid layout
+  - `.vcenter` / `.hcenter` - Section centering
+  - `.hl` - Yellow highlight for emphasis
+  - `.big` / `.medium` - Large text sizes
+  - `.bottom-citation` - Positioned citations at slide bottom
