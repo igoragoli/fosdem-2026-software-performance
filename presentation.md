@@ -179,6 +179,42 @@ _Loose fiber optic cable that caused the measurement error \[4\]_
 
 ---
 
+<!-- _class: vcenter -->
+
+<center>
+
+<span class="big">Most of us aren't building 730km tunnels.</span>
+
+But we deal with "loose cables" every day when measuring software performance.
+
+</center>
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+## Quick poll
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+## Quick poll
+
+**Who here has written a benchmark?** 🙋
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+## Quick poll
+
+**Who here has written a benchmark?** 🙋
+
+**Who has been surprised by the results?** 🤔
+
+---
+
 <!-- _class: vcenter invert -->
 
 # How to Control Your Benchmarking Environment
@@ -217,6 +253,59 @@ _Loose fiber optic cable that caused the measurement error \[4\]_
 <div class="bottom-citation">
 
 _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
+
+</div>
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+- **Noisy neighbors** — Other VMs on the same host
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+- **Noisy neighbors** — Other VMs on the same host
+- **Resource contention** — Shared caches, memory bandwidth, I/O
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+- **Noisy neighbors** — Other VMs on the same host
+- **Resource contention** — Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+<div class="bottom-citation">
+
+_All kernel and CPU mitigations require bare metal access._
 
 </div>
 
@@ -430,7 +519,7 @@ graph LR
     Load["CPU Utilization"] --> Gov["Scaling Governor"]
     Gov --> Driver["Scaling Driver"]
     Load --> Driver
-    Physical[ Temp, Power, Current <br>Frequency Boosting] ---> Driver
+    Physical[ Temp, Power, Current <br>Turbo Boost] ---> Driver
     Driver -- "Target Frequency" --> CPU
 
     style Load fill:none,stroke:none
@@ -579,7 +668,7 @@ _Experiments by Dmytro_
 
 _[🔗 Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 
- ![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
+![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
 
 </center>
 
@@ -643,12 +732,12 @@ _Your benchmark workload should match your production workload._
 
 <div class="centered-table">
 
-| Archetype       | Pattern                          | Characteristics                        |
-| --------------- | -------------------------------- | -------------------------------------- |
-| **Idle**        | Background workers, minimal load | Low RPS, minimal CPU, few workers      |
-| **Latency**     | Microservices, APIs              | High RPS, low CPU per request          |
-| **Throughput**  | Queue workers, batch processing  | Moderate RPS, high CPU, many clients   |
-| **Enterprise**  | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O            |
+| Archetype      | Pattern                          | Characteristics                      |
+| -------------- | -------------------------------- | ------------------------------------ |
+| **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
+| **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
+| **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O          |
 
 </div>
 
@@ -988,6 +1077,40 @@ Tip #4: Use deterministic inputs.
 
 ---
 
+<span class="comment">Optional: Skip if short on time</span>
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+---
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+- Slow responses → fewer requests sent → latency appears lower
+- The benchmark "coordinates" with the system to hide its own slowdowns
+
+---
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+- Slow responses → fewer requests sent → latency appears lower
+- The benchmark "coordinates" with the system to hide its own slowdowns
+
+**Solution:** Use load generators with **open-loop** mode (constant request rate regardless of response time).
+
+<div class="bottom-citation">
+
+_Gil Tene, "How NOT to Measure Latency" (2015)_
+
+</div>
+
+---
+
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
 Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
@@ -1070,9 +1193,13 @@ But what about inter-experiment variation?
 
 ![width:850](./assets/interpreting-results-with-distributions.svg)
 
-<br>
-
 </center>
+
+<div class="bottom-citation">
+
+_Strip plots show individual data points; boxplots can hide bimodal distributions. \[14\]_
+
+</div>
 
 ---
 
@@ -1280,7 +1407,11 @@ _Stay for the next talk._
 
 <center>
 
+<span class="comment">
+
 _Placeholder for Datadog benchmark pipeline diagram_
+
+</span>
 
 </center>
 
@@ -1292,7 +1423,11 @@ _Placeholder for Datadog benchmark pipeline diagram_
 
 <!-- TODO: Add screenshot of PR comment showing regression -->
 
+<span class="comment">
+
 _Placeholder for PR comment screenshot_
+
+</span>
 
 _Catch regressions before they merge_
 
@@ -1312,7 +1447,11 @@ _Benchmarks should be locally reproducible for developers to take action._
 
 <!-- TODO: Add screenshot of quality gate with SLO breach -->
 
+<span class="comment">
+
 _Placeholder for quality gate screenshot_
+
+</span>
 
 _Block releases that don't meet SLOs_
 
@@ -1326,7 +1465,11 @@ _Block releases that don't meet SLOs_
 
 <!-- TODO: Add screenshot of Slack alerts and dashboards -->
 
+<span class="comment">
+
 _Placeholder for alerts and dashboards screenshot_
+
+</span>
 
 </center>
 
@@ -1338,7 +1481,11 @@ _Placeholder for alerts and dashboards screenshot_
 
 <!-- TODO: Add screenshot of operational excellence review -->
 
+<span class="comment">
+
 _Placeholder for operational excellence review screenshot_
+
+</span>
 
 _Track performance trends over time_
 
@@ -1369,6 +1516,36 @@ _We're working on open-sourcing our tooling._
 ---
 
 <!-- footer: "Conclusion" -->
+
+## Key Takeaways
+
+1. **Control your benchmarking environment**
+   Bare metal, disable SMT, disable DFS
+
+---
+
+## Key Takeaways
+
+1. **Control your benchmarking environment**
+   Bare metal, disable SMT, disable DFS
+
+2. **Design your benchmarks**
+   Representative and repeatable
+
+---
+
+## Key Takeaways
+
+1. **Control your benchmarking environment**
+   Bare metal, disable SMT, disable DFS
+
+2. **Design your benchmarks**
+   Representative and repeatable
+
+3. **Interpret benchmark results**
+   Statistics matter (hypothesis testing)
+
+---
 
 ## Key Takeaways
 
@@ -1428,6 +1605,43 @@ Write benchmarks. Run them continuously.
 
 ---
 
+<!-- _class: vcenter -->
+
+## Anticipated questions
+
+**"Why not open source your tooling?"**
+
+<span class="comment">
+
+- _Joke:_ "Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
+- _Message:_ We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
+
+</span>
+
+---
+
+<!-- _class: vcenter -->
+
+<span class="comment">Speaker notes: Q&A preparation</span>
+
+## Anticipated questions
+
+**"Why not open source your tooling?"**
+
+<span class="comment">
+
+- _Joke:_ "Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
+- _Message:_ We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
+
+</span>
+
+**"What about cloud vs. bare metal costs?"**
+
+- Bare metal instances are more expensive per hour, but results are more reliable
+- Fewer reruns needed → often cheaper overall
+
+---
+
 <style scoped>
 p { font-size: 0.5em; line-height: 1.4; }
 </style>
@@ -1447,3 +1661,4 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
 \[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
 \[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
+\[14\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
