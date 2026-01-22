@@ -8,5 +8,6 @@ MD010:
 # Disabled for Marp presentation compatibility
 MD013: false  # Line length - impractical for slides
 MD024: false  # Duplicate headings - normal in presentations
+MD025: false  # Multiple top-level headings in the same document
 MD033: false  # Inline HTML - required by Marp
 MD036: false  # Emphasis as heading - used for subtitles

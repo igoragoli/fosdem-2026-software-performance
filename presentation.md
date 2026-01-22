@@ -65,7 +65,7 @@ style: |
     }
     section {
         align-content: start;
-        padding-top: 100px;
+        padding-top: 50px;
     }
     section.vcenter {
         align-content: center;
@@ -86,12 +86,24 @@ style: |
         bottom: auto;
         left: 70px;
         right: auto;
-        font-size: 0.8em;
+        font-size: 0.6em;
+        color: #666;
+    }
+    footer {
+        top: auto;
+        bottom: 20px;
+        left: 70px;
+        right: auto;
+        font-size: 0.6em;
         color: #666;
     }
     .center {
         text-align: center;
         margin-top: 175px;
+    }
+    a {
+        color: #0066cc;
+        text-decoration: underline;
     }
 ---
 
@@ -135,11 +147,11 @@ _\[1\]_
 <div class="big">
 5 years
 
-~ €100M 🤑
+~€100M 💸
 
 </div>
 
-\[2, 3\]
+`[2, 3]`
 
 </center>
 
@@ -173,23 +185,8 @@ _Loose fiber optic cable that caused the measurement error \[4\]_
 
 ---
 
-How to:
-
-1. Control your benchmarking environment.
-2. Design your benchmarks.
-3. Interpret benchmark results.
-4. Integrate benchmarks into your workflows.
-
----
-
 <!-- _class: vcenter -->
-
-# How to Control Your Benchmarking Environment
-
----
-
-<!-- _class: vcenter -->
-<!-- header: "How to Control Your Benchmarking Environment" -->
+<!-- footer: "How to Control Your Benchmarking Environment" -->
 
 <div class="centered-table">
 
@@ -568,23 +565,23 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
+_[🔗 Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 
-_[Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
+ ![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
 
 </center>
 
 ---
 
 <!-- _class: vcenter invert -->
-<!-- header: "" -->
+<!-- footer: "" -->
 
 # How to Design Benchmarks
 
 ---
 
 <!-- _class: vcenter -->
-<!-- header: "How to Design Benchmarks" -->
+<!-- footer: "How to Design Benchmarks" -->
 
 <center>
 
@@ -610,7 +607,7 @@ _"All happy <span class="replace"><span class="old">families</span><span class="
 
 <center>
 
-<span class="medium">**representative** and **repeatable**</span>
+<span class="medium">**`representative`** and **`repeatable`**</span>
 
 </center>
 
@@ -1005,13 +1002,13 @@ But what about inter-experiment variation?
 ---
 
 <!-- _class: vcenter invert -->
-<!-- header: "" -->
+<!-- footer: "" -->
 
 # Interpreting Benchmark Results
 
 ---
 
-<!-- header: "Interpreting Benchmark Results" -->
+<!-- footer: "Interpreting Benchmark Results" -->
 <!-- _class: vcenter -->
 
 <center>
@@ -1027,6 +1024,8 @@ But what about inter-experiment variation?
 <center>
 
 ![width:850](./assets/interpreting-results-with-distributions.svg)
+
+<br>
 
 </center>
 
@@ -1209,7 +1208,7 @@ Confidence level = 1 - α = 95%
 
 ## Another approach: changepoint detection
 
-<!-- header: "" -->
+<!-- footer: "" -->
 
 <center>
 
@@ -1226,7 +1225,7 @@ Confidence level = 1 - α = 95%
 ---
 
 <!-- _class: vcenter -->
-<!-- header: "Integrating Benchmarks Into Your Workflows" -->
+<!-- footer: "Integrating Benchmarks Into Your Workflows" -->
 
 <span class="comment">
 A series of screenshots showing the different ways in which we integrate benchmarks into our workflows at Datadog, including: a basic architecture slide, reporting capabilities, PR comments, performance quality gates, operational excellence reviews, etc.
@@ -1243,6 +1242,38 @@ A series of screenshots showing the different ways in which we integrate benchma
 Summarize the takeaways.
 
 </span>
+
+---
+
+<!-- _class: vcenter invert -->
+<!-- footer: "" -->
+
+<style scoped>
+.columns {
+    height: 100%;
+    align-items: center;
+}
+.columns > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+
+<div class="columns">
+
+<div>
+
+# Thanks!
+
+</div>
+<div>
+
+![width:500](./assets/slides_qr_code.png)
+
+</div>
+
+</div>
 
 ---
 
@@ -1265,3 +1296,18 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
 \[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
 \[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
+
+---
+
+<!-- _class: vcenter -->
+
+# There will be dragons! 🐉
+
+---
+
+How to:
+
+1. Control your benchmarking environment.
+2. Design your benchmarks.
+3. Interpret benchmark results.
+4. Integrate benchmarks into your workflows.
