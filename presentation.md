@@ -258,11 +258,6 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 </div>
 
-```bash
-# Disable SMT
-echo off > /sys/devices/system/cpu/smt/control
-```
-
 ---
 
 ## What's SMT?
@@ -288,7 +283,7 @@ graph TB
     style O2 fill:none,stroke:none
 ```
 
-*SMT enabled: hardware threads compete for resources*
+*SMT enabled*
 
 </center>
 </div>
@@ -307,7 +302,7 @@ graph TB
     style O1 fill:none,stroke:none
 ```
 
-*SMT disabled: hardware thread has exclusive access to resources*
+*SMT disabled*
 
 </center>
 </div>
@@ -316,11 +311,20 @@ graph TB
 
 ---
 
+<!-- _class: vcenter -->
+
+```bash
+# Disable SMT
+echo off > /sys/devices/system/cpu/smt/control
+```
+
+---
+
 ## What's the impact of disabling SMT?
 
 <center>
 
-m5.metal, clock rate pinned, scaling governor set to "performance"
+m5.metal, dynamic frequency scaling (DFS) disabled
 **2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
 
 </center>
@@ -357,7 +361,7 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 <center>
 
-m5.metal, clock rate pinned, scaling governor set to "performance"
+m5.metal, dynamic frequency scaling (DFS) disabled
 **2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
 
 </center>
@@ -410,16 +414,6 @@ m5.metal, clock rate pinned, scaling governor set to "performance"
 
 </div>
 
-```bash
-# Disable DFS
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
-echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-
-# Disable Turbo-Boost, Intel CPUs only
-echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
-```
-
 ---
 
 ## What's DFS?
@@ -433,16 +427,45 @@ graph LR
     Load["CPU Utilization"] --> Gov["Scaling Governor"]
     Gov --> Driver["Scaling Driver"]
     Load --> Driver
-    Physical[# Active Cores, Temperature,<br>Power, Current<br>Frequency Boosting] ---> Driver
+    Physical[ Temp, Power, Current <br>Frequency Boosting] ---> Driver
     Driver -- "Target Frequency" --> CPU
 
     style Load fill:none,stroke:none
     style Physical fill:none,stroke:none
 ```
 
-*DFS enabled: CPU frequency is automatically set by the Scaling Governor and the Scaling Driver*
+*DFS enabled*
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph LR
+    Freq["User-defined Frequency"] --> Gov["Scaling Governor"]
+    Gov --> Driver["Scaling Driver"]
+    Driver -- "Target Frequency" --> CPU
+
+    style Freq fill:none,stroke:none
+```
+
+*DFS disabled*
 
 </center>
+
+---
+
+<!-- _class: vcenter -->
+
+```bash
+# Pin clock rate
+echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
+echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
+
+# Set scaling governor to "performance"
+echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+# Disable frequency boosting (Turbo-Boost, Intel CPUs only)
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+```
 
 ---
 
@@ -450,7 +473,7 @@ graph LR
 
 <center>
 
-m5.metal, SMT disabled
+m5.metal, simultaneous multithreading (SMT) disabled
 **Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
@@ -486,7 +509,7 @@ m5.metal, SMT disabled
 
 <center>
 
-m5.metal, SMT disabled
+m5.metal, simultaneous multithreading (SMT) disabled
 **Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
 
 </center>
@@ -521,7 +544,7 @@ m5.metal, SMT disabled
 <center>
 
 **<span class="hl">10x less variation</span>**
-**<span class="hl">Removes dynamic frequency scaling as a source of noise</span>**
+**<span class="hl">Removes unpredictable bias</span>**
 
 </center>
 
