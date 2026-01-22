@@ -82,9 +82,9 @@ style: |
         color: #666;
     }
     header {
-        top: 30px;
+        top: 20px;
         bottom: auto;
-        left: 70px;
+        left: 30px;
         right: auto;
         font-size: 0.6em;
         color: #666;
@@ -92,7 +92,7 @@ style: |
     footer {
         top: auto;
         bottom: 20px;
-        left: 70px;
+        left: 30px;
         right: auto;
         font-size: 0.6em;
         color: #666;
@@ -179,35 +179,53 @@ _Loose fiber optic cable that caused the measurement error \[4\]_
 
 ---
 
-<!-- _class: vcenter -->
+<!-- _class: vcenter invert -->
 
 <center>
 
-<span class="big">Most of us aren't building 730km tunnels.</span>
+<div class="medium">
 
-But we deal with "loose cables" every day when measuring software performance.
+Most of us aren't building 730km tunnels.
+
+</div>
+
+<br>
 
 </center>
 
 ---
 
-<!-- _class: vcenter hcenter -->
+<!-- _class: vcenter -->
+
+<center>
+
+<div class="medium">
+
+Most of us aren't building 730km tunnels.
+
+</div>
+
+> But we deal with "loose cables" every day when measuring software performance.
+
+</center>
+
+---
+
+<!-- _class: vcenter hcenter invert -->
 
 ## Quick poll
 
 ---
 
 <!-- _class: vcenter hcenter -->
-
-## Quick poll
+<!-- header: "Quick Poll" -->
 
 **Who here has written a benchmark?** 🙋
 
 ---
 
 <!-- _class: vcenter hcenter -->
-
-## Quick poll
+<!-- header: "Quick Poll" -->
 
 **Who here has written a benchmark?** 🙋
 
@@ -216,6 +234,7 @@ But we deal with "loose cables" every day when measuring software performance.
 ---
 
 <!-- _class: vcenter invert -->
+<!-- header: "" -->
 
 # How to Control Your Benchmarking Environment
 
@@ -264,7 +283,28 @@ _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 In virtualized environments, your benchmark competes with:
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
 - **Hypervisor overhead** — CPU cycles for virtualization
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ---
 
@@ -276,6 +316,11 @@ In virtualized environments, your benchmark competes with:
 
 - **Hypervisor overhead** — CPU cycles for virtualization
 - **Noisy neighbors** — Other VMs on the same host
+
+<br>
+<br>
+<br>
+<br>
 
 ---
 
@@ -288,6 +333,27 @@ In virtualized environments, your benchmark competes with:
 - **Hypervisor overhead** — CPU cycles for virtualization
 - **Noisy neighbors** — Other VMs on the same host
 - **Resource contention** — Shared caches, memory bandwidth, I/O
+
+<br>
+<br>
+<br>
+
+---
+
+<!-- _class: vcenter -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+- **Noisy neighbors** — Other VMs on the same host
+- **Resource contention** — Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+<br>
+<br>
 
 ---
 
@@ -488,7 +554,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 </div>
 
-<div class="bottom-citation">
+<div class="comments">
 
 _Experiments by Dmytro_
 
@@ -642,7 +708,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 </div>
 
-<div class="bottom-citation">
+<div class="comments">
 
 _Experiments by Dmytro_
 
@@ -718,6 +784,45 @@ _"All happy <span class="replace"><span class="old">families</span><span class="
 
 What does your application actually do?
 
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+- **Mixed**: Most real-world applications
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
 - **CPU-bound**: Number crunching, compression, encryption
 - **I/O-bound**: Database queries, API calls, file operations
 - **Mixed**: Most real-world applications
@@ -781,7 +886,7 @@ _Choose the archetype that matches your application's behavior._
 
 ![width:600](./assets/benchmark-design-experiment-1.svg)
 
-Many **false positives** and **high coeff. of variation** (= standard deviation / mean) of 11.80%.
+Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
 
 </center>
 
@@ -791,7 +896,7 @@ Many **false positives** and **high coeff. of variation** (= standard deviation 
 
 ![width:600](./assets/benchmark-design-experiment-1.svg)
 
-Many **false positives** and **high coeff. of variation** (= standard deviation / mean) of 11.80%.
+Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
 
 **Are we running the benchmark long enough?**
 
@@ -1029,7 +1134,7 @@ Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <center>
 
-Coefficient of variation: 11.80% → **2.94%**
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 </center>
 
@@ -1037,15 +1142,15 @@ Coefficient of variation: 11.80% → **2.94%**
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
 
 <br>
 
 <center>
 
-Coefficient of variation: 11.80% → **2.94%**
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 </center>
 
@@ -1057,15 +1162,15 @@ Coefficient of variation: 11.80% → **2.94%**
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
 
 <br>
 
 <center>
 
-Coefficient of variation: 11.80% → **2.94%**
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 </center>
 
@@ -1113,15 +1218,15 @@ _Gil Tene, "How NOT to Measure Latency" (2015)_
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
 
 <br>
 
 <center>
 
-Coefficient of variation: 11.80% → **2.94%**
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 </center>
 
@@ -1141,15 +1246,15 @@ Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
 
 <br>
 
 <center>
 
-Coefficient of variation: 11.80% → **2.94%**
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 </center>
 
@@ -1165,7 +1270,7 @@ But what about inter-experiment variation?
 
 </center>
 
-**Tip #0: Control your benchmarking environment.**
+<span class="hl">**Tip #0: Control your benchmarking environment.**</span>
 
 ---
 
@@ -1209,7 +1314,11 @@ _Strip plots show individual data points; boxplots can hide bimodal distribution
 
 ![width:850](./assets/interpreting-results-with-distributions.svg)
 
+<div class="bottom-citation">
+
 **How can we tell if the difference is big enough?**
+
+</div>
 
 </center>
 
@@ -1275,7 +1384,7 @@ $$t > \text{critical value}$$
 
 ## Hypothesis test
 
-**If t > critical value, reject the null hypothesis.**
+> If t > critical value, reject the null hypothesis.
 
 ---
 
@@ -1283,17 +1392,7 @@ $$t > \text{critical value}$$
 
 If t > critical value, reject the null hypothesis.
 
-**Null hypothesis: no difference.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-**Alternative hypothesis: enough difference.**
+> Null hypothesis: no difference.
 
 ---
 
@@ -1303,9 +1402,7 @@ If t > critical value, reject the null hypothesis.
 
 Null hypothesis: no difference.
 
-Alternative hypothesis: enough difference.
-
-**t, or t-statistic: difference/noise.**
+> Alternative hypothesis: enough difference.
 
 ---
 
@@ -1317,9 +1414,7 @@ Null hypothesis: no difference.
 
 Alternative hypothesis: enough difference.
 
-t, or t-statistic: difference/noise.
-
-**Critical value: threshold based on your tolerance for false positives.**
+> t, or t-statistic: difference/noise.
 
 ---
 
@@ -1333,13 +1428,27 @@ Alternative hypothesis: enough difference.
 
 t, or t-statistic: difference/noise.
 
-Critical value: threshold based on your tolerance for false positives.
+> **Critical value:** threshold based on your tolerance for false positives.
 
-**In practice, we use the p-value: p < α**
+---
 
-**p-value: probability of seeing this result if there's no real difference.**
+## Hypothesis test
 
-**α: false positive rate you're willing to tolerate.**
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+t, or t-statistic: difference/noise.
+
+**Critical value:** threshold based on your tolerance for false positives.
+
+**In practice, we use the p-value: <span class="hl">p < α</span>**
+
+> **p-value:** probability of seeing this result if there's no real difference.
+
+> **α:** false positive rate you're willing to tolerate.
 
 ---
 
@@ -1359,7 +1468,7 @@ if p_value < alpha:
 
 ## Choosing α
 
-**α = 0.05** (5%) is a common threshold for false positives.
+<span class="hl">**α = 0.05**</span> (5%) is a common threshold for false positives.
 
 Confidence level = 1 - α = 95%
 
@@ -1373,8 +1482,8 @@ Confidence level = 1 - α = 95%
 
 **Trade-off**
 
-- **Lower α (1%):** Fewer false positives, fewer detections.
-- **Higher α (10%):** More false positives, more detections.
+- **Lower α (1%):** <span class="hl">Fewer false positives</span>, fewer detections.
+- **Higher α (10%):** More false positives, <span class="hl">more detections</span>.
 
 ---
 
@@ -1563,13 +1672,50 @@ _We're working on open-sourcing our tooling._
 
 ---
 
+<!-- _class: vcenter hcenter invert -->
+
+<span class="big">**Performance matters.**</span>
+
+<br>
+
+---
+
 <!-- _class: vcenter hcenter -->
 
 <span class="big">**Performance matters.**</span>
 
-Low latency. High throughput. Better user experience.
+Low latency.
 
-Write benchmarks. Run them continuously.
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput.
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput. **Better user experience.**
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput. **Better user experience.**
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+Write benchmarks.
+Run them continuously.
 
 ---
 
@@ -1606,6 +1752,8 @@ Write benchmarks. Run them continuously.
 ---
 
 <!-- _class: vcenter -->
+
+<span class="comment">Speaker notes: Q&A preparation</span>
 
 ## Anticipated questions
 
