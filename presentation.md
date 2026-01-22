@@ -259,7 +259,7 @@ echo off > /sys/devices/system/cpu/smt/control
 
 ---
 
-## What's the impact of disabling SMT?
+## What's SMT?
 
 <div class="columns">
 
@@ -416,7 +416,7 @@ echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 
 ---
 
-## What's the impact of disabling DFS?
+## What's DFS?
 
 <center>
 
