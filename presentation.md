@@ -167,18 +167,18 @@ FOSDEM 2026
 
 ---
 
-<!-- _class: vcenter -->
-
-# How to Control Your Benchmarking Environment
-
----
-
 How to:
 
 1. Control your benchmarking environment.
 2. Design your benchmarks.
 3. Interpret benchmark results.
 4. Integrate benchmarks into your workflows.
+
+---
+
+<!-- _class: vcenter -->
+
+# How to Control Your Benchmarking Environment
 
 ---
 
