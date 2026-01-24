@@ -279,6 +279,16 @@ _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 <!-- _class: vcenter -->
 
+<div class="centered-table">
+
+| Layer  | Sources of Noise               | Mitigations                                                        |
+| ------ | ------------------------------ | ------------------------------------------------------------------ |
+| External | Virtualization | Use bare metal cloud instances |
+
+</div>
+
+--- 
+
 ## Why bare metal?
 
 In virtualized environments, your benchmark competes with:
