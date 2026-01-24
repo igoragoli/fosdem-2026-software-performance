@@ -293,16 +293,7 @@ _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 In virtualized environments, your benchmark competes with:
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
 ---
-
-<!-- _class: vcenter -->
 
 ## Why bare metal?
 
@@ -310,15 +301,7 @@ In virtualized environments, your benchmark competes with:
 
 - **Hypervisor overhead** — CPU cycles for virtualization
 
-<br>
-<br>
-<br>
-<br>
-<br>
-
 ---
-
-<!-- _class: vcenter -->
 
 ## Why bare metal?
 
@@ -327,14 +310,7 @@ In virtualized environments, your benchmark competes with:
 - **Hypervisor overhead** — CPU cycles for virtualization
 - **Noisy neighbors** — Other VMs on the same host
 
-<br>
-<br>
-<br>
-<br>
-
 ---
-
-<!-- _class: vcenter -->
 
 ## Why bare metal?
 
@@ -344,13 +320,19 @@ In virtualized environments, your benchmark competes with:
 - **Noisy neighbors** — Other VMs on the same host
 - **Resource contention** — Shared caches, memory bandwidth, I/O
 
-<br>
-<br>
-<br>
-
 ---
 
-<!-- _class: vcenter -->
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead** — CPU cycles for virtualization
+- **Noisy neighbors** — Other VMs on the same host
+- **Resource contention** — Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+---
 
 ## Why bare metal?
 
@@ -363,27 +345,12 @@ In virtualized environments, your benchmark competes with:
 Bare metal eliminates these variables, giving you **full control** over the hardware.
 
 <br>
-<br>
 
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
-<div class="bottom-citation">
+<center>
 
 _All kernel and CPU mitigations require bare metal access._
 
-</div>
+</center>
 
 ---
 
