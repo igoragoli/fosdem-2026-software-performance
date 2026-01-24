@@ -247,7 +247,7 @@ Most of us aren't building 730km tunnels.
 
 | Layer       | Sources of Noise                                                                | Mitigations                                                                |
 | ----------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors                          | Use dedicated on-prem hardware<br>Use bare metal cloud instances |
+| External    | Network<br>Temperature<br>Vibration<br>Virtualization                          | Use dedicated on-prem hardware<br>Use bare metal cloud instances |
 | Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                                   |
 | Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches         |
 | CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                                 |
@@ -262,7 +262,7 @@ Most of us aren't building 730km tunnels.
 
 | Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                        |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>                          | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span> |
+| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Virtualization</span>                          | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span> |
 | Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                           |
 | <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>         |
 | <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                                 |
