@@ -245,12 +245,12 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 <div class="centered-table">
 
-| Layer       | Sources of Noise                                                                | Mitigations                                                                |
-| ----------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| External    | Network<br>Temperature<br>Vibration<br>Virtualization                          | Use dedicated on-prem hardware<br>Use bare metal cloud instances |
-| Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                                   |
-| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches         |
-| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                                 |
+| Layer       | Sources of Noise                                                                | Mitigations                                                        |
+| ----------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| External    | Network<br>Temperature<br>Vibration<br>Virtualization                           | Use dedicated on-prem hardware<br>Use bare metal cloud instances   |
+| Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                           |
+| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                         |
 
 </div>
 
@@ -260,12 +260,12 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 <div class="centered-table">
 
-| Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                        |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Virtualization</span>                          | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span> |
-| Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                           |
-| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>         |
-| <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                                 |
+| Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Virtualization</span>                           | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span>   |
+| Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                   |
+| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span> |
+| <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                         |
 
 </div>
 
@@ -281,13 +281,13 @@ _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 <div class="centered-table">
 
-| Layer  | Sources of Noise               | Mitigations                                                        |
-| ------ | ------------------------------ | ------------------------------------------------------------------ |
-| External | Virtualization | Use bare metal cloud instances |
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
 </div>
 
---- 
+---
 
 ## Why bare metal?
 
@@ -726,7 +726,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 ![width:200](./assets/dmytro.jpeg)
 
-*SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)*
+_SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)_
 
 </center>
 
