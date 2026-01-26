@@ -1822,8 +1822,9 @@ Run them continuously.
 
 <span class="comment">
 
-- _Joke:_ "Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
-- _Message:_ We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
+"Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
+
+> We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
 
 </span>
 
@@ -1839,8 +1840,9 @@ Run them continuously.
 
 <span class="comment">
 
-- _Joke:_ "Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
-- _Message:_ We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
+"Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
+
+> We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
 
 </span>
 
