@@ -346,11 +346,7 @@ Bare metal eliminates these variables, giving you **full control** over the hard
 
 <br>
 
-<center>
-
 _All kernel and CPU mitigations require bare metal access._
-
-</center>
 
 ---
 
