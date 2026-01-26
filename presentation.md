@@ -205,7 +205,7 @@ Most of us aren't building 730km tunnels.
 
 </div>
 
-> But we deal with "loose cables" every day when measuring software performance.
+_But we deal with "loose cables" every day when measuring software performance._
 
 </center>
 
