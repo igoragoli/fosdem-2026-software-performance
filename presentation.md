@@ -151,7 +151,7 @@ _\[1\]_
 
 </div>
 
-*[2, 3]*
+_[2, 3]_
 
 </center>
 
@@ -1457,7 +1457,6 @@ Critical value: threshold based on your tolerance for false positives.
 **In practice, we use the p-value: <span class="hl">p < α</span>**
 
 - **p-value:** probability of seeing this result if there's no real difference.
-
 - **α:** false positive rate you're willing to tolerate.
 
 ---
