@@ -372,9 +372,21 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 <div class="centered-table">
 
-| Layer | Sources of Noise                             | Mitigations |
-| ----- | -------------------------------------------- | ----------- |
-| CPU   | Simultaneous multithreading (SMT) contention | Disable SMT |
+| Layer | Sources of Noise                                                                | Mitigations                |
+| ----- | ------------------------------------------------------------------------------- | -------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS |
+
+</div>
+
+---
+
+<!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                                              | Mitigations                                              |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
 
 </div>
 
@@ -571,9 +583,9 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="centered-table">
 
-| Layer | Sources of Noise                | Mitigations |
-| ----- | ------------------------------- | ----------- |
-| CPU   | Dynamic frequency scaling (DFS) | Disable DFS |
+| Layer | Sources of Noise                                                                                                              | Mitigations                                              |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
 
 </div>
 
