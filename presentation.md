@@ -510,6 +510,49 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
+| Thread   | mean ± stddev       | coeff. of variation |
+| -------- | ------------------- | ------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
+| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
+| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
+| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
+
+</div>
+
+</div>
+
+<div class="bottom-citation">
+
+_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
+
+</div>
+
+---
+
+## What's the impact of disabling SMT?
+
+<center>
+
+m5.metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+
+</center>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:450](./assets/environment-control-smt-experiment.svg)
+
+</center>
+
+</div>
+
+<!-- To align with the graph's borders -->
+<div style="padding-top: 43px;">
+
 | Thread   | mean ± stddev       | coeff. of variation              |
 | -------- | ------------------- | -------------------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
