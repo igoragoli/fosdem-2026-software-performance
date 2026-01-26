@@ -299,7 +299,7 @@ In virtualized environments, your benchmark competes with:
 
 In virtualized environments, your benchmark competes with:
 
-- **Hypervisor overhead** — CPU cycles for virtualization
+- **Hypervisor overhead**:CPU cycles for virtualization
 
 ---
 
@@ -307,8 +307,8 @@ In virtualized environments, your benchmark competes with:
 
 In virtualized environments, your benchmark competes with:
 
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
 
 ---
 
@@ -316,9 +316,9 @@ In virtualized environments, your benchmark competes with:
 
 In virtualized environments, your benchmark competes with:
 
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
 
 ---
 
@@ -326,9 +326,9 @@ In virtualized environments, your benchmark competes with:
 
 In virtualized environments, your benchmark competes with:
 
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
 
 Bare metal eliminates these variables, giving you **full control** over the hardware.
 
@@ -338,9 +338,9 @@ Bare metal eliminates these variables, giving you **full control** over the hard
 
 In virtualized environments, your benchmark competes with:
 
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
 
 Bare metal eliminates these variables, giving you **full control** over the hardware.
 
