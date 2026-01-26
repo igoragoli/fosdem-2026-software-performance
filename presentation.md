@@ -269,11 +269,6 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 </div>
 
-<div class="bottom-citation">
-
-_Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
-
-</div>
 
 ---
 
