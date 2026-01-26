@@ -269,7 +269,6 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 </div>
 
-
 ---
 
 <!-- _class: vcenter -->
@@ -384,8 +383,8 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 <div class="centered-table">
 
-| Layer | Sources of Noise                                                                                                              | Mitigations                                              |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
 | CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
 
 </div>
@@ -591,8 +590,8 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="centered-table">
 
-| Layer | Sources of Noise                                                                                                              | Mitigations                                              |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
 | CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
 
 </div>
@@ -1341,6 +1340,16 @@ But what about inter-experiment variation?
 ---
 
 <!-- footer: "Interpreting Benchmark Results" -->
+<!-- _class: vcenter -->
+
+<center>
+
+![width:950](./assets/interpreting-results-timeseries-full.svg)
+
+</center>
+
+---
+
 <!-- _class: vcenter -->
 
 <center>
