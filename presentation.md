@@ -1320,12 +1320,6 @@ But what about inter-experiment variation?
 
 </center>
 
-<div class="bottom-citation">
-
-_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
-
-</div>
-
 ---
 
 <!-- _class: vcenter -->
@@ -1404,7 +1398,7 @@ $$t > \text{critical value}$$
 
 ## Hypothesis test
 
-> If t > critical value, reject the null hypothesis.
+**If t > critical value, reject the null hypothesis.**
 
 ---
 
@@ -1412,17 +1406,7 @@ $$t > \text{critical value}$$
 
 If t > critical value, reject the null hypothesis.
 
-> Null hypothesis: no difference.
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-> Alternative hypothesis: enough difference.
+**Null hypothesis: no difference.**
 
 ---
 
@@ -1432,9 +1416,7 @@ If t > critical value, reject the null hypothesis.
 
 Null hypothesis: no difference.
 
-Alternative hypothesis: enough difference.
-
-> t, or t-statistic: difference/noise.
+**Alternative hypothesis: enough difference.**
 
 ---
 
@@ -1446,9 +1428,7 @@ Null hypothesis: no difference.
 
 Alternative hypothesis: enough difference.
 
-t, or t-statistic: difference/noise.
-
-> **Critical value:** threshold based on your tolerance for false positives.
+**t, or t-statistic: difference/noise.**
 
 ---
 
@@ -1462,13 +1442,27 @@ Alternative hypothesis: enough difference.
 
 t, or t-statistic: difference/noise.
 
-**Critical value:** threshold based on your tolerance for false positives.
+**Critical value: threshold based on your tolerance for false positives.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+t, or t-statistic: difference/noise.
+
+Critical value: threshold based on your tolerance for false positives.
 
 **In practice, we use the p-value: <span class="hl">p < α</span>**
 
-> **p-value:** probability of seeing this result if there's no real difference.
+- **p-value:** probability of seeing this result if there's no real difference.
 
-> **α:** false positive rate you're willing to tolerate.
+- **α:** false positive rate you're willing to tolerate.
 
 ---
 
