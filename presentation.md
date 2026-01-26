@@ -151,7 +151,7 @@ _\[1\]_
 
 </div>
 
-`[2, 3]`
+_[2, 3]_
 
 </center>
 
@@ -205,7 +205,7 @@ Most of us aren't building 730km tunnels.
 
 </div>
 
-> But we deal with "loose cables" every day when measuring software performance.
+_But we deal with "loose cables" every day when measuring software performance._
 
 </center>
 
@@ -245,12 +245,12 @@ Most of us aren't building 730km tunnels.
 
 <div class="centered-table">
 
-| Layer       | Sources of Noise                                                                | Mitigations                                                                |
-| ----------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| External    | Network<br>Temperature<br>Vibration<br>Noisy neighbors                          | Use dedicated on-prem hardware<br>Use dedicated/bare metal cloud instances |
-| Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                                   |
-| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches         |
-| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                                 |
+| Layer       | Sources of Noise                                                                | Mitigations                                                        |
+| ----------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| External    | Network<br>Temperature<br>Vibration<br>Virtualization                           | Use dedicated on-prem hardware<br>Use bare metal cloud instances   |
+| Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                           |
+| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+| CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                         |
 
 </div>
 
@@ -260,12 +260,12 @@ Most of us aren't building 730km tunnels.
 
 <div class="centered-table">
 
-| Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                        |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Noisy neighbors</span>                          | Use dedicated on-prem hardware<br><span class="hl">Use dedicated/bare metal cloud instances</span> |
-| Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                           |
-| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span>         |
-| <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                                 |
+| Layer                            | Sources of Noise                                                                                        | Mitigations                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Virtualization</span>                           | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span>   |
+| Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                   |
+| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span> |
+| <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                         |
 
 </div>
 
@@ -279,101 +279,74 @@ _Bakhvalov, "Performance Analysis and Tuning on Modern CPUs", Appendix A \[5\]_
 
 <!-- _class: vcenter -->
 
-## Why bare metal?
+<div class="centered-table">
 
-In virtualized environments, your benchmark competes with:
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-
-<br>
-<br>
-<br>
-<br>
-
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
-
-<br>
-<br>
-<br>
-
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
-<br>
-<br>
-
----
-
-<!-- _class: vcenter -->
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead** — CPU cycles for virtualization
-- **Noisy neighbors** — Other VMs on the same host
-- **Resource contention** — Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
-<div class="bottom-citation">
-
-_All kernel and CPU mitigations require bare metal access._
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
 </div>
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**:CPU cycles for virtualization
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**:CPU cycles for virtualization
+- **Noisy neighbors**:Other VMs on the same host
+- **Resource contention**:Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+<br>
+
+_All kernel and CPU mitigations require bare metal access._
 
 ---
 
@@ -533,6 +506,49 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
+| Thread   | mean ± stddev       | coeff. of variation |
+| -------- | ------------------- | ------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
+| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
+| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
+| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
+
+</div>
+
+</div>
+
+<div class="bottom-citation">
+
+_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
+
+</div>
+
+---
+
+## What's the impact of disabling SMT?
+
+<center>
+
+m5.metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+
+</center>
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:450](./assets/environment-control-smt-experiment.svg)
+
+</center>
+
+</div>
+
+<!-- To align with the graph's borders -->
+<div style="padding-top: 43px;">
+
 | Thread   | mean ± stddev       | coeff. of variation              |
 | -------- | ------------------- | -------------------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
@@ -551,12 +567,6 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 **<span class="hl">100x less variation</span>**
 
 </center>
-
-</div>
-
-<div class="comments">
-
-_Experiments by Dmytro_
 
 </div>
 
@@ -708,11 +718,17 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 </div>
 
-<div class="comments">
+---
 
-_Experiments by Dmytro_
+<!-- _class: vcenter -->
 
-</div>
+<center>
+
+![width:200](./assets/dmytro.jpeg)
+
+_SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)_
+
+</center>
 
 ---
 
@@ -1210,7 +1226,7 @@ When your load generator **waits** for each response before sending the next req
 
 <div class="bottom-citation">
 
-_Gil Tene, "How NOT to Measure Latency" (2015)_
+_Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 </div>
 
@@ -1300,12 +1316,6 @@ But what about inter-experiment variation?
 
 </center>
 
-<div class="bottom-citation">
-
-_Strip plots show individual data points; boxplots can hide bimodal distributions. \[14\]_
-
-</div>
-
 ---
 
 <!-- _class: vcenter -->
@@ -1384,7 +1394,7 @@ $$t > \text{critical value}$$
 
 ## Hypothesis test
 
-> If t > critical value, reject the null hypothesis.
+**If t > critical value, reject the null hypothesis.**
 
 ---
 
@@ -1392,17 +1402,7 @@ $$t > \text{critical value}$$
 
 If t > critical value, reject the null hypothesis.
 
-> Null hypothesis: no difference.
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-> Alternative hypothesis: enough difference.
+**Null hypothesis: no difference.**
 
 ---
 
@@ -1412,9 +1412,7 @@ If t > critical value, reject the null hypothesis.
 
 Null hypothesis: no difference.
 
-Alternative hypothesis: enough difference.
-
-> t, or t-statistic: difference/noise.
+**Alternative hypothesis: enough difference.**
 
 ---
 
@@ -1426,9 +1424,7 @@ Null hypothesis: no difference.
 
 Alternative hypothesis: enough difference.
 
-t, or t-statistic: difference/noise.
-
-> **Critical value:** threshold based on your tolerance for false positives.
+**t, or t-statistic: difference/noise.**
 
 ---
 
@@ -1442,13 +1438,26 @@ Alternative hypothesis: enough difference.
 
 t, or t-statistic: difference/noise.
 
-**Critical value:** threshold based on your tolerance for false positives.
+**Critical value: threshold based on your tolerance for false positives.**
+
+---
+
+## Hypothesis test
+
+If t > critical value, reject the null hypothesis.
+
+Null hypothesis: no difference.
+
+Alternative hypothesis: enough difference.
+
+t, or t-statistic: difference/noise.
+
+Critical value: threshold based on your tolerance for false positives.
 
 **In practice, we use the p-value: <span class="hl">p < α</span>**
 
-> **p-value:** probability of seeing this result if there's no real difference.
-
-> **α:** false positive rate you're willing to tolerate.
+- **p-value:** probability of seeing this result if there's no real difference.
+- **α:** false positive rate you're willing to tolerate.
 
 ---
 
@@ -1802,11 +1811,12 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[4\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
 \[5\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
 \[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
-\[7\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
-\[8\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
-\[9\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
-\[10\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
-\[11\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
-\[12\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
-\[13\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
-\[14\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[7\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
+\[8\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[9\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
+\[10\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
+\[11\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
+\[12\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
+\[13\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
+\[14\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
+\[15\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
