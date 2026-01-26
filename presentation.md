@@ -531,12 +531,6 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 </div>
 
-<div class="comments">
-
-_Experiments by Dmytro_
-
-</div>
-
 ---
 
 <!-- _class: vcenter -->
@@ -685,11 +679,17 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 </div>
 
-<div class="comments">
+---
 
-_Experiments by Dmytro_
+<!-- _class: vcenter -->
 
-</div>
+<center>
+
+![width:200](./assets/dmytro.jpeg)
+
+*SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)*
+
+</center>
 
 ---
 
