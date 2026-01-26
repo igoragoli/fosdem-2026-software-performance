@@ -461,29 +461,43 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 </center>
 
-<div class="columns">
+---
 
-<div>
+## What's the impact of disabling SMT?
 
 <center>
 
-![width:450](./assets/environment-control-smt-experiment.svg)
+m5.metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
 
 </center>
 
-</div>
+<center>
 
-<!-- To align with the graph's borders -->
-<div style="padding-top: 43px;">
+![width:550](./assets/environment-control-smt-experiment.svg)
 
-| Thread   | mean ± stddev       | coeff. of variation |
-| -------- | ------------------- | ------------------- |
-| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
-| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
-| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
-| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
+</center>
 
-</div>
+---
+
+## What's the impact of disabling SMT?
+
+<center>
+
+m5.metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+
+</center>
+
+<center>
+
+![width:550](./assets/environment-control-smt-experiment.svg)
+
+</center>
+
+<div class="bottom-citation">
+
+_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
 
 </div>
 
@@ -521,12 +535,6 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 | no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
 
 </div>
-
-</div>
-
-<div class="bottom-citation">
-
-_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
 
 </div>
 
@@ -641,6 +649,34 @@ echo performance > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 # Disable frequency boosting (Turbo-Boost, Intel CPUs only)
 echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 ```
+
+---
+
+## What's the impact of disabling DFS?
+
+<center>
+
+m5.metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+
+</center>
+
+---
+
+## What's the impact of disabling DFS?
+
+<center>
+
+m5.metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+
+</center>
+
+<center>
+
+![width:550](./assets/environment-control-dfs-experiment.svg)
+
+</center>
 
 ---
 
