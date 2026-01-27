@@ -1223,9 +1223,11 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #4: Use deterministic inputs.
 
-**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
 
-**Coordinated omission:** The load generator waits for each response before sending the next request.
+<div class="comment">
+
+**Coordinated omission: The load generator waits for each response before sending the next request.**
 
 <center>
 
@@ -1233,7 +1235,7 @@ _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 </center>
 
----
+</div>
 
 ---
 
