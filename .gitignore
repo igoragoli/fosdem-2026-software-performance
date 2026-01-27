@@ -1,11 +1,12 @@
 # Dependencies
 node_modules/
+experiments/.venv
 
 # Artifacts
 presentation.html
 presentation.pdf
 
-# Planing, speaker notes, etc.
+# Planning, speaker notes, etc.
 TODO.md
 SCRIPT.md
 NOTES.md
