@@ -781,7 +781,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 ![width:200](./assets/dmytro.jpeg)
 
-_SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)_
+_SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)_
 
 </center>
 
