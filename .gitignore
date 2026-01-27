@@ -2,6 +2,9 @@
 node_modules/
 experiments/.venv
 
+# Agents
+CLAUDE.local.md
+
 # Artifacts
 presentation.html
 presentation.pdf
