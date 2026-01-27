@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 experiments/.venv
+.DS_Store
 
 # Agents
 CLAUDE.local.md
