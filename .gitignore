@@ -1,11 +1,16 @@
 # Dependencies
 node_modules/
+experiments/.venv
+.DS_Store
+
+# Agents
+CLAUDE.local.md
 
 # Artifacts
 presentation.html
 presentation.pdf
 
-# Planing, speaker notes, etc.
+# Planning, speaker notes, etc.
 TODO.md
 SCRIPT.md
 NOTES.md

@@ -105,6 +105,19 @@ style: |
         color: #0066cc;
         text-decoration: underline;
     }
+    .fraction {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+    }
+    .fraction .num {
+        border-bottom: 2px solid currentColor;
+        padding: 0 0.3em 0.2em;
+    }
+    .fraction .den {
+        padding: 0.2em 0.3em 0;
+    }
 ---
 
 <!-- _class: vcenter invert -->
@@ -283,64 +296,41 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 ---
 
-## Why bare metal?
+<!-- _class: vcenter -->
 
-In virtualized environments, your benchmark competes with:
+<div class="centered-table">
 
----
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
-## Why bare metal?
+</div>
 
-In virtualized environments, your benchmark competes with:
+<center>
 
-- **Hypervisor overhead**: CPU cycles for virtualization
+**Noisy neighbor problem.**
 
----
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
+</center>
 
 ---
 
-## Why bare metal?
+<!-- _class: vcenter -->
 
-In virtualized environments, your benchmark competes with:
+<div class="centered-table">
 
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
----
+</div>
 
-## Why bare metal?
+<center>
 
-In virtualized environments, your benchmark competes with:
+Noisy neighbor problem.
 
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
+**Kernel- and CPU-layer mitigations require bare metal access.**
 
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
----
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
-<br>
-
-_All kernel and CPU mitigations require bare metal access._
+</center>
 
 ---
 
@@ -391,58 +381,39 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 ---
 
-## What's SMT?
+<!-- _class: vcenter -->
 
-<div class="columns">
+<div class="centered-table">
 
-<div>
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
+
+</div>
+
 <center>
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph TB
-    T1[Thread 1] --> AS1["Arch State 1"]
-    T2[Thread 2] --> AS2["Arch State 2"]
-    AS1 --> E["Exec Resources"]
-    AS2 --> E
-    E --> O1[Thread 1]
-    E --> O2[Thread 2]
-    style T1 fill:none,stroke:none
-    style T2 fill:none,stroke:none
-    style O1 fill:none,stroke:none
-    style O2 fill:none,stroke:none
-```
-
-_SMT enabled_
+**Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.**
 
 </center>
-</div>
-
-<div>
-<center>
-
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph TB
-    T1[Thread 1] --> AS1["Arch State 1"]
-    AS1 --> E1["Exec Resources"]
-    E1 --> O1[Thread 1]
-    style T1 fill:none,stroke:none
-    style O1 fill:none,stroke:none
-```
-
-_SMT disabled_
-
-</center>
-</div>
-
-</div>
 
 ---
 
 <!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
+
+</div>
+
+<center>
+
+Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.
+
+</center>
 
 ```bash
 # Disable SMT
@@ -456,7 +427,7 @@ echo off > /sys/devices/system/cpu/smt/control
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -467,7 +438,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -484,7 +455,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -496,7 +467,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="bottom-citation">
 
-_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
+_Strip plots show individual data points; boxplots can hide multimodal distributions. \[8\]_
 
 </div>
 
@@ -507,7 +478,7 @@ _Strip plots show individual data points; boxplots can hide bimodal distribution
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -544,7 +515,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -598,38 +569,19 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 ---
 
-## What's DFS?
+<!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
+
+</div>
 
 <center>
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph LR
-    Load["CPU Utilization"] --> Gov["Scaling Governor"]
-    Gov --> Driver["Scaling Driver"]
-    Load --> Driver
-    Physical[ Temp, Power, Current <br>Turbo Boost] ---> Driver
-    Driver -- "Target Frequency" --> CPU
-
-    style Load fill:none,stroke:none
-    style Physical fill:none,stroke:none
-```
-
-_DFS enabled_
-
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph LR
-    Freq["User-defined Frequency"] --> Gov["Scaling Governor"]
-    Gov --> Driver["Scaling Driver"]
-    Driver -- "Target Frequency" --> CPU
-
-    style Freq fill:none,stroke:none
-```
-
-_DFS disabled_
+**Dynamic frequency scaling (DFS) adjusts the CPU frequency to match the workload.**
 
 </center>
 
@@ -637,9 +589,22 @@ _DFS disabled_
 
 <!-- _class: vcenter -->
 
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
+
+</div>
+
+<center>
+
+Dynamic frequency scaling (DFS) adjusts the CPU frequency to match the workload.
+
+</center>
+
 ```bash
 # Pin clock rate
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
 # Set scaling governor to "performance"
@@ -768,7 +733,7 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 ![width:200](./assets/dmytro.jpeg)
 
-_SMT and DFS experiments by [Dmytro Y.](https://www.linkedin.com/in/dmytro-y-/)_
+_SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)_
 
 </center>
 
@@ -1200,9 +1165,9 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1220,9 +1185,9 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1240,35 +1205,35 @@ Tip #4: Use deterministic inputs.
 
 ---
 
-<span class="comment">Optional: Skip if short on time</span>
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-## What's coordinated omission?
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-When your load generator **waits** for each response before sending the next request:
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
----
+<br>
 
-## What's coordinated omission?
+<center>
 
-When your load generator **waits** for each response before sending the next request:
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
-- Slow responses → fewer requests sent → latency appears lower
-- The benchmark "coordinates" with the system to hide its own slowdowns
+</center>
 
----
+<br>
 
-## What's coordinated omission?
+Tip #4: Use deterministic inputs.
 
-When your load generator **waits** for each response before sending the next request:
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
 
-- Slow responses → fewer requests sent → latency appears lower
-- The benchmark "coordinates" with the system to hide its own slowdowns
+<div class="comment">
 
-**Solution:** Use load generators with **open-loop** mode (constant request rate regardless of response time).
+**Coordinated omission: The load generator waits for each response before sending the next request.**
 
-<div class="bottom-citation">
+<center>
 
 _Gil Tene, "How NOT to Measure Latency" \[7\]_
+
+</center>
 
 </div>
 
@@ -1276,9 +1241,9 @@ _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1304,9 +1269,9 @@ Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1390,7 +1355,7 @@ But what about inter-experiment variation?
 
 <center>
 
-$$\frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+<span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
 </center>
 
@@ -1400,7 +1365,7 @@ $$\frac{\text{how big the difference is}}{\text{how big the noise is}}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
 </center>
 
@@ -1410,21 +1375,9 @@ $$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-$$t > \text{critical value}$$
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
-
-$$t > \text{critical value}$$
+t > critical value
 
 </center>
 
@@ -1434,9 +1387,55 @@ $$t > \text{critical value}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-$$t > \text{critical value}$$
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
 
 **Hypothesis test.**
 
@@ -1444,107 +1443,13 @@ $$t > \text{critical value}$$
 
 ---
 
-## Hypothesis test
-
-**If t > critical value, reject the null hypothesis.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-**Null hypothesis: no difference.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-**Alternative hypothesis: enough difference.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-**t, or t-statistic: difference/noise.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-t, or t-statistic: difference/noise.
-
-**Critical value: threshold based on your tolerance for false positives.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-t, or t-statistic: difference/noise.
-
-Critical value: threshold based on your tolerance for false positives.
-
-**In practice, we use the p-value: <span class="hl">p < α</span>**
-
-- **p-value:** probability of seeing this result if there's no real difference.
-- **α:** false positive rate you're willing to tolerate.
-
----
-
 <!-- _class: vcenter -->
 
-```python
-from scipy import stats
+<center>
 
-alpha = 0.05
-t_stat, p_value = stats.ttest_ind(before, after)
+![width:800](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
 
-if p_value < alpha:
-    print("Statistically significant difference")
-```
-
----
-
-## Choosing α
-
-<span class="hl">**α = 0.05**</span> (5%) is a common threshold for false positives.
-
-Confidence level = 1 - α = 95%
-
----
-
-## Choosing α
-
-α = 0.05 (5%) is a common threshold for false positives.
-
-Confidence level = 1 - α = 95%
-
-**Trade-off**
-
-- **Lower α (1%):** <span class="hl">Fewer false positives</span>, fewer detections.
-- **Higher α (10%):** More false positives, <span class="hl">more detections</span>.
+</center>
 
 ---
 
