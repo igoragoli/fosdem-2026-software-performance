@@ -306,7 +306,11 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 </div>
 
-- **Noisy neighbor problem**
+<center>
+
+**Noisy neighbor problem.**
+
+</center>
 
 ---
 
@@ -320,8 +324,13 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 </div>
 
-- Noisy neighbor problem
-- **Kernel- and CPU-layer mitigations require bare metal access.**
+<center>
+
+Noisy neighbor problem.
+
+**Kernel- and CPU-layer mitigations require bare metal access.**
+
+</center>
 
 ---
 
@@ -372,58 +381,39 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 ---
 
-## What's SMT?
+<!-- _class: vcenter -->
 
-<div class="columns">
+<div class="centered-table">
 
-<div>
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
+
+</div>
+
 <center>
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph TB
-    T1[Thread 1] --> AS1["Arch State 1"]
-    T2[Thread 2] --> AS2["Arch State 2"]
-    AS1 --> E["Exec Resources"]
-    AS2 --> E
-    E --> O1[Thread 1]
-    E --> O2[Thread 2]
-    style T1 fill:none,stroke:none
-    style T2 fill:none,stroke:none
-    style O1 fill:none,stroke:none
-    style O2 fill:none,stroke:none
-```
-
-_SMT enabled_
+**Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.**
 
 </center>
-</div>
-
-<div>
-<center>
-
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph TB
-    T1[Thread 1] --> AS1["Arch State 1"]
-    AS1 --> E1["Exec Resources"]
-    E1 --> O1[Thread 1]
-    style T1 fill:none,stroke:none
-    style O1 fill:none,stroke:none
-```
-
-_SMT disabled_
-
-</center>
-</div>
-
-</div>
 
 ---
 
 <!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | <span class="hl">Simultaneous multithreading (SMT) contention</span><br>Dynamic frequency scaling (DFS) | <span class="hl">Disable SMT</span><br>Disable DFS |
+
+</div>
+
+<center>
+
+Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.
+
+</center>
 
 ```bash
 # Disable SMT
@@ -437,7 +427,7 @@ echo off > /sys/devices/system/cpu/smt/control
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -448,7 +438,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -465,7 +455,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -477,7 +467,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="bottom-citation">
 
-_Strip plots show individual data points; boxplots can hide bimodal distributions. \[8\]_
+_Strip plots show individual data points; boxplots can hide multimodal distributions. \[8\]_
 
 </div>
 
@@ -488,7 +478,7 @@ _Strip plots show individual data points; boxplots can hide bimodal distribution
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -525,7 +515,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core (smt) vs. separate cores (no-smt)**
+**2 CPU-intensive tasks on same core vs. separate cores**
 
 </center>
 
@@ -579,38 +569,19 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 ---
 
-## What's DFS?
+<!-- _class: vcenter -->
+
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
+
+</div>
 
 <center>
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph LR
-    Load["CPU Utilization"] --> Gov["Scaling Governor"]
-    Gov --> Driver["Scaling Driver"]
-    Load --> Driver
-    Physical[ Temp, Power, Current <br>Turbo Boost] ---> Driver
-    Driver -- "Target Frequency" --> CPU
-
-    style Load fill:none,stroke:none
-    style Physical fill:none,stroke:none
-```
-
-_DFS enabled_
-
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-
-graph LR
-    Freq["User-defined Frequency"] --> Gov["Scaling Governor"]
-    Gov --> Driver["Scaling Driver"]
-    Driver -- "Target Frequency" --> CPU
-
-    style Freq fill:none,stroke:none
-```
-
-_DFS disabled_
+**Dynamic frequency scaling (DFS) adjusts the CPU frequency to match the workload.**
 
 </center>
 
@@ -618,9 +589,22 @@ _DFS disabled_
 
 <!-- _class: vcenter -->
 
+<div class="centered-table">
+
+| Layer | Sources of Noise                                                                                        | Mitigations                                        |
+| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| CPU   | Simultaneous multithreading (SMT) contention<br><span class="hl">Dynamic frequency scaling (DFS)</span> | Disable SMT<br><span class="hl">Disable DFS</span> |
+
+</div>
+
+<center>
+
+Dynamic frequency scaling (DFS) adjusts the CPU frequency to match the workload.
+
+</center>
+
 ```bash
 # Pin clock rate
-echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
 echo 2500000 > /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
 # Set scaling governor to "performance"
