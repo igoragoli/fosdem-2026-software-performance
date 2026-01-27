@@ -287,7 +287,6 @@ _DFS disabled_
 
 <!-- Coordinated omission slides -->
 
-
 <span class="comment">Optional: Skip if short on time</span>
 
 ## What's coordinated omission?
@@ -319,5 +318,3 @@ When your load generator **waits** for each response before sending the next req
 _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 </div>
-
-

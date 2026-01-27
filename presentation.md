@@ -1395,7 +1395,6 @@ t > critical value, as a function of a chosen false positive rate α
 
 ---
 
-
 <!-- _class: vcenter -->
 
 <center>
