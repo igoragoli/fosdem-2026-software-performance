@@ -105,6 +105,19 @@ style: |
         color: #0066cc;
         text-decoration: underline;
     }
+    .fraction {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+    }
+    .fraction .num {
+        border-bottom: 2px solid currentColor;
+        padding: 0 0.3em 0.2em;
+    }
+    .fraction .den {
+        padding: 0.2em 0.3em 0;
+    }
 ---
 
 <!-- _class: vcenter invert -->
@@ -1200,9 +1213,9 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1220,9 +1233,9 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1276,9 +1289,9 @@ _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1304,9 +1317,9 @@ Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k
 
 Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-Tip #2: Collect enough samples to reduce intra-run variation (<span class="hl">N ≥ 30</span>).
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (<span class="hl">M ≥ 5</span>).
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
 <br>
 
@@ -1390,7 +1403,7 @@ But what about inter-experiment variation?
 
 <center>
 
-$$\frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+<span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
 </center>
 
@@ -1400,7 +1413,7 @@ $$\frac{\text{how big the difference is}}{\text{how big the noise is}}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
 </center>
 
@@ -1410,21 +1423,9 @@ $$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-$$t > \text{critical value}$$
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
-
-$$t > \text{critical value}$$
+t > critical value
 
 </center>
 
@@ -1434,117 +1435,60 @@ $$t > \text{critical value}$$
 
 <center>
 
-$$t = \frac{\text{how big the difference is}}{\text{how big the noise is}} = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-$$t > \text{critical value}$$
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
 
 **Hypothesis test.**
 
 </center>
-
----
-
-## Hypothesis test
-
-**If t > critical value, reject the null hypothesis.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-**Null hypothesis: no difference.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-**Alternative hypothesis: enough difference.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-**t, or t-statistic: difference/noise.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-t, or t-statistic: difference/noise.
-
-**Critical value: threshold based on your tolerance for false positives.**
-
----
-
-## Hypothesis test
-
-If t > critical value, reject the null hypothesis.
-
-Null hypothesis: no difference.
-
-Alternative hypothesis: enough difference.
-
-t, or t-statistic: difference/noise.
-
-Critical value: threshold based on your tolerance for false positives.
-
-**In practice, we use the p-value: <span class="hl">p < α</span>**
-
-- **p-value:** probability of seeing this result if there's no real difference.
-- **α:** false positive rate you're willing to tolerate.
-
----
-
-<!-- _class: vcenter -->
-
-```python
-from scipy import stats
-
-alpha = 0.05
-t_stat, p_value = stats.ttest_ind(before, after)
-
-if p_value < alpha:
-    print("Statistically significant difference")
-```
-
----
-
-## Choosing α
-
-<span class="hl">**α = 0.05**</span> (5%) is a common threshold for false positives.
-
-Confidence level = 1 - α = 95%
-
----
-
-## Choosing α
-
-α = 0.05 (5%) is a common threshold for false positives.
-
-Confidence level = 1 - α = 95%
-
-**Trade-off**
-
-- **Lower α (1%):** <span class="hl">Fewer false positives</span>, fewer detections.
-- **Higher α (10%):** More false positives, <span class="hl">more detections</span>.
 
 ---
 
