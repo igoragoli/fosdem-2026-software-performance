@@ -193,5 +193,131 @@ Bare metal eliminates these variables, giving you **full control** over the hard
 
 _All kernel and CPU mitigations require bare metal access._
 
+<!-- SMT slides -->
+
 ---
+
+## What's SMT?
+
+<div class="columns">
+
+<div>
+<center>
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph TB
+    T1[Thread 1] --> AS1["Arch State 1"]
+    T2[Thread 2] --> AS2["Arch State 2"]
+    AS1 --> E["Exec Resources"]
+    AS2 --> E
+    E --> O1[Thread 1]
+    E --> O2[Thread 2]
+    style T1 fill:none,stroke:none
+    style T2 fill:none,stroke:none
+    style O1 fill:none,stroke:none
+    style O2 fill:none,stroke:none
+```
+
+_SMT enabled_
+
+</center>
+</div>
+
+<div>
+<center>
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph TB
+    T1[Thread 1] --> AS1["Arch State 1"]
+    AS1 --> E1["Exec Resources"]
+    E1 --> O1[Thread 1]
+    style T1 fill:none,stroke:none
+    style O1 fill:none,stroke:none
+```
+
+_SMT disabled_
+
+</center>
+</div>
+
+</div>
+
+<!-- DFS slides -->
+
+---
+
+## What's DFS?
+
+<center>
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph LR
+    Load["CPU Utilization"] --> Gov["Scaling Governor"]
+    Gov --> Driver["Scaling Driver"]
+    Load --> Driver
+    Physical[ Temp, Power, Current <br>Turbo Boost] ---> Driver
+    Driver -- "Target Frequency" --> CPU
+
+    style Load fill:none,stroke:none
+    style Physical fill:none,stroke:none
+```
+
+_DFS enabled_
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+
+graph LR
+    Freq["User-defined Frequency"] --> Gov["Scaling Governor"]
+    Gov --> Driver["Scaling Driver"]
+    Driver -- "Target Frequency" --> CPU
+
+    style Freq fill:none,stroke:none
+```
+
+_DFS disabled_
+
+</center>
+
+<!-- Coordinated omission slides -->
+
+
+<span class="comment">Optional: Skip if short on time</span>
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+---
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+- Slow responses → fewer requests sent → latency appears lower
+- The benchmark "coordinates" with the system to hide its own slowdowns
+
+---
+
+## What's coordinated omission?
+
+When your load generator **waits** for each response before sending the next request:
+
+- Slow responses → fewer requests sent → latency appears lower
+- The benchmark "coordinates" with the system to hide its own slowdowns
+
+**Solution:** Use load generators with **open-loop** mode (constant request rate regardless of response time).
+
+<div class="bottom-citation">
+
+_Gil Tene, "How NOT to Measure Latency" \[7\]_
+
+</div>
+
 
