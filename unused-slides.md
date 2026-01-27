@@ -131,3 +131,67 @@ Confidence level = 1 - α = 95%
 - **Higher α (10%):** More false positives, <span class="hl">more detections</span>.
 
 ---
+
+<!-- Why bare metal slides -->
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**: CPU cycles for virtualization
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**: CPU cycles for virtualization
+- **Noisy neighbors**: Other VMs on the same host
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**: CPU cycles for virtualization
+- **Noisy neighbors**: Other VMs on the same host
+- **Resource contention**: Shared caches, memory bandwidth, I/O
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**: CPU cycles for virtualization
+- **Noisy neighbors**: Other VMs on the same host
+- **Resource contention**: Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+---
+
+## Why bare metal?
+
+In virtualized environments, your benchmark competes with:
+
+- **Hypervisor overhead**: CPU cycles for virtualization
+- **Noisy neighbors**: Other VMs on the same host
+- **Resource contention**: Shared caches, memory bandwidth, I/O
+
+Bare metal eliminates these variables, giving you **full control** over the hardware.
+
+<br>
+
+_All kernel and CPU mitigations require bare metal access._
+
+---
+

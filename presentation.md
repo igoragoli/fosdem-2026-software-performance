@@ -296,64 +296,32 @@ _But we deal with "loose cables" every day when measuring software performance._
 
 ---
 
-## Why bare metal?
+<!-- _class: vcenter -->
 
-In virtualized environments, your benchmark competes with:
+<div class="centered-table">
 
----
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
-## Why bare metal?
+</div>
 
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-
----
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
+- **Noisy neighbor problem**
 
 ---
 
-## Why bare metal?
+<!-- _class: vcenter -->
 
-In virtualized environments, your benchmark competes with:
+<div class="centered-table">
 
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
+| Layer    | Sources of Noise | Mitigations                    |
+| -------- | ---------------- | ------------------------------ |
+| External | Virtualization   | Use bare metal cloud instances |
 
----
+</div>
 
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
----
-
-## Why bare metal?
-
-In virtualized environments, your benchmark competes with:
-
-- **Hypervisor overhead**: CPU cycles for virtualization
-- **Noisy neighbors**: Other VMs on the same host
-- **Resource contention**: Shared caches, memory bandwidth, I/O
-
-Bare metal eliminates these variables, giving you **full control** over the hardware.
-
-<br>
-
-_All kernel and CPU mitigations require bare metal access._
+- Noisy neighbor problem
+- **Kernel- and CPU-layer mitigations require bare metal access.**
 
 ---
 
