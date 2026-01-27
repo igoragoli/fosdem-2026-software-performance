@@ -1,0 +1,8 @@
+{
+    "license": "WTFPL",
+    "private": true,
+    "dependencies": {
+        "@marp-team/marp-cli": "^4.2.3",
+        "@marp-team/marp-core": "^3.0.2"
+    }
+}
