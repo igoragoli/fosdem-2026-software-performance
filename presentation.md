@@ -1492,6 +1492,16 @@ $$t > t_{\alpha, \text{df}}$$
 
 ---
 
+<!-- _class: vcenter -->
+
+<center>
+
+![width:800](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
+
+</center>
+
+---
+
 ## Another approach: changepoint detection
 
 <!-- footer: "" -->
