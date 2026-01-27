@@ -1205,37 +1205,35 @@ Tip #4: Use deterministic inputs.
 
 ---
 
-<span class="comment">Optional: Skip if short on time</span>
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
 
-## What's coordinated omission?
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
-When your load generator **waits** for each response before sending the next request:
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
 
----
+<br>
 
-## What's coordinated omission?
+<center>
 
-When your load generator **waits** for each response before sending the next request:
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
-- Slow responses → fewer requests sent → latency appears lower
-- The benchmark "coordinates" with the system to hide its own slowdowns
+</center>
 
----
+<br>
 
-## What's coordinated omission?
+Tip #4: Use deterministic inputs.
 
-When your load generator **waits** for each response before sending the next request:
+**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
 
-- Slow responses → fewer requests sent → latency appears lower
-- The benchmark "coordinates" with the system to hide its own slowdowns
+**Coordinated omission:** The load generator waits for each response before sending the next request.
 
-**Solution:** Use load generators with **open-loop** mode (constant request rate regardless of response time).
-
-<div class="bottom-citation">
+<center>
 
 _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
-</div>
+</center>
+
+---
 
 ---
 
