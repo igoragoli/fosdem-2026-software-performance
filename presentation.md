@@ -1024,6 +1024,16 @@ _But we deal with "loose cables" every day when measuring software performance._
 ---
 
 <!-- _class: vcenter -->
+
+<center>
+
+![width:800](./assets/maks-cern-researcher.png)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
 <!-- footer: "How to Control Your Benchmarking Environment" -->
 
 <div class="centered-table">
