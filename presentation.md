@@ -784,7 +784,7 @@ t > critical value
 
 t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 </center>
 
@@ -798,7 +798,7 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 </center>
 
@@ -812,7 +812,7 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 $$t > t_{\alpha, \text{df}}$$
 
@@ -828,11 +828,11 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 $$t > t_{\alpha, \text{df}}$$
 
-**Hypothesis test.**
+**Hypothesis test (t-test).**
 
 </center>
 
@@ -845,9 +845,6 @@ $$t > t_{\alpha, \text{df}}$$
 <center>
 
 ![width:800](./assets/fosdem-schedule.png)
-
-_Want to learn more about detecting performance regressions?_
-_Stay for the next talk._
 
 </center>
 
@@ -1483,12 +1480,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread   | mean ± stddev                             | coeff. of variation             |
-| -------- | ----------------------------------------- | ------------------------------- |
-| dfs-1    | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
-| dfs-8    | <span class="hl">578.67</span> ± 0.287 ms | 0.050 %                         |
-| no-dfs-1 | 738.18 ± 0.306 ms                         | <span class="hl">0.041 %</span> |
-| no-dfs-8 | 739.18 ± 0.351 ms                         | 0.047 %                         |
+| Thread   | mean ± stddev     | coeff. of variation             |
+| -------- | ----------------- | ------------------------------- |
+| dfs-1    | 533.97 ± 2.046 ms | <span class="hl">0.383 %</span> |
+| dfs-8    | 578.67 ± 0.287 ms | 0.050 %                         |
+| no-dfs-1 | 738.18 ± 0.306 ms | <span class="hl">0.041 %</span> |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 %                         |
 
 </div>
 
@@ -1499,7 +1496,6 @@ m5.metal, simultaneous multithreading (SMT) disabled
 <center>
 
 **<span class="hl">10x less variation</span>**
-**<span class="hl">Removes unpredictable bias</span>**
 
 </center>
 
