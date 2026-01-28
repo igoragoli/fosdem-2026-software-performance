@@ -131,6 +131,805 @@ FOSDEM 2026
 ---
 
 <!-- paginate: true -->
+<!-- _class: vcenter hcenter invert -->
+
+<span class="big">**Performance matters.**</span>
+
+<br>
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency.
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput.
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput. **Better user experience.**
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+<span class="big">**Performance matters.**</span>
+
+Low latency. High throughput. **Better user experience.**
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+Write benchmarks.
+Run them continuously.
+
+---
+
+<!-- _class: vcenter hcenter invert -->
+
+## Quick poll
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+**Who here has written a benchmark?** 🙋
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+**Who here has written a benchmark?** 🙋
+
+**Who has been surprised by the results?** 🤔
+
+---
+
+<!-- _class: vcenter invert -->
+<!-- footer: "" -->
+
+# How to Design Benchmarks
+
+---
+
+<!-- _class: vcenter -->
+<!-- footer: "How to Design Benchmarks" -->
+
+<center>
+
+_"All happy families are alike; each unhappy family is unhappy in its own way."_
+
+— Leo Tolstoy, _Anna Karenina_
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+_"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."_
+
+</center>
+
+<br>
+
+<div style="text-align: right;">
+
+— [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)
+
+</div>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+<span class="medium">**`representative`** and **`repeatable`**</span>
+
+</center>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+- **Mixed**: Most real-world applications
+
+<br>
+
+---
+
+## Representative workloads
+
+What does your application actually do?
+
+- **CPU-bound**: Number crunching, compression, encryption
+- **I/O-bound**: Database queries, API calls, file operations
+- **Mixed**: Most real-world applications
+
+<br>
+
+_Your benchmark workload should match your production workload._
+
+---
+
+## Workload archetypes
+
+<div class="centered-table">
+
+| Archetype      | Pattern                          | Characteristics                      |
+| -------------- | -------------------------------- | ------------------------------------ |
+| **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
+| **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
+| **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O          |
+
+</div>
+
+<br>
+
+_Choose the archetype that matches your application's behavior._
+
+---
+
+## An unhappy benchmark
+
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
+
+---
+
+## An unhappy benchmark
+
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
+- **System under test: Spring app instrumented (or not) with dd-trace-java.**
+
+---
+
+## An unhappy benchmark
+
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
+- System under test: Spring app instrumented (or not) with dd-trace-java.
+- **Workload: As many requests as possible by 5 concurrent users.**
+
+---
+
+## An unhappy benchmark
+
+- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
+- System under test: Spring app instrumented (or not) with dd-trace-java.
+- Workload: As many requests as possible by 5 concurrent users.
+- **20 second warmup, 15 seconds of actual measurements.**
+
+---
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-1.svg)
+
+Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
+
+</center>
+
+---
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-1.svg)
+
+Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
+
+**Are we running the benchmark long enough?**
+
+</center>
+
+---
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-2.svg)
+
+</center>
+
+---
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-2.svg)
+
+**Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
+
+</center>
+
+---
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-2.svg)
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+**For how long should we run the benchmark?**
+
+</center>
+
+---
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | coeff. of variation |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
+
+</div>
+</div>
+
+</div>
+
+---
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | coeff. of variation |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
+
+</div>
+</div>
+
+</div>
+
+<center>
+
+**Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).**
+
+</center>
+
+---
+
+<div class="columns">
+
+<div>
+
+![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
+
+</div>
+
+<div style="padding-top: 100px;">
+<div class="centered-table">
+
+| # measurements | coeff. of variation |
+| -------------- | ------------------- |
+| 30             | 6.95%               |
+| 60             | 5.23%               |
+| 90             | 4.59%               |
+
+</div>
+</div>
+
+</div>
+
+<center>
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+**But what about inter-run variation?**
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
+
+_Impact of initial state on FFT benchmark results \[1\]_
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:900](./assets/benchmark-design-experiment-4.svg)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+---
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 45px;">
+
+<div class="centered-table">
+
+| Run # | mean ± stddev   | coeff. of variation |
+| ----- | --------------- | ------------------- |
+| 1     | 20.08 ± 0.63 ms | 3.16%               |
+| 2     | 20.63 ± 0.56 ms | 2.72%               |
+| 3     | 20.31 ± 0.45 ms | 2.23%               |
+| 4     | 20.19 ± 0.54 ms | 2.66%               |
+| 5     | 20.26 ± 0.63 ms | 3.11%               |
+| all   | 20.29 ± 0.60 ms | 2.94%               |
+
+</div>
+
+</div>
+
+</div>
+
+---
+
+<div class="columns">
+
+<div>
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
+
+</center>
+
+</div>
+
+<div style="padding-top: 45px;">
+
+<div class="centered-table">
+
+| Run # | mean ± stddev   | coeff. of variation |
+| ----- | --------------- | ------------------- |
+| 1     | 20.08 ± 0.63 ms | 3.16%               |
+| 2     | 20.63 ± 0.56 ms | 2.72%               |
+| 3     | 20.31 ± 0.45 ms | 2.23%               |
+| 4     | 20.19 ± 0.54 ms | 2.66%               |
+| 5     | 20.26 ± 0.63 ms | 3.11%               |
+| all   | 20.29 ± 0.60 ms | 2.94%               |
+
+</div>
+
+</div>
+
+</div>
+
+<center>
+
+**Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).**
+
+</center>
+
+---
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+<br>
+
+<center>
+
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
+
+</center>
+
+---
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+<br>
+
+<center>
+
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
+
+</center>
+
+<br>
+
+**Tip #4: Use deterministic inputs.**
+
+---
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+<br>
+
+<center>
+
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
+
+</center>
+
+<br>
+
+Tip #4: Use deterministic inputs.
+
+**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
+
+---
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+<br>
+
+<center>
+
+Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
+
+</center>
+
+<br>
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+
+<div class="comment">
+
+**Coordinated omission: The load generator waits for each response before sending the next request.**
+
+<center>
+
+_Gil Tene, "How NOT to Measure Latency" \[2\]_
+
+</center>
+
+</div>
+
+---
+
+<!-- _class: vcenter invert -->
+<!-- footer: "" -->
+
+# Interpreting Benchmark Results
+
+---
+
+<!-- footer: "Interpreting Benchmark Results" -->
+<!-- _class: vcenter -->
+
+<center>
+
+![width:950](./assets/interpreting-results-timeseries-full.svg)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:600](./assets/interpreting-results-timeseries-zoom.svg)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:850](./assets/interpreting-results-with-distributions.svg)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:850](./assets/interpreting-results-with-distributions.svg)
+
+<div class="bottom-citation">
+
+**How can we tell if the difference is big enough?**
+
+</div>
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+![width:800](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+<span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+t > critical value
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+t > critical value, as a function of a chosen false positive rate α
+
+$$t > t_{\alpha, \text{df}}$$
+
+**Hypothesis test.**
+
+</center>
+
+---
+
+## Another approach: changepoint detection
+
+<!-- footer: "" -->
+
+<center>
+
+![width:800](./assets/fosdem-schedule.png)
+
+_Want to learn more about detecting performance regressions?_
+_Stay for the next talk._
+
+</center>
+
+---
+
+<!-- footer: "Interpreting Benchmark Results" -->
+
+<span class="comment">
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+
+</span>
+
+**Tip #6: Use hypothesis testing to determine if the difference is statistically significant.**
+
+---
+
+<span class="comment">
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+
+Tip #6: Use hypothesis testing to determine if the difference is statistically significant.
+
+</span>
+
+<center>
+
+**But what about inter-experiment variation?**
+
+</center>
+
+---
+
+<span class="comment">
+
+Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+
+Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+
+Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+
+Tip #4: Use deterministic inputs.
+
+Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+
+Tip #6: Use hypothesis testing to determine if the difference is statistically significant.
+
+</span>
+
+<center>
+
+But what about inter-experiment variation?
+
+**<span class="replace"><span class="old">Tip #7</span><span class="new">Tip #0</span></span>: Control your benchmarking environment.**
+
+</center>
+
+---
+
+<!-- _class: vcenter invert -->
+<!-- footer: "" -->
+
+# How to Control Your Benchmarking Environment
+
+---
+
 <!-- _class: vcenter -->
 
 <center>
@@ -147,7 +946,7 @@ FOSDEM 2026
 
 ![width:1000](./assets/researchers-cern-to-gran-sasso-neutrino-beam.png)
 
-_\[1\]_
+_\[3\]_
 
 </center>
 
@@ -164,7 +963,7 @@ _\[1\]_
 
 </div>
 
-_[2, 3]_
+_[4, 5]_
 
 </center>
 
@@ -186,7 +985,7 @@ _[2, 3]_
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-_Loose fiber optic cable that caused the measurement error \[4\]_
+_Loose fiber optic cable that caused the measurement error \[6\]_
 
 </center>
 
@@ -221,35 +1020,6 @@ Most of us aren't building 730km tunnels.
 _But we deal with "loose cables" every day when measuring software performance._
 
 </center>
-
----
-
-<!-- _class: vcenter hcenter invert -->
-
-## Quick poll
-
----
-
-<!-- _class: vcenter hcenter -->
-<!-- header: "Quick Poll" -->
-
-**Who here has written a benchmark?** 🙋
-
----
-
-<!-- _class: vcenter hcenter -->
-<!-- header: "Quick Poll" -->
-
-**Who here has written a benchmark?** 🙋
-
-**Who has been surprised by the results?** 🤔
-
----
-
-<!-- _class: vcenter invert -->
-<!-- header: "" -->
-
-# How to Control Your Benchmarking Environment
 
 ---
 
@@ -467,7 +1237,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="bottom-citation">
 
-_Strip plots show individual data points; boxplots can hide multimodal distributions. \[8\]_
+_Strip plots show individual data points; boxplots can hide multimodal distributions. \[7\]_
 
 </div>
 
@@ -766,710 +1536,6 @@ _[🔗 Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 <!-- _class: vcenter invert -->
 <!-- footer: "" -->
 
-# How to Design Benchmarks
-
----
-
-<!-- _class: vcenter -->
-<!-- footer: "How to Design Benchmarks" -->
-
-<center>
-
-_"All happy families are alike; each unhappy family is unhappy in its own way."_
-
-— Leo Tolstoy, _Anna Karenina_
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-_"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."_
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-<span class="medium">**`representative`** and **`repeatable`**</span>
-
-</center>
-
----
-
-## Representative workloads
-
-What does your application actually do?
-
----
-
-## Representative workloads
-
-What does your application actually do?
-
-- **CPU-bound**: Number crunching, compression, encryption
-
-<br>
-
----
-
-## Representative workloads
-
-What does your application actually do?
-
-- **CPU-bound**: Number crunching, compression, encryption
-- **I/O-bound**: Database queries, API calls, file operations
-
-<br>
-
----
-
-## Representative workloads
-
-What does your application actually do?
-
-- **CPU-bound**: Number crunching, compression, encryption
-- **I/O-bound**: Database queries, API calls, file operations
-- **Mixed**: Most real-world applications
-
-<br>
-
----
-
-## Representative workloads
-
-What does your application actually do?
-
-- **CPU-bound**: Number crunching, compression, encryption
-- **I/O-bound**: Database queries, API calls, file operations
-- **Mixed**: Most real-world applications
-
-<br>
-
-_Your benchmark workload should match your production workload._
-
----
-
-## Workload archetypes
-
-<div class="centered-table">
-
-| Archetype      | Pattern                          | Characteristics                      |
-| -------------- | -------------------------------- | ------------------------------------ |
-| **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
-| **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
-| **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
-| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O          |
-
-</div>
-
-<br>
-
-_Choose the archetype that matches your application's behavior._
-
----
-
-## An unhappy benchmark
-
-- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-
----
-
-## An unhappy benchmark
-
-- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- **System under test: Spring app instrumented (or not) with dd-trace-java.**
-
----
-
-## An unhappy benchmark
-
-- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- System under test: Spring app instrumented (or not) with dd-trace-java.
-- **Workload: As many requests as possible by 5 concurrent users.**
-
----
-
-## An unhappy benchmark
-
-- Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
-- System under test: Spring app instrumented (or not) with dd-trace-java.
-- Workload: As many requests as possible by 5 concurrent users.
-- **20 second warmup, 15 seconds of actual measurements.**
-
----
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-1.svg)
-
-Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
-
-</center>
-
----
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-1.svg)
-
-Many <span class="hl">**false positives**</span> and **high coeff. of variation** (= standard deviation / mean) of <span class="hl">11.80%</span>.
-
-**Are we running the benchmark long enough?**
-
-</center>
-
----
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-2.svg)
-
-</center>
-
----
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-2.svg)
-
-**Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
-
-</center>
-
----
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-2.svg)
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-**For how long should we run the benchmark?**
-
-</center>
-
----
-
-<div class="columns">
-
-<div>
-
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
-
-</div>
-
-<div style="padding-top: 100px;">
-<div class="centered-table">
-
-| # measurements | coeff. of variation |
-| -------------- | ------------------- |
-| 30             | 6.95%               |
-| 60             | 5.23%               |
-| 90             | 4.59%               |
-
-</div>
-</div>
-
-</div>
-
----
-
-<div class="columns">
-
-<div>
-
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
-
-</div>
-
-<div style="padding-top: 100px;">
-<div class="centered-table">
-
-| # measurements | coeff. of variation |
-| -------------- | ------------------- |
-| 30             | 6.95%               |
-| 60             | 5.23%               |
-| 90             | 4.59%               |
-
-</div>
-</div>
-
-</div>
-
-<center>
-
-**Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).**
-
-</center>
-
----
-
-<div class="columns">
-
-<div>
-
-![width:600](./assets/benchmark-design-experiment-3-with-dotted-lines.svg)
-
-</div>
-
-<div style="padding-top: 100px;">
-<div class="centered-table">
-
-| # measurements | coeff. of variation |
-| -------------- | ------------------- |
-| 30             | 6.95%               |
-| 60             | 5.23%               |
-| 90             | 4.59%               |
-
-</div>
-</div>
-
-</div>
-
-<center>
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-**But what about inter-run variation?**
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
-
-_Impact of initial state on FFT benchmark results \[6\]_
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:900](./assets/benchmark-design-experiment-4.svg)
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
-
-</center>
-
----
-
-<div class="columns">
-
-<div>
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
-
-</center>
-
-</div>
-
-<div style="padding-top: 45px;">
-
-<div class="centered-table">
-
-| Run # | mean ± stddev   | coeff. of variation |
-| ----- | --------------- | ------------------- |
-| 1     | 20.08 ± 0.63 ms | 3.16%               |
-| 2     | 20.63 ± 0.56 ms | 2.72%               |
-| 3     | 20.31 ± 0.45 ms | 2.23%               |
-| 4     | 20.19 ± 0.54 ms | 2.66%               |
-| 5     | 20.26 ± 0.63 ms | 3.11%               |
-| all   | 20.29 ± 0.60 ms | 2.94%               |
-
-</div>
-
-</div>
-
-</div>
-
----
-
-<div class="columns">
-
-<div>
-
-<center>
-
-![width:600](./assets/benchmark-design-experiment-4-random-initial-state.svg)
-
-</center>
-
-</div>
-
-<div style="padding-top: 45px;">
-
-<div class="centered-table">
-
-| Run # | mean ± stddev   | coeff. of variation |
-| ----- | --------------- | ------------------- |
-| 1     | 20.08 ± 0.63 ms | 3.16%               |
-| 2     | 20.63 ± 0.56 ms | 2.72%               |
-| 3     | 20.31 ± 0.45 ms | 2.23%               |
-| 4     | 20.19 ± 0.54 ms | 2.66%               |
-| 5     | 20.26 ± 0.63 ms | 3.11%               |
-| all   | 20.29 ± 0.60 ms | 2.94%               |
-
-</div>
-
-</div>
-
-</div>
-
-<center>
-
-**Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).**
-
-</center>
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
-<br>
-
-**Tip #4: Use deterministic inputs.**
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
-<br>
-
-Tip #4: Use deterministic inputs.
-
-**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
-<br>
-
-Tip #4: Use deterministic inputs.
-
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
-
-<div class="comment">
-
-**Coordinated omission: The load generator waits for each response before sending the next request.**
-
-<center>
-
-_Gil Tene, "How NOT to Measure Latency" \[7\]_
-
-</center>
-
-</div>
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
-<br>
-
-Tip #4: Use deterministic inputs.
-
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
-
-<center>
-
-**But what about inter-experiment variation?**
-
-</center>
-
----
-
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-<br>
-
-<center>
-
-Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
-
-</center>
-
-<br>
-
-Tip #4: Use deterministic inputs.
-
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
-
-<center>
-
-But what about inter-experiment variation?
-
-</center>
-
-<span class="hl">**Tip #0: Control your benchmarking environment.**</span>
-
----
-
-<!-- _class: vcenter invert -->
-<!-- footer: "" -->
-
-# Interpreting Benchmark Results
-
----
-
-<!-- footer: "Interpreting Benchmark Results" -->
-<!-- _class: vcenter -->
-
-<center>
-
-![width:950](./assets/interpreting-results-timeseries-full.svg)
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:600](./assets/interpreting-results-timeseries-zoom.svg)
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:850](./assets/interpreting-results-with-distributions.svg)
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:850](./assets/interpreting-results-with-distributions.svg)
-
-<div class="bottom-citation">
-
-**How can we tell if the difference is big enough?**
-
-</div>
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-<span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-t > critical value
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-t > critical value, as a function of a chosen false positive rate α
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
-
-t > critical value, as a function of a chosen false positive rate α
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
-
-t > critical value, as a function of a chosen false positive rate α
-
-$$t > t_{\alpha, \text{df}}$$
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
-
-$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
-
-t > critical value, as a function of a chosen false positive rate α
-
-$$t > t_{\alpha, \text{df}}$$
-
-**Hypothesis test.**
-
-</center>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-![width:800](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
-
-</center>
-
----
-
-## Another approach: changepoint detection
-
-<!-- footer: "" -->
-
-<center>
-
-![width:800](./assets/fosdem-schedule.png)
-
-_Want to learn more about detecting performance regressions?_
-_Stay for the next talk._
-
-</center>
-
----
-
-<!-- _class: vcenter invert -->
-
 # Integrating Benchmarks Into Your Workflows
 
 ---
@@ -1638,50 +1704,15 @@ _We're working on open-sourcing our tooling._
 
 ---
 
-<!-- _class: vcenter hcenter invert -->
+<!-- _class: vcenter -->
 
-<span class="big">**Performance matters.**</span>
+<center>
 
-<br>
+![width:600](./assets/brendan-gregg-shouting-at-datacenter.png)
 
----
+**Don't shout in the datacenter.**
 
-<!-- _class: vcenter hcenter -->
-
-<span class="big">**Performance matters.**</span>
-
-Low latency.
-
----
-
-<!-- _class: vcenter hcenter -->
-
-<span class="big">**Performance matters.**</span>
-
-Low latency. High throughput.
-
----
-
-<!-- _class: vcenter hcenter -->
-
-<span class="big">**Performance matters.**</span>
-
-Low latency. High throughput. **Better user experience.**
-
----
-
-<!-- _class: vcenter hcenter -->
-
-<span class="big">**Performance matters.**</span>
-
-Low latency. High throughput. **Better user experience.**
-
----
-
-<!-- _class: vcenter hcenter -->
-
-Write benchmarks.
-Run them continuously.
+</center>
 
 ---
 
@@ -1704,12 +1735,12 @@ Run them continuously.
 
 <div>
 
-# Thanks
+# Thanks!
 
 </div>
 <div>
 
-![width:500](./assets/slides_qr_code.png)
+![width:350](./assets/slides_qr_code.png)
 
 </div>
 
@@ -1764,14 +1795,14 @@ p { font-size: 0.5em; line-height: 1.4; }
 
 # References
 
-\[1\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
-\[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
-\[3\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
-\[4\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
-\[5\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
-\[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
-\[7\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
-\[8\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[1\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
+\[2\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
+\[3\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
+\[4\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
+\[5\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
+\[6\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
+\[7\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[8\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
 \[9\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
 \[10\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
 \[11\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
