@@ -226,6 +226,14 @@ _"All happy <span class="replace"><span class="old">families</span><span class="
 
 </center>
 
+<br>
+
+<div style="text-align: right;">
+
+— [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)
+
+</div>
+
 ---
 
 <!-- _class: vcenter -->
@@ -484,7 +492,7 @@ Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 ![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
 
-_Impact of initial state on FFT benchmark results \[6\]_
+_Impact of initial state on FFT benchmark results \[1\]_
 
 </center>
 
@@ -666,7 +674,7 @@ Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k
 
 <center>
 
-_Gil Tene, "How NOT to Measure Latency" \[7\]_
+_Gil Tene, "How NOT to Measure Latency" \[2\]_
 
 </center>
 
@@ -909,7 +917,7 @@ Tip #6: Use hypothesis testing to determine if the difference is statistically s
 
 But what about inter-experiment variation?
 
-<span class="replace"><span class="old">Tip #7: Control your benchmarking environment.</span><span class="new">**Tip #0: Control your benchmarking environment.**</span></span>
+**<span class="replace"><span class="old">Tip #7</span><span class="new">Tip #0</span></span>: Control your benchmarking environment.**
 
 </center>
 
@@ -938,7 +946,7 @@ But what about inter-experiment variation?
 
 ![width:1000](./assets/researchers-cern-to-gran-sasso-neutrino-beam.png)
 
-_\[1\]_
+_\[3\]_
 
 </center>
 
@@ -955,7 +963,7 @@ _\[1\]_
 
 </div>
 
-_[2, 3]_
+_[4, 5]_
 
 </center>
 
@@ -977,7 +985,7 @@ _[2, 3]_
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-_Loose fiber optic cable that caused the measurement error \[4\]_
+_Loose fiber optic cable that caused the measurement error \[6\]_
 
 </center>
 
@@ -1229,7 +1237,7 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <div class="bottom-citation">
 
-_Strip plots show individual data points; boxplots can hide multimodal distributions. \[8\]_
+_Strip plots show individual data points; boxplots can hide multimodal distributions. \[7\]_
 
 </div>
 
@@ -1727,12 +1735,12 @@ _We're working on open-sourcing our tooling._
 
 <div>
 
-# Thanks
+# Thanks!
 
 </div>
 <div>
 
-![width:500](./assets/slides_qr_code.png)
+![width:350](./assets/slides_qr_code.png)
 
 </div>
 
@@ -1787,14 +1795,14 @@ p { font-size: 0.5em; line-height: 1.4; }
 
 # References
 
-\[1\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
-\[2\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
-\[3\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
-\[4\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
-\[5\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
-\[6\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
-\[7\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
-\[8\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[1\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
+\[2\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
+\[3\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
+\[4\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
+\[5\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
+\[6\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
+\[7\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[8\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
 \[9\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
 \[10\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
 \[11\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
