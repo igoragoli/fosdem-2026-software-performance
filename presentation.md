@@ -1285,29 +1285,6 @@ bare metal, dynamic frequency scaling (DFS) disabled
 
 </center>
 
-<center>
-
-![width:550](./assets/environment-control-smt-experiment.svg)
-
-</center>
-
-<div class="bottom-citation">
-
-_Strip plots show individual data points; boxplots can hide multimodal distributions. \[7\]_
-
-</div>
-
----
-
-## What's the impact of disabling SMT?
-
-<center>
-
-bare metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
-
-</center>
-
 <div class="columns">
 
 <div>
@@ -1563,6 +1540,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 ---
 
 <!-- _class: vcenter -->
+<!-- Speaker note: These are not all the tweaks that we do. -->
 
 <center>
 
@@ -1570,7 +1548,8 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 _SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)_
 
-_CPU-level tweaks at "Performance Analysis and Tuning on Modern CPUs" \[8\]_
+_CPU-level tweaks at Denis Bakhvalov's_
+_"Performance Analysis and Tuning on Modern CPUs" \[8\]_
 
 </center>
 
