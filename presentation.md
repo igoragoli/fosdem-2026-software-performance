@@ -702,9 +702,13 @@ Tip #4: Use deterministic inputs.
 
 Tip #5: Use load generators that avoid the **coordinated omission** problem (e.g., k6).
 
+<span class="comment">
+
 Slow system → load generator slows down → artificially better latencies.
 
 _Gil Tene, "How NOT to Measure Latency" \[2\]_
+
+</span>
 
 ---
 
@@ -1319,12 +1323,12 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread                                  | mean ± stddev       | coeff. of variation |
-| --------------------------------------- | ------------------- | ------------------- |
-| <span class="hl-blue">smt-1</span>      | 1537.64 ± 367.29 ms | 23.887 %            |
-| <span class="hl-blue">smt-2</span>      | 1536.88 ± 366.84 ms | 23.869 %            |
-| <span class="hl-orange">no-smt-1</span> | 737.37 ± 0.32 ms    | 0.044 %             |
-| <span class="hl-orange">no-smt-2</span> | 737.93 ± 1.74 ms    | 0.235 %             |
+| Thread   | mean ± stddev       | coeff. of variation |
+| -------- | ------------------- | ------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
+| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
+| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
+| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
 
 </div>
 
@@ -1356,12 +1360,12 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread                                  | mean ± stddev       | coeff. of variation                    |
-| --------------------------------------- | ------------------- | -------------------------------------- |
-| <span class="hl-blue">smt-1</span>      | 1537.64 ± 367.29 ms | <span class="hl-blue">23.887 %</span>  |
-| <span class="hl-blue">smt-2</span>      | 1536.88 ± 366.84 ms | <span class="hl-blue">23.869 %</span>  |
-| <span class="hl-orange">no-smt-1</span> | 737.37 ± 0.32 ms    | <span class="hl-orange">0.044 %</span> |
-| <span class="hl-orange">no-smt-2</span> | 737.93 ± 1.74 ms    | <span class="hl-orange">0.235 %</span> |
+| Thread   | mean ± stddev       | coeff. of variation                    |
+| -------- | ------------------- | -------------------------------------- |
+| smt-1    | 1537.64 ± 367.29 ms | <span class="hl-blue">23.887 %</span>  |
+| smt-2    | 1536.88 ± 366.84 ms | <span class="hl-blue">23.869 %</span>  |
+| no-smt-1 | 737.37 ± 0.32 ms    | <span class="hl-orange">0.044 %</span> |
+| no-smt-2 | 737.93 ± 1.74 ms    | <span class="hl-orange">0.235 %</span> |
 
 </div>
 
@@ -1499,12 +1503,12 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread                                  | mean ± stddev     | coeff. of variation |
-| --------------------------------------- | ----------------- | ------------------- |
-| <span class="hl-blue">dfs-1</span>      | 533.97 ± 2.046 ms | 0.383 %             |
-| <span class="hl-blue">dfs-8</span>      | 578.67 ± 0.287 ms | 0.050 %             |
-| <span class="hl-orange">no-dfs-1</span> | 738.18 ± 0.306 ms | 0.041 %             |
-| <span class="hl-orange">no-dfs-8</span> | 739.18 ± 0.351 ms | 0.047 %             |
+| Thread   | mean ± stddev     | coeff. of variation |
+| -------- | ----------------- | ------------------- |
+| dfs-1    | 533.97 ± 2.046 ms | 0.383 %             |
+| dfs-8    | 578.67 ± 0.287 ms | 0.050 %             |
+| no-dfs-1 | 738.18 ± 0.306 ms | 0.041 %             |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 %             |
 
 </div>
 
@@ -1535,12 +1539,12 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread                                  | mean ± stddev     | coeff. of variation                    |
-| --------------------------------------- | ----------------- | -------------------------------------- |
-| <span class="hl-blue">dfs-1</span>      | 533.97 ± 2.046 ms | <span class="hl-blue">0.383 %</span>   |
-| <span class="hl-blue">dfs-8</span>      | 578.67 ± 0.287 ms | 0.050 %                                |
-| <span class="hl-orange">no-dfs-1</span> | 738.18 ± 0.306 ms | <span class="hl-orange">0.041 %</span> |
-| <span class="hl-orange">no-dfs-8</span> | 739.18 ± 0.351 ms | 0.047 %                                |
+| Thread   | mean ± stddev     | coeff. of variation                    |
+| -------- | ----------------- | -------------------------------------- |
+| dfs-1    | 533.97 ± 2.046 ms | <span class="hl-blue">0.383 %</span>   |
+| dfs-8    | 578.67 ± 0.287 ms | 0.050 %                                |
+| no-dfs-1 | 738.18 ± 0.306 ms | <span class="hl-orange">0.041 %</span> |
+| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 %                                |
 
 </div>
 
