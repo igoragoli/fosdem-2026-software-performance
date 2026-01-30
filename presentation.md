@@ -15,7 +15,7 @@ style: |
         color: #888;
     }
     .medium {
-        font-size: 4em;
+        font-size: 3em;
     }
     .big {
         font-size: 5em;
@@ -36,6 +36,16 @@ style: |
     .hl {
         background-color: #ffde59;
         padding: 0.1em 0;
+    }
+    .hl-blue {
+        background-color: #1f77b4;
+        color: white;
+        padding: 0.1em 0.2em;
+    }
+    .hl-orange {
+        background-color: #ff7f0e;
+        color: white;
+        padding: 0.1em 0.2em;
     }
     .replace {
         display: inline-flex;
@@ -212,9 +222,13 @@ Run them continuously.
 
 _"All happy families are alike; each unhappy family is unhappy in its own way."_
 
+</center>
+
+<div style="text-align: right;">
+
 — Leo Tolstoy, _Anna Karenina_
 
-</center>
+</div>
 
 ---
 
@@ -318,6 +332,16 @@ _Choose the archetype that matches your application's behavior._
 
 ---
 
+<!-- _class: vcenter -->
+
+<center>
+
+![width:700](./assets/first-time.jpg)
+
+</center>
+
+---
+
 ## An unhappy benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
@@ -345,6 +369,16 @@ _Choose the archetype that matches your application's behavior._
 - System under test: Spring app instrumented (or not) with dd-trace-java.
 - Workload: As many requests as possible by 5 concurrent users.
 - **20 second warmup, 15 seconds of actual measurements.**
+
+---
+
+<!-- Speaker note: 1 measurement per second. Benchmarking harnesses and load generators often run several iterations to build a single sample. -->
+
+<center>
+
+![width:600](./assets/benchmark-design-experiment-1.svg)
+
+</center>
 
 ---
 
@@ -644,7 +678,7 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #4: Use deterministic inputs.
 
-**Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).**
+**Tip #5: Use load generators that avoid the **coordinated omission** problem (e.g., k6).**
 
 ---
 
@@ -666,19 +700,11 @@ Coefficient of variation: <span class="hl">11.80% → **2.94%**</span>
 
 Tip #4: Use deterministic inputs.
 
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+Tip #5: Use load generators that avoid the **coordinated omission** problem (e.g., k6).
 
-<div class="comment">
-
-**Coordinated omission: The load generator waits for each response before sending the next request.**
-
-<center>
+Slow system → load generator slows down → artificially better latencies.
 
 _Gil Tene, "How NOT to Measure Latency" \[2\]_
-
-</center>
-
-</div>
 
 ---
 
@@ -740,7 +766,7 @@ _Gil Tene, "How NOT to Measure Latency" \[2\]_
 
 <center>
 
-![width:800](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
+![width:700](./assets/math-vs-intuition-meme-distracted-boyfriend.png)
 
 </center>
 
@@ -784,7 +810,35 @@ t > critical value
 
 t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value
+
+false positive rate
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+t > critical value
+
+α = false positive rate
+
+</center>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+t = <span class="fraction"><span class="num">how big the difference is</span><span class="den">how big the noise is</span></span>
+
+t > critical value(α)
 
 </center>
 
@@ -798,7 +852,7 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 </center>
 
@@ -812,7 +866,7 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 $$t > t_{\alpha, \text{df}}$$
 
@@ -828,11 +882,11 @@ t = <span class="fraction"><span class="num">how big the difference is</span><sp
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 
-t > critical value, as a function of a chosen false positive rate α
+t > critical value(α)
 
 $$t > t_{\alpha, \text{df}}$$
 
-**Hypothesis test.**
+<span class="hl">Hypothesis test (t-test).</span>
 
 </center>
 
@@ -846,9 +900,6 @@ $$t > t_{\alpha, \text{df}}$$
 
 ![width:800](./assets/fosdem-schedule.png)
 
-_Want to learn more about detecting performance regressions?_
-_Stay for the next talk._
-
 </center>
 
 ---
@@ -857,35 +908,26 @@ _Stay for the next talk._
 
 <span class="comment">
 
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-Tip #4: Use deterministic inputs.
-
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+Tip #1: Long enough benchmarks.
+Tip #2: Enough samples (N ≥ 30).
+Tip #3: Enough runs (M ≥ 5).
+Tip #4: Deterministic inputs.
+Tip #5: Avoid coordinated omission.
 
 </span>
 
-**Tip #6: Use hypothesis testing to determine if the difference is statistically significant.**
+**Tip #6: Use hypothesis testing to determine if improvements/regressions are statistically significant.**
 
 ---
 
 <span class="comment">
 
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
-
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
-
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
-
-Tip #4: Use deterministic inputs.
-
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
-
-Tip #6: Use hypothesis testing to determine if the difference is statistically significant.
+Tip #1: Long enough benchmarks.
+Tip #2: Enough samples (N ≥ 30).
+Tip #3: Enough runs (M ≥ 5).
+Tip #4: Deterministic inputs.
+Tip #5: Avoid coordinated omission.
+Tip #6: Use hypothesis testing.
 
 </span>
 
@@ -899,17 +941,33 @@ Tip #6: Use hypothesis testing to determine if the difference is statistically s
 
 <span class="comment">
 
-Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).
+Tip #1: Long enough benchmarks.
+Tip #2: Enough samples (N ≥ 30).
+Tip #3: Enough runs (M ≥ 5).
+Tip #4: Deterministic inputs.
+Tip #5: Avoid coordinated omission.
+Tip #6: Use hypothesis testing.
 
-Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
+</span>
 
-Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).
+<center>
 
-Tip #4: Use deterministic inputs.
+But what about inter-experiment variation?
 
-Tip #5: Use load generators that avoid the coordinated omission problem (e.g., k6).
+**Tip #7: Control your benchmarking environment.**
 
-Tip #6: Use hypothesis testing to determine if the difference is statistically significant.
+</center>
+
+---
+
+<span class="comment">
+
+Tip #1: Long enough benchmarks.
+Tip #2: Enough samples (N ≥ 30).
+Tip #3: Enough runs (M ≥ 5).
+Tip #4: Deterministic inputs.
+Tip #5: Avoid coordinated omission.
+Tip #6: Use hypothesis testing.
 
 </span>
 
@@ -991,22 +1049,6 @@ _Loose fiber optic cable that caused the measurement error \[6\]_
 
 ---
 
-<!-- _class: vcenter invert -->
-
-<center>
-
-<div class="medium">
-
-Most of us aren't building 730km tunnels.
-
-</div>
-
-<br>
-
-</center>
-
----
-
 <!-- _class: vcenter -->
 
 <center>
@@ -1032,7 +1074,7 @@ _But we deal with "loose cables" every day when measuring software performance._
 | ----------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | External    | Network<br>Temperature<br>Vibration<br>Virtualization                           | Use dedicated on-prem hardware<br>Use bare metal cloud instances   |
 | Application | Memory layout<br>Compilation/linking                                            | Set up fixed builds (e.g., disable ASLR)                           |
-| Kernel      | Scheduling<br>Filesystem cache                                                  | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+| Kernel      | Scheduling<br>Caching                                                           | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
 | CPU         | Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS) | Disable SMT<br>Disable DFS                                         |
 
 </div>
@@ -1047,7 +1089,7 @@ _But we deal with "loose cables" every day when measuring software performance._
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | <span class="hl">External</span> | Network<br>Temperature<br>Vibration<br><span class="hl">Virtualization</span>                           | Use dedicated on-prem hardware<br><span class="hl">Use bare metal cloud instances</span>   |
 | Application                      | Memory layout<br>Compilation/linking                                                                    | Set up fixed builds (e.g., disable ASLR)                                                   |
-| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Filesystem cache</span>                                                  | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span> |
+| <span class="hl">Kernel</span>   | <span class="hl">Scheduling<br>Caching</span>                                                           | <span class="hl">Set CPU affinity<br>Set process priority<br>Warm up or drop caches</span> |
 | <span class="hl">CPU</span>      | <span class="hl">Simultaneous multithreading (SMT) contention<br>Dynamic frequency scaling (DFS)</span> | <span class="hl">Disable SMT<br>Disable DFS</span>                                         |
 
 </div>
@@ -1108,9 +1150,9 @@ Noisy neighbor problem.
 
 <div class="centered-table">
 
-| Layer  | Sources of Noise               | Mitigations                                                        |
-| ------ | ------------------------------ | ------------------------------------------------------------------ |
-| Kernel | Scheduling<br>Filesystem cache | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
+| Layer  | Sources of Noise      | Mitigations                                                        |
+| ------ | --------------------- | ------------------------------------------------------------------ |
+| Kernel | Scheduling<br>Caching | Set CPU affinity<br>Set process priority<br>Warm up or drop caches |
 
 </div>
 
@@ -1163,7 +1205,7 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 <center>
 
-**Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.**
+**Multiple _hardware threads_ share the same core.**
 
 </center>
 
@@ -1181,7 +1223,7 @@ echo 3 > /proc/sys/vm/drop_caches && sync
 
 <center>
 
-Multiple _hardware threads_ share the same core, speeding up IO-bound workloads.
+Multiple _hardware threads_ share the same core.
 
 </center>
 
@@ -1196,8 +1238,7 @@ echo off > /sys/devices/system/cpu/smt/control
 
 <center>
 
-m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core vs. separate cores**
+bare metal, dynamic frequency scaling (DFS) disabled
 
 </center>
 
@@ -1207,8 +1248,19 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <center>
 
-m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core vs. separate cores**
+bare metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
+
+</center>
+
+---
+
+## What's the impact of disabling SMT?
+
+<center>
+
+bare metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1224,8 +1276,8 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <center>
 
-m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core vs. separate cores**
+bare metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1247,8 +1299,8 @@ _Strip plots show individual data points; boxplots can hide multimodal distribut
 
 <center>
 
-m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core vs. separate cores**
+bare metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1267,12 +1319,12 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread   | mean ± stddev       | coeff. of variation |
-| -------- | ------------------- | ------------------- |
-| smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
-| smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
-| no-smt-1 | 737.37 ± 0.32 ms    | 0.044 %             |
-| no-smt-2 | 737.93 ± 1.74 ms    | 0.235 %             |
+| Thread                                  | mean ± stddev       | coeff. of variation |
+| --------------------------------------- | ------------------- | ------------------- |
+| <span class="hl-blue">smt-1</span>      | 1537.64 ± 367.29 ms | 23.887 %            |
+| <span class="hl-blue">smt-2</span>      | 1536.88 ± 366.84 ms | 23.869 %            |
+| <span class="hl-orange">no-smt-1</span> | 737.37 ± 0.32 ms    | 0.044 %             |
+| <span class="hl-orange">no-smt-2</span> | 737.93 ± 1.74 ms    | 0.235 %             |
 
 </div>
 
@@ -1284,8 +1336,8 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 
 <center>
 
-m5.metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks on same core vs. separate cores**
+bare metal, dynamic frequency scaling (DFS) disabled
+**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1304,12 +1356,12 @@ m5.metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread   | mean ± stddev       | coeff. of variation              |
-| -------- | ------------------- | -------------------------------- |
-| smt-1    | 1537.64 ± 367.29 ms | <span class="hl">23.887 %</span> |
-| smt-2    | 1536.88 ± 366.84 ms | <span class="hl">23.869 %</span> |
-| no-smt-1 | 737.37 ± 0.32 ms    | <span class="hl">0.044 %</span>  |
-| no-smt-2 | 737.93 ± 1.74 ms    | <span class="hl">0.235 %</span>  |
+| Thread                                  | mean ± stddev       | coeff. of variation                    |
+| --------------------------------------- | ------------------- | -------------------------------------- |
+| <span class="hl-blue">smt-1</span>      | 1537.64 ± 367.29 ms | <span class="hl-blue">23.887 %</span>  |
+| <span class="hl-blue">smt-2</span>      | 1536.88 ± 366.84 ms | <span class="hl-blue">23.869 %</span>  |
+| <span class="hl-orange">no-smt-1</span> | 737.37 ± 0.32 ms    | <span class="hl-orange">0.044 %</span> |
+| <span class="hl-orange">no-smt-2</span> | 737.93 ± 1.74 ms    | <span class="hl-orange">0.235 %</span> |
 
 </div>
 
@@ -1390,8 +1442,7 @@ echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
 
 <center>
 
-m5.metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+bare metal, simultaneous multithreading (SMT) disabled
 
 </center>
 
@@ -1401,8 +1452,19 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-m5.metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+bare metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
+
+</center>
+
+---
+
+## What's the impact of disabling DFS?
+
+<center>
+
+bare metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1418,8 +1480,8 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-m5.metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+bare metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1437,12 +1499,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread   | mean ± stddev     | coeff. of variation |
-| -------- | ----------------- | ------------------- |
-| dfs-1    | 533.97 ± 2.046 ms | 0.383 %             |
-| dfs-8    | 578.67 ± 0.287 ms | 0.050 %             |
-| no-dfs-1 | 738.18 ± 0.306 ms | 0.041 %             |
-| no-dfs-8 | 739.18 ± 0.351 ms | 0.047 %             |
+| Thread                                  | mean ± stddev     | coeff. of variation |
+| --------------------------------------- | ----------------- | ------------------- |
+| <span class="hl-blue">dfs-1</span>      | 533.97 ± 2.046 ms | 0.383 %             |
+| <span class="hl-blue">dfs-8</span>      | 578.67 ± 0.287 ms | 0.050 %             |
+| <span class="hl-orange">no-dfs-1</span> | 738.18 ± 0.306 ms | 0.041 %             |
+| <span class="hl-orange">no-dfs-8</span> | 739.18 ± 0.351 ms | 0.047 %             |
 
 </div>
 
@@ -1454,8 +1516,8 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <center>
 
-m5.metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks on the same core with DFS on vs. off**
+bare metal, simultaneous multithreading (SMT) disabled
+**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1473,12 +1535,12 @@ m5.metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread   | mean ± stddev                             | coeff. of variation             |
-| -------- | ----------------------------------------- | ------------------------------- |
-| dfs-1    | <span class="hl">533.97</span> ± 2.046 ms | <span class="hl">0.383 %</span> |
-| dfs-8    | <span class="hl">578.67</span> ± 0.287 ms | 0.050 %                         |
-| no-dfs-1 | 738.18 ± 0.306 ms                         | <span class="hl">0.041 %</span> |
-| no-dfs-8 | 739.18 ± 0.351 ms                         | 0.047 %                         |
+| Thread                                  | mean ± stddev     | coeff. of variation                    |
+| --------------------------------------- | ----------------- | -------------------------------------- |
+| <span class="hl-blue">dfs-1</span>      | 533.97 ± 2.046 ms | <span class="hl-blue">0.383 %</span>   |
+| <span class="hl-blue">dfs-8</span>      | 578.67 ± 0.287 ms | 0.050 %                                |
+| <span class="hl-orange">no-dfs-1</span> | 738.18 ± 0.306 ms | <span class="hl-orange">0.041 %</span> |
+| <span class="hl-orange">no-dfs-8</span> | 739.18 ± 0.351 ms | 0.047 %                                |
 
 </div>
 
@@ -1489,7 +1551,6 @@ m5.metal, simultaneous multithreading (SMT) disabled
 <center>
 
 **<span class="hl">10x less variation</span>**
-**<span class="hl">Removes unpredictable bias</span>**
 
 </center>
 
@@ -1504,6 +1565,8 @@ m5.metal, simultaneous multithreading (SMT) disabled
 ![width:200](./assets/dmytro.jpeg)
 
 _SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)_
+
+_CPU-level tweaks at "Performance Analysis and Tuning on Modern CPUs" \[8\]_
 
 </center>
 
@@ -1710,7 +1773,7 @@ _We're working on open-sourcing our tooling._
 
 ![width:600](./assets/brendan-gregg-shouting-at-datacenter.png)
 
-**Don't shout in the datacenter.**
+**Don't shout in the datacenter**
 
 </center>
 
