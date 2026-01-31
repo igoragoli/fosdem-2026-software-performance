@@ -287,7 +287,7 @@ _Your benchmark workload should match your production workload._
 | **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
 | **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
 | **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
-| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU/I/O          |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O          |
 
 </div>
 
