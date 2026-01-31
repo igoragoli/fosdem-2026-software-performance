@@ -1779,36 +1779,14 @@ _We're working on open-sourcing our tooling._
 
 **"Why not open source your tooling?"**
 
-<span class="comment">
+- Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny.
 
-"Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
-
-> We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
-
-</span>
-
----
-
-<!-- _class: vcenter -->
-
-<span class="comment">Speaker notes: Q&A preparation</span>
-
-## Anticipated questions
-
-**"Why not open source your tooling?"**
-
-<span class="comment">
-
-"Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny"
-
-> We're working on it. Open-sourcing benchmarks requires extra care to ensure reproducibility and documentation.
-
-</span>
+- We're working on it. Open-sourcing benchmarking tooling requires extra care to ensure reproducibility and proper documentation.
 
 **"What about cloud vs. bare metal costs?"**
 
-- Bare metal instances are more expensive per hour, but results are more reliable
-- Fewer reruns needed → often cheaper overall
+- Bare metal instances are more expensive per hour, but results are more reliable.
+- Fewer reruns needed, actually provide useful information → often cheaper overall.
 
 ---
 
