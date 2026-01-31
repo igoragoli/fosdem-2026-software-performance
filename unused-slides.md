@@ -318,3 +318,39 @@ When your load generator **waits** for each response before sending the next req
 _Gil Tene, "How NOT to Measure Latency" \[7\]_
 
 </div>
+
+<!-- Quote slides -->
+
+
+<!-- _class: vcenter -->
+<!-- footer: "How to Design Benchmarks" -->
+
+<center>
+
+_"All happy families are alike; each unhappy family is unhappy in its own way."_
+
+</center>
+
+<div style="text-align: right;">
+
+— Leo Tolstoy, _Anna Karenina_
+
+</div>
+
+---
+
+<!-- _class: vcenter -->
+
+<center>
+
+_"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."_
+
+</center>
+
+<br>
+
+<div style="text-align: right;">
+
+— [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)
+
+</div>

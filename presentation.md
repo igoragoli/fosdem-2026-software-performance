@@ -216,41 +216,6 @@ Run them continuously.
 ---
 
 <!-- _class: vcenter -->
-<!-- footer: "How to Design Benchmarks" -->
-
-<center>
-
-_"All happy families are alike; each unhappy family is unhappy in its own way."_
-
-</center>
-
-<div style="text-align: right;">
-
-— Leo Tolstoy, _Anna Karenina_
-
-</div>
-
----
-
-<!-- _class: vcenter -->
-
-<center>
-
-_"All happy <span class="replace"><span class="old">families</span><span class="new">benchmarks</span></span> are alike; each unhappy <span class="replace"><span class="old">family</span><span class="new">benchmark</span></span> is unhappy in its own way."_
-
-</center>
-
-<br>
-
-<div style="text-align: right;">
-
-— [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)
-
-</div>
-
----
-
-<!-- _class: vcenter -->
 
 <center>
 
@@ -332,6 +297,12 @@ _Choose the archetype that matches your application's behavior._
 
 ---
 
+<!-- _class: vcenter invert -->
+
+# How to Design Benchmarks: Case Study
+
+---
+
 <!-- _class: vcenter -->
 
 <center>
@@ -342,20 +313,20 @@ _Choose the archetype that matches your application's behavior._
 
 ---
 
-## An unhappy benchmark
+## An non-repeatable benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 
 ---
 
-## An unhappy benchmark
+## An non-repeatable benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - **System under test: Spring app instrumented (or not) with dd-trace-java.**
 
 ---
 
-## An unhappy benchmark
+## An non-repeatable benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - System under test: Spring app instrumented (or not) with dd-trace-java.
@@ -363,7 +334,7 @@ _Choose the archetype that matches your application's behavior._
 
 ---
 
-## An unhappy benchmark
+## An non-repeatable benchmark
 
 - Goal: Measuring dd-trace-java instrumentation overhead on a Spring app.
 - System under test: Spring app instrumented (or not) with dd-trace-java.
@@ -417,6 +388,8 @@ Many <span class="hl">**false positives**</span> and **high coeff. of variation*
 ![width:600](./assets/benchmark-design-experiment-2.svg)
 
 **Tip #1: Run benchmarks for longer to uncover perturbations (e.g., warmup effects).**
+
+<!-- The JVM compiles methods on-the-fly. Each method needs to be called enough times to hit the compilation threshold, then you wait for the compiler to finish. More methods + fewer CPUs = longer warmup. -->
 
 </center>
 
@@ -619,6 +592,8 @@ _Impact of initial state on FFT benchmark results \[1\]_
 <center>
 
 **Tip #3: Rerun benchmarks multiple times to reduce inter-run variation (M ≥ 5).**
+
+<!-- Cache, memory placement -->
 
 </center>
 
@@ -1253,7 +1228,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 bare metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
+**2 CPU-bound tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1264,7 +1239,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 bare metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
+**2 CPU-bound tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1281,7 +1256,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 bare metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
+**2 CPU-bound tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1300,7 +1275,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread   | mean ± stddev       | coeff. of variation |
+| Task   | mean ± stddev       | coeff. of variation |
 | -------- | ------------------- | ------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
 | smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
@@ -1318,7 +1293,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <center>
 
 bare metal, dynamic frequency scaling (DFS) disabled
-**2 CPU-intensive tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
+**2 CPU-bound tasks, <span class="hl-blue">same core</span> vs. <span class="hl-orange">separate cores</span>**
 
 </center>
 
@@ -1337,7 +1312,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Thread   | mean ± stddev       | coeff. of variation                    |
+| Task   | mean ± stddev       | coeff. of variation                    |
 | -------- | ------------------- | -------------------------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | <span class="hl-blue">23.887 %</span>  |
 | smt-2    | 1536.88 ± 366.84 ms | <span class="hl-blue">23.869 %</span>  |
@@ -1434,7 +1409,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 <center>
 
 bare metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
+**Varying number of CPU-bound tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1445,7 +1420,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 <center>
 
 bare metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
+**Varying number of CPU-bound tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1462,7 +1437,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 <center>
 
 bare metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
+**Varying number of CPU-bound tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1480,7 +1455,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread   | mean ± stddev     | coeff. of variation |
+| Task   | mean ± stddev     | coeff. of variation |
 | -------- | ----------------- | ------------------- |
 | dfs-1    | 533.97 ± 2.046 ms | 0.383 %             |
 | dfs-8    | 578.67 ± 0.287 ms | 0.050 %             |
@@ -1498,7 +1473,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 <center>
 
 bare metal, simultaneous multithreading (SMT) disabled
-**Varying number of CPU-intensive tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
+**Varying number of CPU-bound tasks, same core, <span class="hl-blue">DFS on</span> vs. <span class="hl-orange">DFS off</span>**
 
 </center>
 
@@ -1516,7 +1491,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Thread   | mean ± stddev     | coeff. of variation                    |
+| Task   | mean ± stddev     | coeff. of variation                    |
 | -------- | ----------------- | -------------------------------------- |
 | dfs-1    | 533.97 ± 2.046 ms | <span class="hl-blue">0.383 %</span>   |
 | dfs-8    | 578.67 ± 0.287 ms | 0.050 %                                |
@@ -1547,6 +1522,8 @@ bare metal, simultaneous multithreading (SMT) disabled
 ![width:200](./assets/dmytro.jpeg)
 
 _SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytro-y-/)_
+
+<br>
 
 _CPU-level tweaks at Denis Bakhvalov's_
 _"Performance Analysis and Tuning on Modern CPUs" \[8\]_
