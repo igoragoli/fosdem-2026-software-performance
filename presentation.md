@@ -181,6 +181,38 @@ Low latency. High throughput. **Better user experience.**
 
 ---
 
+## Performance has real business impact
+
+- **Google**: 500ms delay → 20% traffic drop
+- **Yahoo**: 400ms faster → 5-9% more traffic
+- **Cloud costs**: $675B+ market by 2024 (Gartner)
+
+<span class="bottom-citation">[16]</span>
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+> "Not all fast software is world-class,
+> but all world-class software is fast."
+
+— Tobi Lutke, CEO of Shopify
+
+---
+
+## Users feel the difference
+
+| Response Time | User Perception           |
+| ------------- | ------------------------- |
+| 100-200ms     | Minimally noticeable      |
+| 300-500ms     | Quick but slightly slow   |
+| 1-3s          | Amount of work noticeable |
+| 5-10s+        | User switches away        |
+
+<span class="bottom-citation">[16]</span>
+
+---
+
 <!-- _class: vcenter hcenter -->
 
 Write benchmarks.
@@ -208,6 +240,43 @@ Run them continuously.
 
 ---
 
+<!-- _class: vcenter hcenter invert -->
+
+# But first... why is software slow?
+
+---
+
+## Optimizers can't save us
+
+1. **CPUs** don't recognize bad algorithms
+    - Won't swap bubble sort for quicksort
+
+2. **Compilers** rely on heuristics
+    - Can't restructure your data layout
+
+3. **Big O** hides real-world costs
+    - Cache misses, branch mispredictions invisible
+
+<span class="bottom-citation">[8]</span>
+
+---
+
+<!-- _class: vcenter hcenter -->
+
+Matrix multiplication optimization study:
+
+<span class="big">**60,000x speedup**</span>
+
+through systematic tuning
+
+<br>
+
+*This is why we need to measure.*
+
+<span class="bottom-citation">[17]</span>
+
+---
+
 <!-- _class: vcenter invert -->
 <!-- footer: "" -->
 
@@ -222,6 +291,76 @@ Run them continuously.
 <span class="medium">**`representative`** and **`repeatable`**</span>
 
 </center>
+
+---
+
+<!-- _class: vcenter hcenter invert -->
+
+## The Art of Writing Benchmarks
+
+---
+
+## Macro vs. Micro Benchmarks
+
+<div class="columns">
+<div>
+
+### Microbenchmarks
+
+- Test isolated functions/operations
+- Nanosecond-level precision
+- Prone to compiler tricks
+- Risk: **not representative**
+
+</div>
+<div>
+
+### Macrobenchmarks
+
+- Test end-to-end workflows
+- Realistic workloads
+- Higher variance
+- Risk: **hard to isolate cause**
+
+</div>
+</div>
+
+---
+
+## Choose the right tool
+
+| Use Case                 | Benchmark Type |
+| ------------------------ | -------------- |
+| Comparing algorithms     | Micro          |
+| Validating optimizations | Micro          |
+| Regression detection     | Both           |
+| Capacity planning        | Macro          |
+| User experience          | Macro          |
+
+**Best practice:** Use both in your pipeline
+
+---
+
+## Microbenchmark pitfalls
+
+```go
+// ❌ Compiler might optimize away the loop
+func BenchmarkBad(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        _ = compute(input)
+    }
+}
+
+// ✅ Prevent dead code elimination
+var result int
+func BenchmarkGood(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        result = compute(input)
+    }
+}
+```
+
+*Always check assembly output when results seem too good*
 
 ---
 
@@ -1811,3 +1950,5 @@ p { font-size: 0.5em; line-height: 1.4; }
 \[13\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
 \[14\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
 \[15\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
+\[16\] Bakhvalov, D. "Why Care about Performance." _Performance Analysis and Tuning on Modern CPUs_. <https://github.com/dendibakh/perf-book>. Accessed Jan 2026.
+\[17\] Leiserson, C. et al. (2020). "There's plenty of room at the Top: What will drive computer performance after Moore's law?" _Science_, 368(6495).
