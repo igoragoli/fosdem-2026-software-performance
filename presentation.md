@@ -249,13 +249,13 @@ Run them continuously.
 
 ## Optimizers can't save us
 
-1. **CPUs** don't recognize bad algorithms
+* **CPUs** don't recognize bad algorithms
     - Won't swap bubble sort for quicksort
 
-2. **Compilers** rely on heuristics
+* **Compilers** rely on heuristics
     - Can't restructure your data layout
 
-3. **Big O** hides real-world costs
+* **Big O** hides real-world costs
     - Cache misses, branch mispredictions invisible
 
 <span class="bottom-citation">[8]</span>
@@ -266,7 +266,7 @@ Run them continuously.
 
 Matrix multiplication optimization study:
 
-<span class="big">**60,000x speedup**</span>
+<span class="medium">**60,000x speedup**</span>
 
 through systematic tuning
 
@@ -330,6 +330,10 @@ through systematic tuning
 
 ## Choose the right tool
 
+<br>
+
+<div class="centered-table">
+
 | Use Case                 | Benchmark Type |
 | ------------------------ | -------------- |
 | Comparing algorithms     | Micro          |
@@ -338,7 +342,9 @@ through systematic tuning
 | Capacity planning        | Macro          |
 | User experience          | Macro          |
 
-**Best practice:** Use both in your pipeline
+</div>
+
+***Best practice:** Use both in your pipeline*
 
 ---
 
