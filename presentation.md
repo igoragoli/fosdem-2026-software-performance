@@ -261,7 +261,7 @@ Run them continuously.
 * **Big O** hides real-world costs
     - Cache misses, branch mispredictions invisible
 
-<span class="bottom-citation">[2]</span>
+<span class="bottom-citation">[1]</span>
 
 ---
 
@@ -277,7 +277,7 @@ through systematic tuning
 
 *This is why we need to measure.*
 
-<span class="bottom-citation">[3]</span>
+<span class="bottom-citation">[2]</span>
 
 ---
 
@@ -728,7 +728,7 @@ Tip #2: Collect enough samples to reduce intra-run variation (N ≥ 30).
 
 ![width:600](./assets/benchmark-design-kalibera-random-initial-state-effects.png)
 
-_Impact of initial state on FFT benchmark results \[4\]_
+_Impact of initial state on FFT benchmark results \[3\]_
 
 </center>
 
@@ -910,7 +910,7 @@ Tip #5: Use load generators that avoid the **coordinated omission** problem (e.g
 
 Slow system → load generator slows down → artificially better latencies.
 
-_Gil Tene, "How NOT to Measure Latency" \[5\]_
+_Gil Tene, "How NOT to Measure Latency" \[4\]_
 
 </span>
 
@@ -1212,7 +1212,7 @@ But what about inter-experiment variation?
 
 ![width:1000](./assets/researchers-cern-to-gran-sasso-neutrino-beam.png)
 
-_\[6\]_
+_\[5\]_
 
 </center>
 
@@ -1229,7 +1229,7 @@ _\[6\]_
 
 </div>
 
-_[7, 8]_
+_[6, 7]_
 
 </center>
 
@@ -1251,7 +1251,7 @@ _[7, 8]_
 
 ![width:600](./assets/opera-loose-cable-upscaled.png)
 
-_Loose fiber optic cable that caused the measurement error \[9\]_
+_Loose fiber optic cable that caused the measurement error \[8\]_
 
 </center>
 
@@ -1755,7 +1755,7 @@ _SMT and DFS experiments by [Dmytro Yurchenko](https://www.linkedin.com/in/dmytr
 <br>
 
 _CPU-level tweaks at Denis Bakhvalov's_
-_"Performance Analysis and Tuning on Modern CPUs" \[2\]_
+_"Performance Analysis and Tuning on Modern CPUs" \[1\]_
 
 </center>
 
@@ -2015,12 +2015,19 @@ p { font-size: 0.5em; line-height: 1.4; }
 
 # References
 
-\[1\] Bakhvalov, D. "Why Care about Performance." _Performance Analysis and Tuning on Modern CPUs_. <https://github.com/dendibakh/perf-book>. Accessed Jan 2026.
-\[2\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_.
-\[3\] Leiserson, C. et al. (2020). "There's plenty of room at the Top: What will drive computer performance after Moore's law?" _Science_, 368(6495).
-\[4\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
-\[5\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
-\[6\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
-\[7\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
-\[8\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
-\[9\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
+\[1\] Bakhvalov, D. (2020). _Performance Analysis and Tuning on Modern CPUs_. <https://github.com/dendibakh/perf-book>. Accessed Jan 2026.
+\[2\] Leiserson, C. et al. (2020). "There's plenty of room at the Top: What will drive computer performance after Moore's law?" _Science_, 368(6495).
+\[3\] Kalibera, T., Bulej, L., and Tuma, P. (2005). "Benchmark Precision and Random Initial State." In _Proceedings of the International Symposium on Performance Evaluation of Computer and Telecommunication Systems (SPECTS)_, pages 182-196. SCS.
+\[4\] Tene, G. (2015). "How NOT to Measure Latency." <https://www.youtube.com/watch?v=lJ8ydIuPFeU>. Accessed Jan 2026.
+\[5\] Universität Münster. "Neutrino oscillations in the neutrino beam from CERN to Gran Sasso." <https://www.uni-muenster.de/Physik.KP/en/AGFrekers/forschung/opera.html>. Accessed Jan 2026.
+\[6\] CERN. (1999). "From Geneva to Gran Sasso in 2.5 milliseconds!". <https://home.cern/news/press-release/cern/geneva-gran-sasso-25-milliseconds>. Accessed Jan 2026.
+\[7\] Wikipedia. "OPERA experiment." <https://en.wikipedia.org/wiki/OPERA_experiment>. Accessed Jan 2026.
+\[8\] Strassler, M. (2012). "OPERA: What Went Wrong." <https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/>. Accessed Jan 2026.
+\[9\] Gregg, B. (2020). _Systems Performance: Enterprise and the Cloud_, 2nd ed. Addison-Wesley. Chapter 2.8, "Visualizations."
+\[10\] Valles, A. (2009). "Performance Insights to Intel Hyper-Threading Technology." <https://web.archive.org/web/20150217050949/https://software.intel.com/en-us/articles/performance-insights-to-intel-hyper-threading-technology/>. Accessed Jan 2026.
+\[11\] Gregg, B. (2014). "Frequency Trails: Outliers." <https://www.brendangregg.com/FrequencyTrails/outliers.html#Causes>. Accessed Jan 2026.
+\[12\] Gregg, B. (2020). "Systems Performance: Enterprise and the Cloud.", p. 233, "P-states and C-states."
+\[13\] Humenay, E., Tarjan, D., and Skadron, K. (2007). "Impact of Process Variations on Multicore Performance Symmetry."
+\[14\] Linux Kernel Documentation. "CPUFreq Governors." <https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt>. Accessed Jan 2026.
+\[15\] ArchWiki. "CPU frequency scaling." <https://wiki.archlinux.org/title/CPU_frequency_scaling>. Accessed Jan 2026.
+\[16\] Intel. "Intel Server Board and System Products Update on Intel Turbo Boost Technology Support with Low Power Intel Xeon Processor 3400/5500/5600 Series." <https://cdrdv2-public.intel.com/840590/white_paper_turbo_boost_on_low_power_processor.pdf>. Accessed Jan 2026.
