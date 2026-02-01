@@ -173,14 +173,6 @@ Low latency. High throughput. **Better user experience.**
 
 ---
 
-<!-- _class: vcenter hcenter -->
-
-<span class="big">**Performance matters.**</span>
-
-Low latency. High throughput. **Better user experience.**
-
----
-
 ## Performance has real business impact
 
 - **Google**: 500ms delay → 20% traffic drop
@@ -202,6 +194,11 @@ Low latency. High throughput. **Better user experience.**
 
 ## Users feel the difference
 
+<br>
+<br>
+
+<div class="centered-table">
+
 | Response Time | User Perception           |
 | ------------- | ------------------------- |
 | 100-200ms     | Minimally noticeable      |
@@ -209,14 +206,18 @@ Low latency. High throughput. **Better user experience.**
 | 1-3s          | Amount of work noticeable |
 | 5-10s+        | User switches away        |
 
-<span class="bottom-citation">[16]</span>
+</div>
 
 ---
 
 <!-- _class: vcenter hcenter -->
 
+<div class="medium">
+
 Write benchmarks.
 Run them continuously.
+
+</div>
 
 ---
 
@@ -1780,23 +1781,9 @@ _Benchmarks should be locally reproducible for developers to take action._
 
 ## Feedback Loop
 
-
-
----
-
-## Operational Excellence Reviews
-
 <center>
 
-<!-- TODO: Add screenshot of operational excellence review -->
-
-<span class="comment">
-
-_Placeholder for operational excellence review screenshot_
-
-</span>
-
-_Track performance trends over time_
+![width:1000](./assets/bp-slo.png)
 
 </center>
 
@@ -1813,8 +1800,6 @@ _Track performance trends over time_
 
 <br>
 
-_We're working on open-sourcing our tooling._
-
 ---
 
 <!-- _class: vcenter invert -->
@@ -1829,14 +1814,14 @@ _We're working on open-sourcing our tooling._
 ## Key Takeaways
 
 1. **Control your benchmarking environment**
-   Bare metal, disable SMT, disable DFS
+   Bare metal, isolation, disable SMT, disable DFS
 
 ---
 
 ## Key Takeaways
 
 1. **Control your benchmarking environment**
-   Bare metal, disable SMT, disable DFS
+   Bare metal, isolation, disable SMT, disable DFS
 
 2. **Design your benchmarks**
    Representative and repeatable
@@ -1846,7 +1831,7 @@ _We're working on open-sourcing our tooling._
 ## Key Takeaways
 
 1. **Control your benchmarking environment**
-   Bare metal, disable SMT, disable DFS
+   Bare metal, isolation, disable SMT, disable DFS
 
 2. **Design your benchmarks**
    Representative and repeatable
@@ -1859,7 +1844,7 @@ _We're working on open-sourcing our tooling._
 ## Key Takeaways
 
 1. **Control your benchmarking environment**
-   Bare metal, disable SMT, disable DFS
+   Bare metal, isolation, disable SMT, disable DFS
 
 2. **Design your benchmarks**
    Representative and repeatable
@@ -1876,7 +1861,7 @@ _We're working on open-sourcing our tooling._
 
 <center>
 
-![width:600](./assets/brendan-gregg-shouting-at-datacenter.png)
+![width:900](./assets/brendan-gregg-shouting-at-datacenter.png)
 
 **Don't shout in the datacenter**
 
