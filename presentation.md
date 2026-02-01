@@ -128,6 +128,9 @@ style: |
     .fraction .den {
         padding: 0.2em 0.3em 0;
     }
+    .hidden {
+        visibility: hidden;
+    }
 ---
 
 <!-- _class: vcenter invert -->
@@ -304,6 +307,60 @@ through systematic tuning
 ## Macro vs. Micro Benchmarks
 
 <div class="columns">
+<div class="hidden">
+
+### Microbenchmarks
+
+- Test isolated functions/operations
+- Nanosecond-level precision
+- Prone to compiler tricks
+- Risk: **not representative**
+
+</div>
+<div class="hidden">
+
+### Macrobenchmarks
+
+- Test end-to-end workflows
+- Realistic workloads
+- Higher variance
+- Risk: **hard to isolate cause**
+
+</div>
+</div>
+
+---
+
+## Macro vs. Micro Benchmarks
+
+<div class="columns">
+<div>
+
+### Microbenchmarks
+
+- Test isolated functions/operations
+- Nanosecond-level precision
+- Prone to compiler tricks
+- Risk: **not representative**
+
+</div>
+<div class="hidden">
+
+### Macrobenchmarks
+
+- Test end-to-end workflows
+- Realistic workloads
+- Higher variance
+- Risk: **hard to isolate cause**
+
+</div>
+</div>
+
+---
+
+## Macro vs. Micro Benchmarks
+
+<div class="columns">
 <div>
 
 ### Microbenchmarks
@@ -344,30 +401,29 @@ through systematic tuning
 
 </div>
 
+<div class="hidden">
+
 ***Best practice:** Use both in your pipeline*
 
 ---
 
-## Microbenchmark pitfalls
+## Choose the right tool
 
-```go
-// ❌ Compiler might optimize away the loop
-func BenchmarkBad(b *testing.B) {
-    for i := 0; i < b.N; i++ {
-        _ = compute(input)
-    }
-}
+<br>
 
-// ✅ Prevent dead code elimination
-var result int
-func BenchmarkGood(b *testing.B) {
-    for i := 0; i < b.N; i++ {
-        result = compute(input)
-    }
-}
-```
+<div class="centered-table">
 
-*Always check assembly output when results seem too good*
+| Use Case                 | Benchmark Type |
+| ------------------------ | -------------- |
+| Comparing algorithms     | Micro          |
+| Validating optimizations | Micro          |
+| Regression detection     | Both           |
+| Capacity planning        | Macro          |
+| User experience          | Macro          |
+
+</div>
+
+***Best practice:** Use both in your pipeline*
 
 ---
 
