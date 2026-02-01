@@ -1990,25 +1990,6 @@ _Benchmarks should be locally reproducible for developers to take action._
 
 ---
 
-<!-- _class: vcenter -->
-
-<span class="comment">Speaker notes: Q&A preparation</span>
-
-## Anticipated questions
-
-**"Why not open source your tooling?"**
-
-- Publishing a benchmark = scrutiny; publishing a benchmarking tool = even more scrutiny.
-
-- We're working on it. Open-sourcing benchmarking tooling requires extra care to ensure reproducibility and proper documentation.
-
-**"What about cloud vs. bare metal costs?"**
-
-- Bare metal instances are more expensive per hour, but results are more reliable.
-- Fewer reruns needed, actually provide useful information → often cheaper overall.
-
----
-
 <style scoped>
 p { font-size: 0.5em; line-height: 1.4; }
 </style>
