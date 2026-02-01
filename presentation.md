@@ -1567,15 +1567,9 @@ _[🔗 Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 
 ## Architecture Overview
 
-<!-- TODO: Add architecture diagram showing benchmark pipeline -->
-
 <center>
 
-<span class="comment">
-
-_Placeholder for Datadog benchmark pipeline diagram_
-
-</span>
+![width:1000](./assets/bp-arch.drawio.png)
 
 </center>
 
@@ -1585,12 +1579,11 @@ _Placeholder for Datadog benchmark pipeline diagram_
 
 <center>
 
-<!-- TODO: Add screenshot of PR comment showing regression -->
+![bg contain](./assets/bp-feedback-flow.png)
 
-<span class="comment">
+</center>
 
-_Placeholder for PR comment screenshot_
-
+<!--
 </span>
 
 _Catch regressions before they merge_
@@ -1602,40 +1595,53 @@ _Catch regressions before they merge_
 _Benchmarks should be locally reproducible for developers to take action._
 
 </div>
+-->
 
 ---
 
-## Performance Quality Gates
+## Feedback Loop
 
 <center>
 
-<!-- TODO: Add screenshot of quality gate with SLO breach -->
-
-<span class="comment">
-
-_Placeholder for quality gate screenshot_
-
-</span>
-
-_Block releases that don't meet SLOs_
+![bg contain](./assets/bp-feedback-flow-0.png)
 
 </center>
 
 ---
 
-## Alerts & Dashboards
+## Feedback Loop
 
 <center>
 
-<!-- TODO: Add screenshot of Slack alerts and dashboards -->
-
-<span class="comment">
-
-_Placeholder for alerts and dashboards screenshot_
-
-</span>
+![bg contain](./assets/bp-feedback-flow-1.png)
 
 </center>
+
+---
+
+## Feedback Loop
+
+<center>
+
+![bg contain](./assets/bp-feedback-flow-2.png)
+
+</center>
+
+---
+
+## Feedback Loop
+
+<center>
+
+![bg contain](./assets/bp-feedback-flow-3.png)
+
+</center>
+
+---
+
+## Feedback Loop
+
+
 
 ---
 
