@@ -495,7 +495,34 @@ _Your benchmark workload should match your production workload._
 
 <br>
 
+<div class="hidden">
+
 _Choose the archetype that matches your application's behavior._
+
+</div>
+
+---
+
+## Workload archetypes
+
+<div class="centered-table">
+
+| Archetype      | Pattern                          | Characteristics                      |
+| -------------- | -------------------------------- | ------------------------------------ |
+| **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
+| **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
+| **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O          |
+
+</div>
+
+<br>
+
+<div>
+
+*Choose the archetype that matches your application's behavior.*
+
+</div>
 
 ---
 
