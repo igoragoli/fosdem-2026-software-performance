@@ -23,10 +23,10 @@ watch:
 	npx marp --config $(MARP_CONFIG) $(SRC) $(COMMON_FLAGS) --watch --preview
 
 lint:
-	npx markdownlint-cli2 "**/*.md" "#node_modules" "#experiments"
+	npx markdownlint-cli2 "**/*.md" "#node_modules" "#**/node_modules" "#experiments"
 
 fix:
-	npx markdownlint-cli2 --fix "**/*.md" "#node_modules" "#experiments"
+	npx markdownlint-cli2 --fix "**/*.md" "#node_modules" "#**/node_modules" "#experiments"
 
 format:
 	npx prettier --write "*.md"

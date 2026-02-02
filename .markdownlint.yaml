@@ -6,6 +6,7 @@ MD010:
   spaces_per_tab: 4
 
 # Disabled for Marp presentation compatibility
+MD004: false  # Unordered list style - allows * for gradual reveals
 MD013: false  # Line length - impractical for slides
 MD026: false  # Trailing punctuation in headings - allows "Thanks!"
 MD024: false  # Duplicate headings - normal in presentations

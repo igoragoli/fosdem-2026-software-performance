@@ -252,6 +252,7 @@ Run them continuously.
 
 ## Optimizers can't save us
 
+<!-- prettier-ignore -->
 * **CPUs** don't recognize bad algorithms
     - Won't swap bubble sort for quicksort
 
