@@ -275,7 +275,7 @@ through systematic tuning
 
 <br>
 
-*This is why we need to measure.*
+_This is why we need to measure._
 
 <span class="bottom-citation">[2]</span>
 
@@ -401,10 +401,6 @@ through systematic tuning
 
 </div>
 
-<div class="hidden">
-
-***Best practice:** Use both in your pipeline*
-
 ---
 
 ## Choose the right tool
@@ -423,7 +419,7 @@ through systematic tuning
 
 </div>
 
-***Best practice:** Use both in your pipeline*
+_Best practice: Use both in your pipeline._
 
 ---
 
@@ -489,7 +485,7 @@ _Your benchmark workload should match your production workload._
 | **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
 | **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
 | **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
-| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O          |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O        |
 
 </div>
 
@@ -512,7 +508,7 @@ _Choose the archetype that matches your application's behavior._
 | **Idle**       | Background workers, minimal load | Low RPS, minimal CPU, few workers    |
 | **Latency**    | Microservices, APIs              | High RPS, low CPU per request        |
 | **Throughput** | Queue workers, batch processing  | Moderate RPS, high CPU, many clients |
-| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O          |
+| **Enterprise** | Business apps with DB/API calls  | Moderate RPS, mixed CPU / I/O        |
 
 </div>
 
@@ -520,7 +516,7 @@ _Choose the archetype that matches your application's behavior._
 
 <div>
 
-*Choose the archetype that matches your application's behavior.*
+_Choose the archetype that matches your application's behavior._
 
 </div>
 
@@ -1504,7 +1500,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Task   | mean ± stddev       | coeff. of variation |
+| Task     | mean ± stddev       | coeff. of variation |
 | -------- | ------------------- | ------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | 23.887 %            |
 | smt-2    | 1536.88 ± 366.84 ms | 23.869 %            |
@@ -1541,7 +1537,7 @@ bare metal, dynamic frequency scaling (DFS) disabled
 <!-- To align with the graph's borders -->
 <div style="padding-top: 43px;">
 
-| Task   | mean ± stddev       | coeff. of variation                    |
+| Task     | mean ± stddev       | coeff. of variation                    |
 | -------- | ------------------- | -------------------------------------- |
 | smt-1    | 1537.64 ± 367.29 ms | <span class="hl-blue">23.887 %</span>  |
 | smt-2    | 1536.88 ± 366.84 ms | <span class="hl-blue">23.869 %</span>  |
@@ -1684,7 +1680,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Task   | mean ± stddev     | coeff. of variation |
+| Task     | mean ± stddev     | coeff. of variation |
 | -------- | ----------------- | ------------------- |
 | dfs-1    | 533.97 ± 2.046 ms | 0.383 %             |
 | dfs-8    | 578.67 ± 0.287 ms | 0.050 %             |
@@ -1720,7 +1716,7 @@ bare metal, simultaneous multithreading (SMT) disabled
 
 <div style="padding-top: 35px;">
 
-| Task   | mean ± stddev     | coeff. of variation                    |
+| Task     | mean ± stddev     | coeff. of variation                    |
 | -------- | ----------------- | -------------------------------------- |
 | dfs-1    | 533.97 ± 2.046 ms | <span class="hl-blue">0.383 %</span>   |
 | dfs-8    | 578.67 ± 0.287 ms | 0.050 %                                |
