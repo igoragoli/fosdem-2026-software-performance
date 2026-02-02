@@ -1798,7 +1798,7 @@ _[🔗 Shouting in the Datacenter](https://www.youtube.com/watch?v=tDacjrSCeq4)_
 
 <center>
 
-![width:1000](./assets/bp-arch.drawio.png)
+![width:1000](./assets/bp-arch.png)
 
 </center>
 
